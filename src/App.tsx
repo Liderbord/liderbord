@@ -1,24 +1,36 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useMoralis } from "react-moralis";
 
 function App() {
+
+    const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
+
+    const login = async () => {
+      if (!isAuthenticated) {
+
+        await authenticate({signingMessage: "Log in using Moralis" })
+          .then(function (user) {
+            console.log("logged in user:", user);
+            console.log(user!.get("ethAddress"));
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+
+    const logOut = async () => {
+      await logout();
+      console.log("logged out");
+    }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Moralis Hello World!</h1>
+      <button onClick={login}>Moralis Metamask Login</button>
+      <button onClick={logOut} disabled={isAuthenticating}>Logout</button>
     </div>
   );
 }
