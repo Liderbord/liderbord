@@ -4,6 +4,7 @@ import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const {
@@ -27,6 +28,14 @@ function Login() {
         });
     }
   };
+
+  const navigate = useNavigate();
+
+  const goToRegisterPage = () => {
+
+      // This will navigate to second component
+      navigate('/register'); 
+    };
 
   const logOut = async () => {
     await logout();
@@ -54,7 +63,7 @@ function Login() {
         />
       </div>
       <div>
-        <Button variant="contained">Register</Button>{" "}
+        <Button onClick={goToRegisterPage} variant="contained">Register</Button>{" "}
         <Button variant="contained">Log in</Button>{" "}
       </div>
     </Box>
