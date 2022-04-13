@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,6 +45,13 @@ function Login() {
           console.log(error);
         });
     }
+  };
+
+  const navigate = useNavigate();
+
+  const goToRegisterPage = () => {
+    // This will navigate to second component
+    navigate("/register");
   };
 
   const logOut = async () => {
