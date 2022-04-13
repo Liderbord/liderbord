@@ -1,75 +1,63 @@
-import React from 'react';
-import '../styles/login.css'
+import React from "react";
+import "../styles/login.css";
 import { useMoralis } from "react-moralis";
-
-const FormHeader = (props: any) => (
-<h2 id="headerTitle">{props.title}</h2>
-);
-
-const Form = (props: any) => (
-    <div>
-        <FormInput description="Username" placeholder="Enter your username" type="text" />
-        <FormInput description="Password" placeholder="Enter your password" type="password"/>
-        <FormButton title="Log in"/>
-    </div>
-);
-
-const FormButton = (props: any) => (
-    <div id="button" className="row">
-        <button>{props.title}</button>
-    </div>
-);
-
-const FormInput = (props: any) => (
-    <div className="row">
-        <label>{props.description}</label>
-        <input type={props.type} placeholder={props.placeholder}/>
-    </div>  
-);
-const OtherMethods = (props: any) => (
-    <div id="alternativeLogin">
-        <label>Or sign in with:</label>
-        <div id="iconGroup">
-        <Metamask onClick={props.onClick}/>
-        </div>
-    </div>
-);
-const Metamask = (props: any) => (
-    <div>
-        <button onClick={props.onClick} id="metamaskIcon"><img src="https://cdn.worldvectorlogo.com/logos/metamask.svg" height="30" width="30" alt="test" /></button>
-        <label>Metamask</label>
-    </div>
-);
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function Login() {
-    const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
+  const {
+    authenticate,
+    isAuthenticated,
+    isAuthenticating,
+    user,
+    account,
+    logout,
+  } = useMoralis();
 
-    const login = async () => {
-        if (!isAuthenticated) {
-
-        await authenticate({signingMessage: "Log in using Moralis" })
-            .then(function (user) {
-            console.log("logged in user:", user);
-            console.log(user!.get("ethAddress"));
-            })
-            .catch(function (error) {
-            console.log(error);
-            });
-        }
+  const login = async () => {
+    if (!isAuthenticated) {
+      await authenticate({ signingMessage: "Log in using Moralis" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user!.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
+  };
 
-    const logOut = async () => {
-        await logout();
-        console.log("logged out");
-    }
+  const logOut = async () => {
+    await logout();
+    console.log("logged out");
+  };
 
   return (
-      <div id="loginform">
-        <FormHeader title="Welcome to Liderbord, please login" />
-        <Form />
-        <OtherMethods onClick={login}/>
-        <button onClick={logOut} disabled={isAuthenticating}>Logout</button>
+    <Box
+      component="form"
+      sx={{
+        "& .MuiTextField-root": { m: 1, width: "25ch" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <div>
+        <TextField id="outlined" label="Email" />
       </div>
+      <div>
+        <TextField
+          id="password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+        />
+      </div>
+      <div>
+        <Button variant="contained">Register</Button>{" "}
+        <Button variant="contained">Log in</Button>{" "}
+      </div>
+    </Box>
   );
 }
 
