@@ -1,4 +1,3 @@
-
 import React from "react";
 import "../styles/login.css";
 import { useMoralis } from "react-moralis";
@@ -16,8 +15,9 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
-import Moralis from 'moralis'
+import Moralis from "moralis";
 
+import HappyButton from "../components/HappyButton";
 
 function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,22 +37,19 @@ function Login() {
     logout,
   } = useMoralis();
 
-    const navigate = useNavigate()
-    
+  const navigate = useNavigate();
 
-    const login = async () => {
-        const hello=await Moralis.Cloud.run("hello");
-        console.log(hello);
-        const user = await Moralis.authenticate({
-            provider: "web3Auth",
-            clientId: "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
-          })
+  const login = async () => {
+    const hello = await Moralis.Cloud.run("hello");
+    console.log(hello);
+    const user = await Moralis.authenticate({
+      provider: "web3Auth",
+      clientId:
+        "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
+    });
 
-          navigate('/mainPage');
-    }
-    
-    
-
+    navigate("/mainPage");
+  };
 
   const goToRegisterPage = () => {
     // This will navigate to second component
@@ -64,22 +61,19 @@ function Login() {
     console.log("logged out");
   };
 
-
-    
-
   return (
-
-      <div id="loginform">
-        
-
-        
-        <button title="Log in"  onClick={login} >Login </button>
-        <button title="Register" onClick={goToRegisterPage}>Register</button>
-        <button onClick={logOut} disabled={isAuthenticating}>Logout</button>
-      </div>
+    <div id="loginform">
+      <button title="Log in" onClick={login}>
+        Login{" "}
+      </button>
+      <button title="Register" onClick={goToRegisterPage}>
+        Register
+      </button>
+      <button onClick={logOut} disabled={isAuthenticating}>
+        Logout
+      </button>
+    </div>
   );
 }
-
-
 
 export default Login;
