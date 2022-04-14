@@ -13,6 +13,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.15",
+    "@web3auth/web3auth": "^0.9.0",
     "moralis": "^1.5.9",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
