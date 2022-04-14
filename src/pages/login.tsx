@@ -107,17 +107,17 @@ function Login() {
               </Grid>
             </Grid>
             <div>
-              <HappyButton type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <HappyButton color="secondary" type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Register
               </HappyButton>
-              <Button
+              <HappyButton
                 type="submit"
                 variant="contained"
                 color="secondary"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Sign In
-              </Button>
+              </HappyButton>
             </div>
           </Box>
         </Box>
