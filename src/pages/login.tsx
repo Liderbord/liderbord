@@ -1,75 +1,127 @@
-import React from 'react';
-import '../styles/login.css'
+import React from "react";
+import "../styles/login.css";
 import { useMoralis } from "react-moralis";
-
-const FormHeader = (props: any) => (
-<h2 id="headerTitle">{props.title}</h2>
-);
-
-const Form = (props: any) => (
-    <div>
-        <FormInput description="Username" placeholder="Enter your username" type="text" />
-        <FormInput description="Password" placeholder="Enter your password" type="password"/>
-        <FormButton title="Log in"/>
-    </div>
-);
-
-const FormButton = (props: any) => (
-    <div id="button" className="row">
-        <button>{props.title}</button>
-    </div>
-);
-
-const FormInput = (props: any) => (
-    <div className="row">
-        <label>{props.description}</label>
-        <input type={props.type} placeholder={props.placeholder}/>
-    </div>  
-);
-const OtherMethods = (props: any) => (
-    <div id="alternativeLogin">
-        <label>Or sign in with:</label>
-        <div id="iconGroup">
-        <Metamask onClick={props.onClick}/>
-        </div>
-    </div>
-);
-const Metamask = (props: any) => (
-    <div>
-        <button onClick={props.onClick} id="metamaskIcon"><img src="https://cdn.worldvectorlogo.com/logos/metamask.svg" height="30" width="30" alt="test" /></button>
-        <label>Metamask</label>
-    </div>
-);
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { theme } from "../styles/theme";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
+  const {
+    authenticate,
+    isAuthenticated,
+    isAuthenticating,
+    user,
+    account,
+    logout,
+  } = useMoralis();
 
-    const login = async () => {
-        if (!isAuthenticated) {
-
-        await authenticate({signingMessage: "Log in using Moralis" })
-            .then(function (user) {
-            console.log("logged in user:", user);
-            console.log(user!.get("ethAddress"));
-            })
-            .catch(function (error) {
-            console.log(error);
-            });
-        }
+  const login = async () => {
+    if (!isAuthenticated) {
+      await authenticate({ signingMessage: "Log in using Moralis" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user!.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
+  };
 
-    const logOut = async () => {
-        await logout();
-        console.log("logged out");
-    }
+  const navigate = useNavigate();
+
+  const goToRegisterPage = () => {
+    // This will navigate to second component
+    navigate("/register");
+  };
+
+  const logOut = async () => {
+    await logout();
+    console.log("logged out");
+  };
 
   return (
-      <div id="loginform">
-        <FormHeader title="Welcome to Liderbord, please login" />
-        <Form />
-        <OtherMethods onClick={login}/>
-        <button onClick={logOut} disabled={isAuthenticating}>Logout</button>
-      </div>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <img src={require("../res/logo.png")} alt="failure" />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+            </Grid>
+            <div>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Register
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="secondary"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+            </div>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 
