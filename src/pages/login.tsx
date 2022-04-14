@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
+import HappyButton from "../components/HappyButton";
 
 function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -106,9 +107,9 @@ function Login() {
               </Grid>
             </Grid>
             <div>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <HappyButton type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Register
-              </Button>
+              </HappyButton>
               <Button
                 type="submit"
                 variant="contained"
