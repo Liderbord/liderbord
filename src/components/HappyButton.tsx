@@ -1,17 +1,15 @@
-import React from "react";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 
 const HappyButton = styled(Button)({
     boxShadow: '0px 0px 10px 1px',
     textTransform: 'none',
-    fontSize: 16,
+    fontSize: 20,
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,
-    backgroundColor: '#FF7900',
+    borderRadius: '10px',
     fontFamily: [
-      '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
       'Roboto',
@@ -23,18 +21,20 @@ const HappyButton = styled(Button)({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      backgroundColor: '#0069d9',
-      borderColor: '#0062cc',
-      boxShadow: 'none',
+      backgroundColor: '#FF7800',
     },
     '&:active': {
-      boxShadow: 'none',
-      backgroundColor: '#0062cc',
-      borderColor: '#005cbf',
+      backgroundColor: '#FF6700',
     },
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    },
+    palette: {
+        primary: {
+          main: '#FF7900',
+        },
+        secondary: {
+          main: '#E3E3E3',
+          contrastText: '#fff',
+        },
+      },
 });
 
 export default HappyButton;
