@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import Moralis from "moralis";
+import { useState } from 'react';
 
 function CreateLiderbord() {
 
@@ -13,6 +15,19 @@ function CreateLiderbord() {
         // This will navigate to second component
         navigate("/MainPage");
       };
+
+      const [topic, setTopic] = useState("");
+      const [description, setDescription] = useState("");
+      const [tag, setTag] = useState("");
+
+
+      const submit = async () => {
+        
+        const params =  { title: topic, desc: description, tags: tag };
+        
+         await Moralis.Cloud.run("createLiderbord", params);
+
+      }
 
   return (
     <Box
@@ -24,18 +39,19 @@ function CreateLiderbord() {
       autoComplete="off"
     >
         <div>NEW LIDERBORD</div>
-      <div>
-        <TextField id="outlined" label="Topic" />
+        <div>
+        <TextField onChange={e => setTopic(e.target.value)} id="outlined" label="Topic" />
       </div>
       <div>
-        <TextField id="outlined" label="Description" />
+        <TextField onChange={e => setDescription(e.target.value)} id="outlined" label="Description" />
       </div>
       <div>
-        <TextField id="outlined" label="Tags" />
+        <TextField onChange={e => setTag(e.target.value)} id="outlined" label="Tag" />
+
       </div>
       <div>
         <Button onClick={goToMainPage} variant="contained">Cancel</Button>{" "}
-        <Button variant="contained">Submit</Button>{" "}
+        <Button onClick={submit} variant="contained">Submit</Button>{" "}
       </div>
     </Box>
   );
