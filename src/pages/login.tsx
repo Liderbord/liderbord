@@ -23,7 +23,8 @@ function Login() {
     
 
     const login = async () => {
-        
+        const hello=await Moralis.Cloud.run("hello");
+        console.log(hello);
         const user = await Moralis.authenticate({
             provider: "web3Auth",
             clientId: "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
