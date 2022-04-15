@@ -1,7 +1,7 @@
 import Ressource from "./ressource";
 
 export default interface Vote {
-    value: BigInteger;
+    value: number;
     date: Date;
     ressource: Ressource;
 }
