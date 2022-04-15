@@ -16,6 +16,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
+import Moralis from 'moralis'
 
 
 function Login() {
@@ -69,11 +70,11 @@ function Login() {
   return (
 
       <div id="loginform">
-        <FormHeader title="Welcome to Liderbord, please login" />
+        
 
         
         <button title="Log in"  onClick={login} >Login </button>
-    
+        <button title="Register" onClick={goToRegisterPage}>Register</button>
         <button onClick={logOut} disabled={isAuthenticating}>Logout</button>
       </div>
   );
