@@ -4,9 +4,11 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+
 import {useState} from 'react'
 import Moralis from 'moralis';
 //npm install --save @web3auth/web3auth
+
 
 
 function Register() {
@@ -19,6 +21,7 @@ function Register() {
         // This will navigate to second component
         navigate('/login'); 
       };
+
 
       const registering = async () => {
 
@@ -43,8 +46,7 @@ function Register() {
       }
 
 
-  
-      
+
 
 
   return (
@@ -57,9 +59,11 @@ function Register() {
       autoComplete="off"
     >
 
+
       <div>
         <Button onClick={goToLoginPage} variant="contained">Sign in</Button>{" "}
         <Button onClick={registering} variant="contained">Register</Button>{" "}
+
       </div>
     </Box>
   );

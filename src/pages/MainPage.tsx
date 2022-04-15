@@ -15,6 +15,8 @@ function MainPage() {
   
         // This will navigate to second component
         navigate('/createliderbord'); 
+
+
       };
 
 
@@ -28,12 +30,15 @@ function MainPage() {
       autoComplete="off"
     >
       <div>
+
         <TextField id="outlined" label="Search" />
       </div>
 
       <div>
         <Button variant="contained">Search Liderbords</Button>{" "}
+
         <Button onClick={goToCreateLiderbord} variant="contained">+ Create Liderbords</Button>{" "}
+
       </div>
     </Box>
   );
