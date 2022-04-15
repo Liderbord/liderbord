@@ -1,4 +1,4 @@
-import Liderbord from "./liderbord";
+import * as  Liderbord from "./liderbord";
 
 export default interface Ressource {
     title: string;
@@ -8,5 +8,6 @@ export default interface Ressource {
     hash?: string;
     upvote: number;
     downvote: number;
-    liderbord: Liderbord;
+    
+    
 }
