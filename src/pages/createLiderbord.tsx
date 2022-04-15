@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Moralis from "moralis";
 import { useState } from 'react';
+import {Liderbord} from "../back_end/models/liderbord";
 
 function CreateLiderbord() {
 
@@ -25,7 +26,10 @@ function CreateLiderbord() {
         
         const params =  { title: topic, desc: description, tags: tag };
         
-         await Moralis.Cloud.run("createLiderbord", params);
+        const liderbord= new Liderbord(topic,description);
+       liderbord.createLiderbord();
+
+         
 
       }
 

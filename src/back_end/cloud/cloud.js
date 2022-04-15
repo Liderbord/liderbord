@@ -1,5 +1,6 @@
 
 
+
 Moralis.Cloud.define("hello",async(request)=>{
 
 
@@ -12,13 +13,14 @@ Moralis.Cloud.define("hello",async(request)=>{
 
 Moralis.Cloud.define("createLiderbord", async (request) => {
 
+  
 const Liderbord = Moralis.Object.extend("Liderbord");
-const liderbord = new Liderbord();
+const liderbord = new Liderbord()
 
 
 liderbord.set("Topic",request.params.title);
 liderbord.set("description",request.params.desc);
-liderbord.set("tag",request.params.tags);
+//liderbord.set("tag",request.params.tags);
 liderbord.save()
 
 .then((liderbord) => {
