@@ -1,23 +1,40 @@
-import React from 'react';
-import { useState } from 'react';
 
-import '../styles/login.css'
+import React from "react";
+import "../styles/login.css";
 import { useMoralis } from "react-moralis";
-
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Moralis from 'moralis';
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 
 
-const FormHeader = (props: any) => (
-<h2 id="headerTitle">{props.title}</h2>
-);
-
-
 function Login() {
-    const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
+  const {
+    authenticate,
+    isAuthenticated,
+    isAuthenticating,
+    user,
+    account,
+    logout,
+  } = useMoralis();
 
     const navigate = useNavigate()
     
@@ -30,20 +47,27 @@ function Login() {
             clientId: "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
           })
 
-          navigate('/MainPageConnected');
+          navigate('/mainPage');
     }
     
     
 
-    const logOut = async () => {
-        await logout();
-        console.log("logged out");
-    }
+
+  const goToRegisterPage = () => {
+    // This will navigate to second component
+    navigate("/register");
+  };
+
+  const logOut = async () => {
+    await logout();
+    console.log("logged out");
+  };
 
 
     
 
   return (
+
       <div id="loginform">
         <FormHeader title="Welcome to Liderbord, please login" />
 
