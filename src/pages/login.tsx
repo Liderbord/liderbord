@@ -106,7 +106,7 @@ function Login() {
               </Grid>
             </Grid>
             <div>
-              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button onClick={goToRegisterPage} type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Register
               </Button>
               <Button

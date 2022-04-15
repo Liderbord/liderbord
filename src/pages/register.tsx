@@ -20,7 +20,7 @@ function Register() {
         navigate('/login'); 
       };
 
-      const Registering = async () => {
+      const registering = async () => {
 
 
         const user = await Moralis.authenticate({
@@ -38,7 +38,7 @@ function Register() {
          // alert("Error: ");
         //}
 
-        navigate('/MainPageConnected');
+        navigate('/mainPage');
 
       }
 
@@ -59,7 +59,7 @@ function Register() {
 
       <div>
         <Button onClick={goToLoginPage} variant="contained">Sign in</Button>{" "}
-        <Button onClick={Registering} variant="contained">Register</Button>{" "}
+        <Button onClick={registering} variant="contained">Register</Button>{" "}
       </div>
     </Box>
   );
