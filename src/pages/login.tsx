@@ -11,8 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import HappyButton from "../components/HappyButton";
-
-import HappyButton from "../components/HappyButton";
+import Moralis from "moralis/types";
 
 function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
