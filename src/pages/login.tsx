@@ -12,6 +12,8 @@ import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import HappyButton from "../components/HappyButton";
 
+import HappyButton from "../components/HappyButton";
+
 function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,20 +32,19 @@ function Login() {
     logout,
   } = useMoralis();
 
-  const login = async () => {
-    if (!isAuthenticated) {
-      await authenticate({ signingMessage: "Log in using Moralis" })
-        .then(function (user) {
-          console.log("logged in user:", user);
-          console.log(user!.get("ethAddress"));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-  };
-
   const navigate = useNavigate();
+
+  const login = async () => {
+    const hello = await Moralis.Cloud.run("hello");
+    console.log(hello);
+    const user = await Moralis.authenticate({
+      provider: "web3Auth",
+      clientId:
+        "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
+    });
+
+    navigate("/mainPage");
+  };
 
   const goToRegisterPage = () => {
     // This will navigate to second component

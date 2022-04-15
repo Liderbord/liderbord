@@ -5,20 +5,14 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-function MainPage() {
-
+function CreateLiderbord() {
 
     const navigate = useNavigate();
 
-
-      const goToCreateLiderbord = () => {
-  
+    const goToMainPage = () => {
         // This will navigate to second component
-        navigate('/createliderbord'); 
-
-
+        navigate("/MainPage");
       };
-
 
   return (
     <Box
@@ -29,21 +23,22 @@ function MainPage() {
       noValidate
       autoComplete="off"
     >
+        <div>NEW LIDERBORD</div>
       <div>
-
-        <TextField id="outlined" label="Search" />
+        <TextField id="outlined" label="Topic" />
       </div>
-
       <div>
-        <Button variant="contained">Search Liderbords</Button>{" "}
-
-        <Button onClick={goToCreateLiderbord} variant="contained">+ Create Liderbords</Button>{" "}
-
+        <TextField id="outlined" label="Description" />
+      </div>
+      <div>
+        <TextField id="outlined" label="Tags" />
+      </div>
+      <div>
+        <Button onClick={goToMainPage} variant="contained">Cancel</Button>{" "}
+        <Button variant="contained">Submit</Button>{" "}
       </div>
     </Box>
   );
 }
 
-
-
-export default MainPage;
+export default CreateLiderbord;
