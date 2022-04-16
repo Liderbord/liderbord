@@ -3,7 +3,6 @@ import "../styles/login.css";
 import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../styles/theme";
 import { useNavigate } from "react-router-dom";
 import Moralis from "moralis";
 import HappyButton from "../components/HappyButton";
@@ -51,19 +50,17 @@ function Login() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box id="loginform">
-        <HappyButton title="Log in" onClick={login}>
-          Login{" "}
-        </HappyButton>
-        <HappyButton title="Register" onClick={goToRegisterPage}>
-          Register
-        </HappyButton>
-        <HappyButton onClick={logOut} disabled={isAuthenticating}>
-          Logout
-        </HappyButton>
-      </Box>
-    </ThemeProvider>
+    <Box id="loginform">
+      <HappyButton title="Log in" onClick={login}>
+        Login{" "}
+      </HappyButton>
+      <HappyButton title="Register" onClick={goToRegisterPage}>
+        Register
+      </HappyButton>
+      <HappyButton onClick={logOut} disabled={isAuthenticating}>
+        Logout
+      </HappyButton>
+    </Box>
   );
 }
 
