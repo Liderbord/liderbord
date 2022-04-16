@@ -6,6 +6,7 @@ const HappyButton = styled(Button)({
   textTransform: "none",
   padding: "12px 24px",
   height: "49px",
+  borderRadius: "8px",
 });
 
 export default HappyButton;
