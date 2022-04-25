@@ -28,7 +28,6 @@ function Login() {
       navigate("/");
     }
   };
-  console.log(loginUser);
 
   useEffect(() => {
     if (loginUser != null) {

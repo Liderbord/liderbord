@@ -65,7 +65,6 @@ function CreateLiderbord() {
     }
 
     const params = { topic: topic, desc: description, tags: tagsArray };
-    console.log(params);
 
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
