@@ -39,7 +39,6 @@ function CreateLiderbord() {
   const submit = async () => {
     // check topic for errors
     if (topic === "") {
-      s;
       setTopicError("Topic cannot be empty");
     }
     if (topic.length > 50) {
