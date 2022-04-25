@@ -18,7 +18,7 @@ function CreateLiderbord() {
 
   const goToMainPage = () => {
     // This will navigate to second component
-    navigate("/MainPage");
+    navigate("/");
   };
 
   const [topic, setTopic] = useState("");

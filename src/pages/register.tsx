@@ -1,13 +1,11 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-
-import {useState} from 'react'
 import Moralis from 'moralis';
-//npm install --save @web3auth/web3auth
+import moralisKeys from "../moralis-keys.json"
+
 
 
 
@@ -28,7 +26,7 @@ function Register() {
 
         const user = await Moralis.authenticate({
           provider: "web3Auth",
-          clientId: "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
+          clientId: moralisKeys.appId,
         })
   
         //const user = new Moralis.User();

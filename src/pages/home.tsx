@@ -5,18 +5,15 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-function MainPage() {
+function HomePage() {
 
 
     const navigate = useNavigate();
 
 
       const goToCreateLiderbord = () => {
-  
         // This will navigate to second component
-        navigate('/createliderbord'); 
-
-
+        navigate('/create-liderbord'); 
       };
 
 
@@ -46,4 +43,4 @@ function MainPage() {
 
 
 
-export default MainPage;
+export default HomePage;

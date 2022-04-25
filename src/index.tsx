@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { MoralisProvider } from "react-moralis";
-
+import moralisKeys from "./moralis-keys.json"
 ReactDOM.render(
   <React.StrictMode>
-    <MoralisProvider serverUrl="https://ioncbc419bjd.usemoralis.com:2053/server" appId="qqNoQcpJSGcE9m7Oov43EcpSF64OrZ40PiZyLVzt">
+    <MoralisProvider serverUrl={moralisKeys.serverUrl} appId={moralisKeys.appId}>
       <App />
     </MoralisProvider>
   </React.StrictMode>,
