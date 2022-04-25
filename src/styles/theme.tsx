@@ -16,6 +16,7 @@ export const theme = createTheme({
   typography: {
     fontFamily: "Open Sans",
     fontSize: 16,
+    fontWeightMedium: 400,
     h1: {
       fontFamily: "Raleway",
       fontSize: 56,
@@ -32,6 +33,7 @@ export const theme = createTheme({
       fontWeight: 700,
     },
     h4: {
+      fontFamily: "Raleway",
       fontSize: 16,
       fontWeight: 700,
     },
