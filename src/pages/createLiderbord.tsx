@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import { FormControl, tooltipClasses } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Moralis from "moralis";
 import { useState } from "react";
 import { Liderbord } from "../back_end/models/liderbord";
@@ -15,6 +15,7 @@ import Container from "@mui/material/Container";
 
 function CreateLiderbord() {
   const navigate = useNavigate();
+  let { isAuthenticated, user, logout } = useMoralis();
 
   const goToMainPage = () => {
     // This will navigate to second component
@@ -30,9 +31,15 @@ function CreateLiderbord() {
   const [descriptionError, setDescriptionError] = useState("");
   const [tagError, setTagError] = useState("");
 
+  // Redirect to the login page if the user is not authenticated
+  if (!isAuthenticated) {
+    return <Navigate replace to="/login" />;
+  }
+
   const submit = async () => {
     // check topic for errors
     if (topic === "") {
+      s;
       setTopicError("Topic cannot be empty");
     }
     if (topic.length > 50) {
