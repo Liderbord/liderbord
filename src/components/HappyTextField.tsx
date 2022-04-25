@@ -3,11 +3,16 @@ import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 
 const HappyTextField = styled(TextField)({
+  backgroundColor: "#fff",
+  borderRadius: 8,
   "& .MuiInputBase-input": {
-    borderRadius: 8,
     position: "relative",
     backgroundColor: "#fff",
-    width: "auto",
+  },
+  "& input:invalid + fieldset": {
+    borderColor: "red",
+    borderWidth: 2,
+    backgroundColor: "#000",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
