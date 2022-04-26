@@ -14,7 +14,7 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Open Sans",
+    fontFamily: ["Open Sans", "Raleway"].join(','),
     fontSize: 16,
     fontWeightMedium: 400,
     h1: {
