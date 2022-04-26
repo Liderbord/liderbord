@@ -9,10 +9,16 @@ function HomePage() {
   let { isAuthenticated, logout } = useMoralis();
   const navigate = useNavigate();
 
-  const goToCreateLiderbord = () => {
+const goToCreateLiderbord = () => {
     // This will navigate to second component
     navigate("/create-liderbord");
   };
+
+  const goToSearchLiderbord = () => {
+    // This will navigate to second component
+    navigate("/search-liderbord");
+  };
+
 
   if (!isAuthenticated) {
     return <Navigate replace to="/login" />;
@@ -31,7 +37,7 @@ function HomePage() {
       </div>
 
       <div>
-        <Button variant="contained">Search Liderbords</Button>{" "}
+        <Button onClick={goToSearchLiderbord} variant="contained">Search Liderbords</Button>{" "}
         <Button onClick={goToCreateLiderbord} variant="contained">
           + Create Liderbords
         </Button>{" "}
