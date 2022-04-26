@@ -56,7 +56,7 @@ function CreateLiderbord() {
       tagsArray[index] = element.trim();
     });
     // remove the first argument which is always an empty string
-    tagsArray = tagsArray.slice(1, -1);
+    tagsArray.shift();
     if (tagsArray.includes("")) {
       setTagError("Tags cannot have an empty value");
     }
@@ -86,7 +86,7 @@ function CreateLiderbord() {
           </Typography>
           <Typography sx={{ margin: "16px 0px" }}>
             Enter your topic name here. If you are looking for something
-            specific make sure to be avoid general subjects.
+            specific make sure to avoid general subjects.
           </Typography>
           <HappyTextField
             fullWidth
