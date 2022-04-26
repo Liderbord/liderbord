@@ -3,7 +3,7 @@ import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import { FormControl, tooltipClasses } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Moralis from "moralis";
 import { useState } from "react";
 import { Liderbord } from "../back_end/models/liderbord";
@@ -15,10 +15,11 @@ import Container from "@mui/material/Container";
 
 function CreateLiderbord() {
   const navigate = useNavigate();
+  let { isAuthenticated, user, logout } = useMoralis();
 
   const goToMainPage = () => {
     // This will navigate to second component
-    navigate("/MainPage");
+    navigate("/");
   };
 
   const [topic, setTopic] = useState("");
@@ -29,6 +30,11 @@ function CreateLiderbord() {
   const [topicError, setTopicError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [tagError, setTagError] = useState("");
+
+  // Redirect to the login page if the user is not authenticated
+  if (!isAuthenticated) {
+    return <Navigate replace to="/login" />;
+  }
 
   const submit = async () => {
     // check topic for errors
@@ -50,7 +56,7 @@ function CreateLiderbord() {
       tagsArray[index] = element.trim();
     });
     // remove the first argument which is always an empty string
-    tagsArray = tagsArray.slice(1, -1);
+    tagsArray.shift();
     if (tagsArray.includes("")) {
       setTagError("Tags cannot have an empty value");
     }
@@ -59,7 +65,6 @@ function CreateLiderbord() {
     }
 
     const params = { topic: topic, desc: description, tags: tagsArray };
-    console.log(params);
 
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
@@ -81,7 +86,7 @@ function CreateLiderbord() {
           </Typography>
           <Typography sx={{ margin: "16px 0px" }}>
             Enter your topic name here. If you are looking for something
-            specific make sure to be avoid general subjects.
+            specific make sure to avoid general subjects.
           </Typography>
           <HappyTextField
             fullWidth

@@ -3,23 +3,20 @@ import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
-function MainPage() {
+function HomePage() {
+  let { isAuthenticated, logout } = useMoralis();
+  const navigate = useNavigate();
 
+  const goToCreateLiderbord = () => {
+    // This will navigate to second component
+    navigate("/create-liderbord");
+  };
 
-    const navigate = useNavigate();
-
-
-      const goToCreateLiderbord = () => {
-  
-        // This will navigate to second component
-        navigate('/createliderbord'); 
-
-
-      };
-
-
+  if (!isAuthenticated) {
+    return <Navigate replace to="/login" />;
+  }
   return (
     <Box
       component="form"
@@ -30,20 +27,17 @@ function MainPage() {
       autoComplete="off"
     >
       <div>
-
         <TextField id="outlined" label="Search" />
       </div>
 
       <div>
         <Button variant="contained">Search Liderbords</Button>{" "}
-
-        <Button onClick={goToCreateLiderbord} variant="contained">+ Create Liderbords</Button>{" "}
-
+        <Button onClick={goToCreateLiderbord} variant="contained">
+          + Create Liderbords
+        </Button>{" "}
       </div>
     </Box>
   );
 }
 
-
-
-export default MainPage;
+export default HomePage;
