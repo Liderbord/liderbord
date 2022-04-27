@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
@@ -87,9 +87,9 @@ export default function LiderbordPage() {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        {defaultBord.tags.map((value: string) => {
+        {defaultBord.tags.map((value: string, index: number) => {
           return (
-            <Grid item>
+            <Grid key={value + index} item>
               <Typography variant="h2" component="h2">
                 {"#" + value + ""}
               </Typography>
@@ -102,7 +102,11 @@ export default function LiderbordPage() {
       </Typography>
       <Stack spacing={2} sx={{ marginTop: "28px" }}>
         {defaultBord.resources.map((resource, index) => (
-          <ResourceCard rank={index + 1} resource={resource} />
+          <ResourceCard
+            key={"ressource_" + index}
+            rank={index + 1}
+            resource={resource}
+          />
         ))}
       </Stack>
     </Container>
