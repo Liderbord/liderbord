@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Moralis secrets
 moralis-keys.json
+
+# unwanted npm files in case you decided to use npm regardless
+package-lock.json
