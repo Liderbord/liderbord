@@ -11,7 +11,7 @@ interface Resource {
   // The score of the resource
   score: number;
   // The type of the resource
-  type: ResourceType;
+  type?: ResourceType;
   // The hash of the resource, to be compared with the blockchain
   hash: string;
   // nb of upvotes the resource has
