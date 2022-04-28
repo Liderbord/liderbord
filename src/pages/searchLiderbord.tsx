@@ -45,37 +45,32 @@ export default function SearchLiderbord(props: any) {
 
   const liderbords = [liderbord1, liderbord2, liderbord3];
 
+  const filters = ["C++", "Beginner", "Advanced"];
+
   return (
     <Container>
+      
       <Grid container spacing={7} columns={16} sx={{ mt: "16px" }}>
         <Grid item xs={12}>
-          <Typography variant="h6">
-              FILTERS
-          </Typography>
-            
-          
+          <Typography variant="h6">FILTERS</Typography>
 
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={5} columns={16}>
-              <Grid item xs={4}>
-                <FilterItem>C++</FilterItem>
-              </Grid>
-              <Grid item xs={4}>
-                <FilterItem>Beginner</FilterItem>
-              </Grid>
-              <Grid item xs={4}>
-                <FilterItem>Advanced</FilterItem>
-              </Grid>
+              {filters.map((filter) => (
+                <Grid item xs={4}>
+                  <FilterItem>{filter}</FilterItem>
+                </Grid>
+              ))}
             </Grid>
           </Box>
-
         </Grid>
 
-        <Grid item xs={4} >
+        <Grid item xs={4}>
           <HappyButton color="secondary" variant="contained">
             + Create a Liderbord
           </HappyButton>
         </Grid>
+
       </Grid>
 
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">
