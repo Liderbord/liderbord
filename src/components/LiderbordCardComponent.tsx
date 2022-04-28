@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Liderbord from '../model/liderbord';
 
 
 /**
@@ -18,13 +19,7 @@ import Typography from '@mui/material/Typography';
  * topic
  */
 
-type CardProps = {
-    topic: string,
-    tags: string[],
-    nbVotes: number,
-    nbResources: number,
-    description: string
-}
+
 
 const bull = (
     <Box
@@ -36,21 +31,19 @@ const bull = (
   );
 
 
-const LiderbordCard = ({topic, tags, nbVotes, nbResources, description} : CardProps) => {
+function LiderbordCard({liderbord} : {liderbord : Liderbord}) {
     return(
   <React.Fragment>
       <Card variant="outlined" sx={{
-          height: 200,
+          height: 140,
           width: 900,
           borderRadius: "24px",
-          p: "24px",
+          pb: "24px",
           mt: "16px",
-          mb: "16px",
-          ml: "100px"
            }}>
     <CardContent>
       <Typography sx={{mb : 2}} variant="h2" component="div">
-        {topic}
+        {liderbord.topic}
       </Typography>
       <hr style={{
           
@@ -59,11 +52,12 @@ const LiderbordCard = ({topic, tags, nbVotes, nbResources, description} : CardPr
           margin: "5px"
       }}></hr>
       <Typography sx={{ display:"inline"}} color="text.secondary" >
-          {tags.map((item,i) => <span key={i}> #{item} </span>)}
-          {bull} {nbVotes} {bull} {nbResources}
+          {liderbord.tags.map((item,i) => <span key={i}> #{item} </span>)}
+          {bull} {liderbord.nbVotes} {bull} {liderbord.nbResources}
       </Typography>
       <Typography sx={{mt: 1.5}}variant="body2">
-        {description}
+        {liderbord.description}
+        
       </Typography>
     </CardContent>
     </Card>
