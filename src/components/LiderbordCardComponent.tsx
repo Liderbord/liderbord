@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Liderbord from "../model/liderbord";
 
-const bull = (
+const separatorPoint = (
   <Box
     component="span"
     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
@@ -19,7 +19,6 @@ const bull = (
 
 function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
   return (
-    <React.Fragment>
       <Card
         variant="outlined"
         sx={{
@@ -34,25 +33,25 @@ function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
           <Typography sx={{ mb: 1 }} variant="h2" component="div">
             {liderbord.topic.toUpperCase()}
           </Typography>
-          <hr
+          <div
             style={{
-              width: "50%",
-              border: "0.9px solid blue",
-              margin: "7px",
+              height: '6px',
+              background: '#384A6E',
+              borderRadius: '6px',
+              width: '50%',
             }}
-          ></hr>
-          <Typography sx={{ display: "inline" }} color="text.secondary">
+          ></div>
+          <Typography sx={{ display: "inline" }}>
             {liderbord.tags.map((item, i) => (
               <b key={i}> #{item} </b>
             ))}
-            {bull} {liderbord.nbVotes} {bull} {liderbord.nbResources}
+            {separatorPoint} {liderbord.nbVotes + " Votes"} {separatorPoint} {liderbord.nbResources + " Resources"}
           </Typography>
-          <Typography sx={{ mt: 1.5 }} variant="body2">
+          <Typography sx={{ mt: 1.5 }} variant="body1">
             {liderbord.description}
           </Typography>
         </CardContent>
       </Card>
-    </React.Fragment>
   );
 }
 

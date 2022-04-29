@@ -1,6 +1,7 @@
 import React from "react";
 import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
+import HappyTextField from "../components/HappyTextField";
 import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
 import FilterItem from "../components/FilterItem";
@@ -49,8 +50,13 @@ export default function SearchLiderbord(props: any) {
 
   return (
     <Container>
-      
-      <Grid container spacing={7} columns={16} sx={{ mt: "16px" }}>
+      <Typography variant="h2" sx={{ m: "15px 0px" }}>
+        Search Results
+      </Typography>
+
+      <HappyTextField></HappyTextField>
+
+      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
         <Grid item xs={12}>
           <Typography variant="h6">FILTERS</Typography>
 
@@ -70,7 +76,6 @@ export default function SearchLiderbord(props: any) {
             + Create a Liderbord
           </HappyButton>
         </Grid>
-
       </Grid>
 
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">

@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create-liderbord" element={<CreateLiderbord />} />
-          <Route path="/search-liderbord" element={<SearchLiderbord />} />
+          <Route path="/search" element={<SearchLiderbord />} />
         </Routes>
       </Router>
     </Container>

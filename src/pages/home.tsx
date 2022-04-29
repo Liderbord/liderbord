@@ -15,8 +15,7 @@ const goToCreateLiderbord = () => {
   };
 
   const goToSearchLiderbord = () => {
-    // This will navigate to second component
-    navigate("/search-liderbord");
+    navigate("/search");
   };
 
 
