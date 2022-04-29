@@ -7,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Liderbord from "../model/liderbord";
+import CardContainer from "../components/CardContainer";
 
 const separatorPoint = (
   <Box
@@ -19,16 +20,7 @@ const separatorPoint = (
 
 function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
   return (
-      <Card
-        variant="outlined"
-        sx={{
-          height: 150,
-          width: 1000,
-          borderRadius: "24px",
-          pb: "24px",
-          mt: "16px",
-        }}
-      >
+      <CardContainer>
         <CardContent>
           <Typography sx={{ mb: 1 }} variant="h2" component="div">
             {liderbord.topic.toUpperCase()}
@@ -39,6 +31,7 @@ function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
               background: '#384A6E',
               borderRadius: '6px',
               width: '50%',
+              marginBottom: '5px',
             }}
           ></div>
           <Typography sx={{ display: "inline" }}>
@@ -51,7 +44,7 @@ function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
             {liderbord.description}
           </Typography>
         </CardContent>
-      </Card>
+        </CardContainer>
   );
 }
 

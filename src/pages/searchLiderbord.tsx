@@ -54,10 +54,10 @@ export default function SearchLiderbord(props: any) {
         Search Results
       </Typography>
 
-      <HappyTextField></HappyTextField>
+      <HappyTextField fullWidth></HappyTextField>
 
       <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
-        <Grid item xs={12}>
+        <Grid item xs={11}>
           <Typography variant="h6">FILTERS</Typography>
 
           <Box sx={{ flexGrow: 1 }}>
@@ -71,7 +71,7 @@ export default function SearchLiderbord(props: any) {
           </Box>
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <HappyButton color="secondary" variant="contained">
             + Create a Liderbord
           </HappyButton>
