@@ -3,6 +3,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  listItemSecondaryActionClasses,
   Stack,
   Typography,
 } from "@mui/material";
@@ -13,8 +14,16 @@ import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
 import ResourceType from "../model/resourceType";
 import UserVote from "../model/userVote";
+import { useParams } from "react-router-dom";
+import { Service } from "../service/service";
 
 export default function LiderbordPage() {
+  const { id } = useParams();
+  const dbBord: Liderbord | undefined = Service.getLiderbord(id ?? "");
+  console.log(dbBord);
+  if (!dbBord) {
+    // the we are listItemSecondaryActionClasses, put animation later
+  }
   // fake data
   const res1: Resource = {
     id: "1212",
@@ -58,12 +67,13 @@ export default function LiderbordPage() {
     downVotes: 12,
   };
   const defaultBord: Liderbord = {
-    id: "12345678",
-    topic: "C++ for beginners",
-    description: "Best introduction to C++",
-    tags: ["programming", "beginner", "C++"],
+    id: dbBord?.id ?? "",
+    topic: dbBord?.topic ?? "Topic",
+    description: dbBord?.description ?? "Description of the Liderbord",
+    tags: dbBord?.tags ?? ["tag1", "tag2", "tag3"],
     resources: [res1, res2, res3, res4],
   };
+
   return (
     <Container>
       <CssBaseline />

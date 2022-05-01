@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/l" element={<LiderbordPage />} />
+          <Route path="/l/:id" element={<LiderbordPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create-liderbord" element={<CreateLiderbord />} />
           <Route path="/search" element={<SearchLiderbord />} />
