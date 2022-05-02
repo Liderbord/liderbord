@@ -1,11 +1,11 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
-import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import { useState } from "react";
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import HappyButton from "../components/HappyButton";
+import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
-
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
