@@ -1,5 +1,6 @@
 import { Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import NavigationBar from "../components/NavigationBar";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
@@ -36,6 +37,7 @@ export default function LiderbordPage() {
 
   return (
     <Container>
+      <NavigationBar/>
       <CssBaseline />
 
       <Grid
