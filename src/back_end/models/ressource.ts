@@ -1,4 +1,3 @@
-import {Liderbord} from "./liderbord";
 import Moralis from "moralis";
 
 export class Ressource {

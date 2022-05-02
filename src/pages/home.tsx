@@ -1,10 +1,19 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
+<<<<<<< HEAD
 import { Container, Grid } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { useState } from "react";
+=======
+import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import HappyButton from "../components/HappyButton";
+import SearchBar from "../components/SearchBar";
+import SearchIcon from '@mui/icons-material/Search';
+import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
+
+>>>>>>> a7839cfc93f113eceddae7f690aff070261b4c81
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
