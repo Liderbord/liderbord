@@ -72,7 +72,7 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton color="secondary" variant="contained">
+          <HappyButton color="secondary" variant="contained" sx={{}}>
             + Create a Liderbord
           </HappyButton>
         </Grid>
