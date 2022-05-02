@@ -1,24 +1,15 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
-<<<<<<< HEAD
-import { Container, Grid } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
-import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { useState } from "react";
-=======
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
-import HappyButton from "../components/HappyButton";
-import SearchBar from "../components/SearchBar";
-import SearchIcon from '@mui/icons-material/Search';
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 
->>>>>>> a7839cfc93f113eceddae7f690aff070261b4c81
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
-
-  const[liderbordName, setLiderbordName] = useState("");
+  const [liderbordName, setLiderbordName] = useState("");
   let { isAuthenticated, logout } = useMoralis();
   const navigate = useNavigate();
 
@@ -36,22 +27,24 @@ function HomePage() {
   }
 
   const inputHandler = async () => {
-    
     console.log(liderbordName);
   };
-   
 
   return (
     <Container>
       <div
         className="App"
-        style={{ margin: "120px 0px", alignItems: "center", display: "flex", justifyContent: "center" }}
+        style={{
+          margin: "120px 0px",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
         <img src={liderbordLogo} alt="Liderbord Logo" />
       </div>
 
-      
-      <HappyTextField 
+      <HappyTextField
         fullWidth
         label=""
         onChange={(e: any) => setLiderbordName(e.target.value)}
@@ -65,16 +58,17 @@ function HomePage() {
         sx={{ mt: "10px" }}
       >
         <Grid item xs={3}>
-          <HappyButton color="secondary" variant="contained" onClick={inputHandler}>
+          <HappyButton
+            color="secondary"
+            variant="contained"
+            onClick={inputHandler}
+          >
             Search Liderbords
           </HappyButton>
         </Grid>
 
         <Grid item xs={3}>
-          <HappyButton
-            sx={{ color: "black", backgroundColor: "#E3E3E3" }}
-            variant="contained"
-          >
+          <HappyButton color="info" variant="contained">
             + Create a Liderbord
           </HappyButton>
         </Grid>
