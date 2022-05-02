@@ -24,7 +24,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-liderbord" element={<CreateLiderbord />} />
           <Route path="/search" element={<SearchLiderbord />} />
-          <Route path="/create-resource" element={<CreateResource />} />
+          <Route
+            path="/create-resource/:liderbordID"
+            element={<CreateResource />}
+          />
         </Routes>
       </Router>
     </Container>

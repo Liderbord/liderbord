@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import MenuTypeResource from "../components/menuTypeResource";
+import { useNavigate, useParams } from "react-router-dom";
 import HappyTextField from "../components/HappyTextField";
 import HappyButton from "../components/HappyButton";
 import {
@@ -14,24 +10,24 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Select,
+  OutlinedInput,
   SelectChangeEvent,
+  Stack,
   Typography,
 } from "@mui/material";
-import ResourceType from "../model/resourceType";
+import ResourceType, { stringToResourceType } from "../model/resourceType";
 import HappySelect from "../components/HappySelect";
+import ResourceTypeIcon from "../components/icons/ResourceTypeIcon";
+import Resource from "../model/resource";
+import { Service } from "../service/service";
 
 function CreateResource() {
   const navigate = useNavigate();
-
-  const goToMainPage = () => {
+  const { liderbordID } = useParams();
+  const returnToLiderbord = () => {
     // This will navigate to second component
-    navigate("/MainPage");
+    navigate("/l/" + liderbordID);
   };
-
-  const [resourceName, setResourceName] = useState("");
-  const [resourceType, setResourceType] = useState(undefined);
-  const [resourceURL, setURL] = useState("");
 
   const [resourceName, setResourceName] = useState("");
   const [resourceType, setResourceType] = useState("");
@@ -41,9 +37,10 @@ function CreateResource() {
   const [URLError, setURLError] = useState("");
   const [resourceTypeError, setResourceTypeError] = useState("");
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);
   };
+
   const submit = async () => {
     if (resourceName === "") {
       setResourceNameError("Resource Name cannot be empty");
@@ -51,11 +48,39 @@ function CreateResource() {
     if (resourceURL === "") {
       setURLError("URL cannot be empty");
     }
-    if (resourceType == "") {
+    if (resourceType === "") {
       setResourceTypeError("URL cannot be empty");
     }
-  };
 
+    // send the data
+    const resource: Resource = {
+      id: "",
+      title: resourceName,
+      link: resourceURL,
+      type: stringToResourceType(resourceType),
+      score: 0,
+      hash: "",
+      upVotes: 0,
+      downVotes: 0,
+    };
+    await Service.addResource(resource, liderbordID as string);
+    returnToLiderbord();
+  };
+  const menuItem = (resourceType: ResourceType) => {
+    return (
+      <MenuItem value={resourceType}>
+        <Stack
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={2}
+        >
+          <ResourceTypeIcon type={resourceType} />
+          <Typography>{resourceType}</Typography>
+        </Stack>
+      </MenuItem>
+    );
+  };
   return (
     <Container>
       <CssBaseline />
@@ -79,22 +104,27 @@ function CreateResource() {
           />
         </Box>
         <Box sx={{ marginBottom: "27px" }}>
-          <FormControl fullWidth>
-            <InputLabel id="resource-type">Resource Type</InputLabel>
-            <HappySelect
-              labelId="resource-type"
-              id="resource-type-select"
-              value={resourceType}
-              label="Choose your resourceType"
-              onChange={handleChange}
-            >
-              <MenuItem value={ResourceType.Audio}>Audio</MenuItem>
-              <MenuItem value={ResourceType.Document}>Document</MenuItem>
-              <MenuItem value={ResourceType.Image}>Image</MenuItem>
-              <MenuItem value={ResourceType.Link}>Link</MenuItem>
-              <MenuItem value={ResourceType.Video}>Video</MenuItem>
-            </HappySelect>
-          </FormControl>
+          <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
+            Resource Type
+          </Typography>
+          <Typography sx={{ margin: "16px 0px" }}>
+            Resources can either be links to another web page, or a markdown
+            document you write yourself.
+          </Typography>
+          <InputLabel id="resource-type">Resource Type</InputLabel>
+          <HappySelect
+            fullWidth
+            value={resourceType}
+            label="Choose a resource type"
+            onChange={onResourceTypeChange}
+            error={resourceTypeError !== ""}
+          >
+            {menuItem(ResourceType.Link)}
+            {menuItem(ResourceType.Audio)}
+            {menuItem(ResourceType.Document)}
+            {menuItem(ResourceType.Image)}
+            {menuItem(ResourceType.Video)}
+          </HappySelect>
         </Box>
         <Box sx={{ marginBottom: "27px" }}>
           <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
@@ -116,7 +146,7 @@ function CreateResource() {
           alignItems="center"
         >
           <HappyButton
-            onClick={goToMainPage}
+            onClick={returnToLiderbord}
             variant="contained"
             sx={{ marginRight: "24px" }}
           >
