@@ -1,16 +1,16 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-import { FormControl, tooltipClasses } from "@mui/material";
 
 import { useNavigate, Navigate } from "react-router-dom";
-import Moralis from "moralis";
 import { useState } from "react";
+import Liderbord from "../model/liderbord";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
+import { Service } from "../service/service";
 
 function CreateLiderbord() {
   const navigate = useNavigate();
@@ -19,6 +19,10 @@ function CreateLiderbord() {
   const goToMainPage = () => {
     // This will navigate to second component
     navigate("/");
+  };
+  const goCreatedLiderbordPage = (id: string) => {
+    // This will navigate to the correct liderbord page
+    navigate("/l/" + id);
   };
 
   const [topic, setTopic] = useState("");
@@ -45,8 +49,8 @@ function CreateLiderbord() {
     }
 
     // check description for errors
-    if (description.length < 50) {
-      setDescriptionError("Description must be at least 50 characters");
+    if (description.length < 10) {
+      setDescriptionError("Description must be at least 10 characters");
     }
 
     // parse and check tags for errors
@@ -63,12 +67,16 @@ function CreateLiderbord() {
       setTagError("You must include at least 3 tags");
     }
 
-    const params = { topic: topic.toUpperCase(), desc: description, tags: tagsArray };
-
+    const params = { topic: topic, desc: description, tags: tagsArray };
+    console.log(params);
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
-      await Moralis.Cloud.run("createLiderbord", params);
-      
+      const id: string = await Service.createLiderbord(
+        topic,
+        description,
+        tagsArray
+      );
+      goCreatedLiderbordPage(id);
     }
   };
 

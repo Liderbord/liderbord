@@ -3,18 +3,36 @@ import {
   Container,
   CssBaseline,
   Grid,
+  listItemSecondaryActionClasses,
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
 import ResourceType from "../model/resourceType";
 import UserVote from "../model/userVote";
+import { useParams } from "react-router-dom";
+import { Service } from "../service/service";
 
 export default function LiderbordPage() {
+  const { id } = useParams();
+  const [liderbord, setLiderbord] = useState<Liderbord>();
+
+  useEffect(() => {
+    // You need to restrict it at some point
+    // This is just dummy code and should be replaced by actual
+    if (!liderbord) {
+      Service.getLiderbord(id ?? "").then(lb => {
+        setLiderbord(lb);
+        console.log(lb);
+      }).catch(err => {
+        console.error(err);
+      })
+    }
+  }, []);
   // fake data
   const res1: Resource = {
     id: "1212",
@@ -57,13 +75,14 @@ export default function LiderbordPage() {
     upVotes: 20,
     downVotes: 12,
   };
-  const defaultBord: Liderbord = {
-    id: "12345678",
-    topic: "C++ for beginners",
-    description: "Best introduction to C++",
-    tags: ["programming", "beginner", "C++"],
+  /**const defaultBord: Liderbord = {
+    id: dbBord?.id ?? "",
+    topic: dbBord?.topic ?? "Topic",
+    description: dbBord?.description ?? "Description of the Liderbord",
+    tags: dbBord?.tags ?? ["tag1", "tag2", "tag3"],
     resources: [res1, res2, res3, res4],
-  };
+  };*/
+
   return (
     <Container>
       <CssBaseline />
@@ -77,7 +96,7 @@ export default function LiderbordPage() {
       >
         <Grid item>
           <Typography variant="h1" component="h1">
-            {defaultBord.topic.toUpperCase()}
+            {liderbord?.topic?.toUpperCase()}
           </Typography>
         </Grid>
         <Grid item>
@@ -87,7 +106,7 @@ export default function LiderbordPage() {
         </Grid>
       </Grid>
       <Grid container spacing={2}>
-        {defaultBord.tags.map((value: string, index: number) => {
+        {liderbord?.tags?.map((value: string, index: number) => {
           return (
             <Grid key={value + index} item>
               <Typography variant="h2" component="h2">
@@ -98,10 +117,10 @@ export default function LiderbordPage() {
         })}
       </Grid>
       <Typography sx={{ margin: "7px 0px" }}>
-        {defaultBord.description}
+        {liderbord?.description}
       </Typography>
       <Stack spacing={2} sx={{ marginTop: "28px" }}>
-        {defaultBord.resources.map((resource, index) => (
+        {liderbord?.resources?.map((resource, index) => (
           <ResourceCard
             key={"ressource_" + index}
             rank={index + 1}
