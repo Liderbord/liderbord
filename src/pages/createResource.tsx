@@ -9,24 +9,24 @@ import HappyTextField from "../components/HappyTextField";
 import HappyButton from "../components/HappyButton";
 import { Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import ResourceType from "../model/resourceType";
+import HappySelect from "../components/HappySelect";
 
 function CreateResource() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const goToMainPage = () => {
+    // This will navigate to second component
+    navigate("/MainPage");
+  };
 
-    const goToMainPage = () => {
-      // This will navigate to second component
-      navigate("/MainPage");
-    };
+  const [resourceName, setResourceName] = useState("");
+  const [resourceType, setResourceType] = useState(undefined);
+  const [resourceURL, setURL] = useState("");
 
-    const [resourceName, setResourceName] = useState("");
-    const [resourceType, setResourceType] = useState(ResourceType.Link);
-    const [resourceURL, setURL] = useState("");
+  const [resourceNameError, setresourceNameError] = useState("");
+  const [URLError, setURLError] = useState("");
 
-    const [resourceNameError, setresourceNameError] = useState("");
-    const [URLError, setURLError] = useState("");
-    
-    const submit = async () => {}
+  const submit = async () => {};
 
   return (
     <Container>
@@ -53,7 +53,7 @@ function CreateResource() {
         <Box sx={{ marginBottom: "27px" }}>
           <FormControl fullWidth>
             <InputLabel id="resource-type">Resource Type</InputLabel>
-            <Select
+            <HappySelect
               labelId="resource-type"
               id="resource-type-select"
               value={resourceType}
@@ -65,7 +65,7 @@ function CreateResource() {
               <MenuItem value={ResourceType.Image}>Image</MenuItem>
               <MenuItem value={ResourceType.Link}>Link</MenuItem>
               <MenuItem value={ResourceType.Video}>Video</MenuItem>
-            </Select>     
+            </HappySelect>
           </FormControl>
         </Box>
         <Box sx={{ marginBottom: "27px" }}>
