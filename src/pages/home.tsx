@@ -1,14 +1,15 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
-import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import HappyButton from "../components/HappyButton";
-import SearchBar from "../components/SearchBar";
-import SearchIcon from '@mui/icons-material/Search';
+import HappyTextField from "../components/HappyTextField";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
-
+import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
+
+  const[liderbordName, setLiderbordName] = useState("");
   let { isAuthenticated, logout } = useMoralis();
   const navigate = useNavigate();
 
@@ -24,6 +25,13 @@ function HomePage() {
   if (!isAuthenticated) {
     return <Navigate replace to="/login" />;
   }
+
+  const inputHandler = async () => {
+    
+    console.log(liderbordName);
+  };
+   
+
   return (
     <Container>
       <div
@@ -33,7 +41,12 @@ function HomePage() {
         <img src={liderbordLogo} alt="Liderbord Logo" />
       </div>
 
-      <SearchBar></SearchBar>
+      
+      <HappyTextField 
+        fullWidth
+        label=""
+        onChange={(e: any) => setLiderbordName(e.target.value)}
+      />
 
       <Grid
         container
@@ -43,7 +56,7 @@ function HomePage() {
         sx={{ mt: "10px" }}
       >
         <Grid item xs={3}>
-          <HappyButton color="secondary" variant="contained">
+          <HappyButton color="secondary" variant="contained" onClick={inputHandler}>
             Search Liderbords
           </HappyButton>
         </Grid>
