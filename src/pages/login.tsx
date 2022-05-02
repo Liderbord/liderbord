@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/login.css";
 import { useMoralis } from "react-moralis";
-import { ThemeProvider } from "@mui/material/styles";
 import { useNavigate, Navigate } from "react-router-dom";
-import Moralis from "moralis";
 import HappyButton from "../components/HappyButton";
 import moralisKeys from "../moralis-keys.json";
 import { Container } from "@mui/material";
@@ -33,7 +31,7 @@ function Login() {
     if (loginUser != null) {
       navigate("/");
     }
-  }, [loginUser]);
+  }, [loginUser, navigate]);
 
   // if the user is logged in, redirect to homepage
   if (loginUser !== null) {

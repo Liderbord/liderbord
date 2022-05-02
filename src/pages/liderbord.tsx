@@ -36,7 +36,7 @@ export default function LiderbordPage() {
           console.error(err);
         });
     }
-  }, []);
+  });
   // fake data
   const res1: Resource = {
     id: "1212",
@@ -138,7 +138,4 @@ export default function LiderbordPage() {
       </Stack>
     </Container>
   );
-}
-function value(value: any): React.ReactNode {
-  throw new Error("Function not implemented.");
 }

@@ -1,5 +1,3 @@
-import React from "react";
-import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 
 import { useNavigate } from "react-router-dom";

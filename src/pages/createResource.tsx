@@ -6,11 +6,9 @@ import HappyButton from "../components/HappyButton";
 import {
   Container,
   CssBaseline,
-  FormControl,
   Grid,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   SelectChangeEvent,
   Stack,
   Typography,

@@ -5,7 +5,7 @@ import HappyTextField from "../components/HappyTextField";
 import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
 import FilterItem from "../components/FilterItem";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 
 export default function SearchLiderbord(props: any) {

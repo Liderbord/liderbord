@@ -83,6 +83,7 @@ export default function ResourceCard({
     }
     // if the user did not vote happy and his current vote was not happy upvotes remain the same
 
+    // dopn't remove we might use later
     const updatedResource: Resource = {
       id: resource.id,
       title: resource.title,
