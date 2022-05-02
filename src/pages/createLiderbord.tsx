@@ -1,11 +1,10 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-import { FormControl, tooltipClasses } from "@mui/material";
 
 import { useNavigate, Navigate } from "react-router-dom";
-import Moralis from "moralis";
 import { useState } from "react";
+import Liderbord from "../model/liderbord";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -22,8 +21,8 @@ function CreateLiderbord() {
     navigate("/");
   };
   const goCreatedLiderbordPage = (id: string) => {
-    // This will navigate to second component
-    navigate("/" + id);
+    // This will navigate to the correct liderbord page
+    navigate("/l/" + id);
   };
 
   const [topic, setTopic] = useState("");
