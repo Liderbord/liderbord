@@ -12,6 +12,10 @@ export const theme = createTheme({
     background: {
       default: "#F9F9F9",
     },
+    info: {
+      main: "#E3E3E3",
+      contrastText: "#000",
+    },
   },
   typography: {
     fontFamily: ["Open Sans", "Raleway"].join(","),

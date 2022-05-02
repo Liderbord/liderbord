@@ -13,7 +13,7 @@ Moralis.Cloud.define("hello",async(request)=>{
 
 Moralis.Cloud.define("createLiderbord", async (request) => {
 
-  
+
 const Liderbord = Moralis.Object.extend("Liderbord");
 const liderbord = new Liderbord()
 

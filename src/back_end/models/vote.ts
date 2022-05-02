@@ -1,4 +1,4 @@
-import Ressource from "./ressource";
+import {Ressource} from "./ressource"
 
 export default interface Vote {
     value: number;

@@ -6,6 +6,7 @@ import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
 import FilterItem from "../components/FilterItem";
 import { useNavigate, Navigate } from "react-router-dom";
+import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 
 export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
@@ -50,9 +51,17 @@ export default function SearchLiderbord(props: any) {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ m: "15px 0px" }}>
-        Search Results
-      </Typography>
+      <div
+        className="App"
+        style={{
+          margin: "10px 0px",
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "left",
+        }}
+      >
+        <img src={liderbordLogo} alt="Liderbord Logo" style={{width:"35%"}} />
+      </div>
 
       <HappyTextField fullWidth></HappyTextField>
 
@@ -72,7 +81,7 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton color="secondary" variant="contained">
+          <HappyButton color="secondary" variant="contained" sx={{}}>
             + Create a Liderbord
           </HappyButton>
         </Grid>
