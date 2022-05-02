@@ -6,7 +6,6 @@ import { FormControl, tooltipClasses } from "@mui/material";
 import { useNavigate, Navigate } from "react-router-dom";
 import Moralis from "moralis";
 import { useState } from "react";
-import { Liderbord } from "../back_end/models/liderbord";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -68,8 +67,8 @@ function CreateLiderbord() {
 
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
-      const liderbord = new Liderbord(topic, description);
-      liderbord.createLiderbord();
+      await Moralis.Cloud.run("createLiderbord", params);
+      
     }
   };
 
