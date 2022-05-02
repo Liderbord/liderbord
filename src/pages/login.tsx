@@ -1,69 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/login.css";
 import { useMoralis } from "react-moralis";
-import Box from "@mui/material/Box";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../styles/theme";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Moralis from "moralis";
 import HappyButton from "../components/HappyButton";
+import moralisKeys from "../moralis-keys.json";
+import { Container } from "@mui/material";
 
 function Login() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-  const {
-    authenticate,
-    isAuthenticated,
-    isAuthenticating,
-    user,
-    account,
-    logout,
-  } = useMoralis();
-
   const navigate = useNavigate();
 
+  // Try getting user info from Moralis, normally it should be null
+  const { isAuthenticated, user, authenticate } = useMoralis();
+  const [loginUser, setloginUser] = useState(user);
+
   const login = async () => {
-    const hello = await Moralis.Cloud.run("hello");
-    console.log(hello);
-    const user = await Moralis.authenticate({
-      provider: "web3Auth",
-      clientId:
-        "BAx6pTNUl7kRemTtndnJoIs_X4Memkfgz2pLkbvbhyi7Ipvjj4YGIOx6ksc4LbLrOeQcX_VM4uLeg71AAx-yRjI",
-    });
-
-    navigate("/mainPage");
+    if (!isAuthenticated) {
+      const tempUser = await authenticate({
+        provider: "web3Auth",
+        clientId: moralisKeys.appId,
+        theme: "light",
+        appLogo:
+          "https://raw.githubusercontent.com/Liderbord/liderbord/master/public/logo512.png",
+      });
+      setloginUser(tempUser ?? null);
+      navigate("/");
+    }
   };
 
-  const goToRegisterPage = () => {
-    // This will navigate to second component
-    navigate("/register");
-  };
+  useEffect(() => {
+    if (loginUser != null) {
+      navigate("/");
+    }
+  }, [loginUser]);
 
-  const logOut = async () => {
-    await logout();
-    console.log("logged out");
-  };
+  // if the user is logged in, redirect to homepage
+  if (loginUser !== null) {
+    return <Navigate replace to="/" />;
+  }
 
+  // else, give the login button
   return (
-    <ThemeProvider theme={theme}>
-      <Box id="loginform">
-        <HappyButton title="Log in" onClick={login}>
-          Login{" "}
-        </HappyButton>
-        <HappyButton title="Register" onClick={goToRegisterPage}>
-          Register
-        </HappyButton>
-        <HappyButton onClick={logOut} disabled={isAuthenticating}>
-          Logout
-        </HappyButton>
-      </Box>
-    </ThemeProvider>
+    <Container id="loginform">
+      <HappyButton title="Log in" onClick={login}>
+        Login
+      </HappyButton>
+    </Container>
   );
 }
 
