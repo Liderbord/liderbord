@@ -7,7 +7,17 @@ import { useNavigate } from "react-router-dom";
 import MenuTypeResource from "../components/menuTypeResource";
 import HappyTextField from "../components/HappyTextField";
 import HappyButton from "../components/HappyButton";
-import { Container, CssBaseline, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import {
+  Container,
+  CssBaseline,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import ResourceType from "../model/resourceType";
 import HappySelect from "../components/HappySelect";
 
@@ -23,10 +33,28 @@ function CreateResource() {
   const [resourceType, setResourceType] = useState(undefined);
   const [resourceURL, setURL] = useState("");
 
-  const [resourceNameError, setresourceNameError] = useState("");
-  const [URLError, setURLError] = useState("");
+  const [resourceName, setResourceName] = useState("");
+  const [resourceType, setResourceType] = useState("");
+  const [resourceURL, setURL] = useState("");
 
-  const submit = async () => {};
+  const [resourceNameError, setResourceNameError] = useState("");
+  const [URLError, setURLError] = useState("");
+  const [resourceTypeError, setResourceTypeError] = useState("");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setResourceType(event.target.value as string);
+  };
+  const submit = async () => {
+    if (resourceName === "") {
+      setResourceNameError("Resource Name cannot be empty");
+    }
+    if (resourceURL === "") {
+      setURLError("URL cannot be empty");
+    }
+    if (resourceType == "") {
+      setResourceTypeError("URL cannot be empty");
+    }
+  };
 
   return (
     <Container>
@@ -58,7 +86,7 @@ function CreateResource() {
               id="resource-type-select"
               value={resourceType}
               label="Choose your resourceType"
-              //onChange={handleChange}
+              onChange={handleChange}
             >
               <MenuItem value={ResourceType.Audio}>Audio</MenuItem>
               <MenuItem value={ResourceType.Document}>Document</MenuItem>
@@ -104,4 +132,3 @@ function CreateResource() {
 }
 
 export default CreateResource;
-
