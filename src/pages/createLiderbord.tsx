@@ -63,7 +63,7 @@ function CreateLiderbord() {
       setTagError("You must include at least 3 tags");
     }
 
-    const params = { topic: topic, desc: description, tags: tagsArray };
+    const params = { topic: topic.toUpperCase(), desc: description, tags: tagsArray };
 
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
