@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  IconButton,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, IconButton, Link, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import Resource from "../model/resource";
@@ -14,7 +6,6 @@ import CardContainer from "./CardContainer";
 import { ReactComponent as HappyIcon } from "../res/icons/vote/upvote_icon.svg";
 import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
-import { useState } from "react";
 import UserVote from "../model/userVote";
 
 const VoteButton = styled(IconButton)`
@@ -132,7 +123,7 @@ export default function ResourceCard({
             >
               <SadIcon width={iconSize} height={iconSize} />
             </VoteButton>
-            {resource?.userVote == UserVote.Sad ? (
+            {resource?.userVote === UserVote.Sad ? (
               <Typography variant="body2" align="center">
                 {resource.downVotes}
               </Typography>
@@ -150,7 +141,7 @@ export default function ResourceCard({
             >
               <HappyIcon width={iconSize} height={iconSize} />
             </VoteButton>
-            {resource?.userVote == UserVote.Happy ? (
+            {resource?.userVote === UserVote.Happy ? (
               <Typography variant="body2" align="center">
                 {resource.upVotes}
               </Typography>

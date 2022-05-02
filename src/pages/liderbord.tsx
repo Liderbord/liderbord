@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  CssBaseline,
-  Grid,
-  listItemSecondaryActionClasses,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
@@ -14,23 +6,35 @@ import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
 import ResourceType from "../model/resourceType";
 import UserVote from "../model/userVote";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 
 export default function LiderbordPage() {
   const { id } = useParams();
   const [liderbord, setLiderbord] = useState<Liderbord>();
 
+  const navigate = useNavigate();
+  const goToCreateResource = () => {
+    if (id !== undefined) {
+      navigate("/create-resource/" + id);
+    } else {
+      navigate("/");
+    }
+    // This will navigate to the correct liderbord page
+  };
   useEffect(() => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
     if (!liderbord) {
-      Service.getLiderbord(id ?? "").then(lb => {
-        setLiderbord(lb);
-        console.log(lb);
-      }).catch(err => {
-        console.error(err);
-      })
+      Service.getLiderbord(id ?? "")
+        .then((lb) => {
+          lb.resources = [res1, res2, res3, res4];
+          setLiderbord(lb);
+          console.log(lb);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }, []);
   // fake data
@@ -100,7 +104,11 @@ export default function LiderbordPage() {
           </Typography>
         </Grid>
         <Grid item>
-          <HappyButton color="secondary" variant="contained">
+          <HappyButton
+            color="secondary"
+            variant="contained"
+            onClick={goToCreateResource}
+          >
             Add Resource
           </HappyButton>
         </Grid>

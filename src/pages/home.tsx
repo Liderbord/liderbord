@@ -46,18 +46,18 @@ function HomePage() {
 
       <HappyTextField
         fullWidth
-        label=""
+        label="Enter a topic"
         onChange={(e: any) => setLiderbordName(e.target.value)}
       />
 
       <Grid
         container
         justifyContent="center"
-        rowSpacing={9}
         columns={10}
+        spacing={4}
         sx={{ mt: "10px" }}
       >
-        <Grid item xs={3}>
+        <Grid item>
           <HappyButton
             color="secondary"
             variant="contained"
@@ -67,8 +67,12 @@ function HomePage() {
           </HappyButton>
         </Grid>
 
-        <Grid item xs={3}>
-          <HappyButton color="info" variant="contained">
+        <Grid item>
+          <HappyButton
+            color="info"
+            variant="contained"
+            onClick={goToCreateLiderbord}
+          >
             + Create a Liderbord
           </HappyButton>
         </Grid>
