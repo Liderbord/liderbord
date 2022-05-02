@@ -11,6 +11,7 @@ import moralisKeys from "./moralis-keys.json";
 import { Container } from "@mui/material";
 import Login from "./pages/login";
 import LiderbordPage from "./pages/liderbord";
+import CreateResource from "./pages/createResource";
 
 function App() {
   // Moralis.start(Option= {serverUrl=moralisKeys.serverUrl, appId:moralisKeys.appId})
@@ -23,6 +24,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-liderbord" element={<CreateLiderbord />} />
           <Route path="/search" element={<SearchLiderbord />} />
+          <Route
+            path="/create-resource/:liderbordID"
+            element={<CreateResource />}
+          />
         </Routes>
       </Router>
     </Container>
