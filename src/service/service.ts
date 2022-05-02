@@ -19,7 +19,15 @@ export class Service {
     return await Moralis.Cloud.run(Service.createLiderbordFunction, params);
   }
 
-  private static async searchLiderbordByName(name: string) : Promise<Liderbord>{
+  static searchLiderbordByName(name: string): Liderbord | undefined {
+    Service.searchLiderbordByNamePrivate(name ?? "").then((value) => {
+      console.log(value);
+      return value;
+    });
+    return;
+  }
+
+  private static async searchLiderbordByNamePrivate(name: string) : Promise<Liderbord>{
     const liderbords: Liderbord = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction);
     return liderbords;
   }

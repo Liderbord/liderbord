@@ -3,6 +3,7 @@ import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { Service } from "../service/service";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
@@ -14,8 +15,10 @@ const goToCreateLiderbord = () => {
     navigate("/create-liderbord");
   };
 
-  const goToSearchLiderbord = () => {
-    navigate("/search");
+  const goToSearchLiderbord = async () => {
+    //navigate("/search");
+    const liderbords = await Service.searchLiderbordByName("liderbord");
+    console.log(liderbords);
   };
 
 
