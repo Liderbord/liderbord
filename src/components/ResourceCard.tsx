@@ -7,6 +7,7 @@ import { ReactComponent as HappyIcon } from "../res/icons/vote/upvote_icon.svg";
 import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
+import { Service } from "../service/service";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -54,48 +55,7 @@ export default function ResourceCard({
   resource: Resource;
 }) {
   function updateUserVote(newVote: UserVote) {
-    const userVote: UserVote | undefined =
-      resource?.userVote === newVote ? undefined : newVote;
-
-    // Upvotes logic
-    let newUpvote = resource.upVotes;
-    if (resource?.userVote === UserVote.Happy) {
-      // If the user already voted happy and they are voting again, we are removing
-      // their vote from the happy, so upvotes loses one.
-      newUpvote--;
-    } else if (newVote === UserVote.Happy) {
-      // Else if the current vote was either sad or undefined, and the user just clicked on happy
-      // then upvotes go up
-      newUpvote++;
-    }
-    // if the user did not vote happy and his current vote was not happy upvotes remain the same
-
-    // Downvotes logic
-    let newDownvotes = resource.upVotes;
-    if (resource?.userVote === UserVote.Sad) {
-      // If the user already voted happy and they are voting again, we are removing
-      // their vote from the happy, so upvotes loses one.
-      newDownvotes--;
-    } else if (newVote === UserVote.Sad) {
-      // Else if the current vote was either sad or undefined, and the user just clicked on happy
-      // then upvotes go up
-      newDownvotes++;
-    }
-    // if the user did not vote happy and his current vote was not happy upvotes remain the same
-
-    // dopn't remove we might use later
-    const updatedResource: Resource = {
-      id: resource.id,
-      title: resource.title,
-      link: resource.link,
-      score: newUpvote - newDownvotes,
-      hash: resource.hash,
-      upVotes: newUpvote,
-      downVotes: newDownvotes,
-      userVote: userVote,
-    };
-
-    // send the new resource to the backend and reload the whole page i cannot be bothered to figure something else
+    Service.vote(newVote, resource.id);
   }
   const iconSize = 34;
   return (

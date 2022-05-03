@@ -23,7 +23,7 @@ export class Service {
     const params = { title: title, desc: description, tags: tags };
     return await Moralis.Cloud.run(Service.createLiderbordFunction, params);
   }
-  static async sendVote(userVote: UserVote, resourceID: string) {
+  static async vote(userVote: UserVote, resourceID: string) {
     const currentUser = Moralis.User.current();
     const userID = currentUser?.id;
     Moralis.start({
