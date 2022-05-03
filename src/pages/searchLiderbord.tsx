@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -7,11 +7,29 @@ import { Typography, Stack, Container, Grid, Box } from "@mui/material";
 import FilterItem from "../components/FilterItem";
 import { useNavigate, Navigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
+import { Service } from "../service/service";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
 
   // temporary data for view
+  const [results, setResults] = useState("");
+  const {name} = useParams();
+
+
+  const liderbords = Service.searchLiderbordByName(name ?? "");
+  console.log(liderbords);
+
+  useEffect(()=>{  
+    if(!results){
+      Service.searchLiderbordByName(name ?? "").then((resultats) => {setResults(resultats); console.log(results)}).catch(err => {console.log(err)});
+      
+    }
+ },[]
+  );
+
 
   const liderbord1: Liderbord = {
     id: "111",
@@ -45,7 +63,7 @@ export default function SearchLiderbord(props: any) {
     resources: [],
   };
 
-  const liderbords = [liderbord1, liderbord2, liderbord3];
+  const liderbordsT = [liderbord1, liderbord2, liderbord3];
 
   const filters = ["C++", "Beginner", "Advanced"];
 
@@ -88,7 +106,7 @@ export default function SearchLiderbord(props: any) {
       </Grid>
 
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">
-        {liderbords.map((liderbord, index) => (
+        {liderbordsT.map((liderbord, index) => (
           <LiderbordCard key={index} liderbord={liderbord} />
         ))}
       </Stack>

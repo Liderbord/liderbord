@@ -21,9 +21,8 @@ function HomePage() {
 
 
   async function inputHandler(this: any){
-    const liderbords = await Service.searchLiderbordByName(liderbordName);
-    console.log(liderbords);
-
+  
+    navigate("/search/"+liderbordName);
   };
 
   return (
