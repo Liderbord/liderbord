@@ -16,7 +16,9 @@ export default function NavigationBar() {
     function redirectLogin() {
         navigate('/login');
     }
-   
+    const goToMainPage = () => {
+        navigate("/");
+    };
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -65,7 +67,7 @@ export default function NavigationBar() {
                         >
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
                             <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={logout}>Log out</MenuItem>
+                            <MenuItem onClick={() => {logout();handleClose();goToMainPage();}}>Log out</MenuItem>
                         </Menu>
                         </div>
                     )}

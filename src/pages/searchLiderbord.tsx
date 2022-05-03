@@ -1,4 +1,5 @@
 import React from "react";
+import NavigationBar from "../components/NavigationBar";
 import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -51,19 +52,10 @@ export default function SearchLiderbord(props: any) {
 
   return (
     <Container>
-      <div
-        className="App"
-        style={{
-          margin: "10px 0px",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "left",
-        }}
-      >
-        <img src={liderbordLogo} alt="Liderbord Logo" style={{width:"35%"}} />
-      </div>
+      <NavigationBar/>
+   
 
-      <HappyTextField fullWidth></HappyTextField>
+      <HappyTextField sx={{mt: 15}} fullWidth></HappyTextField>
 
       <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
         <Grid item xs={11}>
