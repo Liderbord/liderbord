@@ -11,6 +11,8 @@ import {
   MenuItem,
   SelectChangeEvent,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import ResourceType, { stringToResourceType } from "../model/resourceType";
@@ -30,31 +32,39 @@ function CreateResource() {
   const [resourceName, setResourceName] = useState("");
   const [resourceType, setResourceType] = useState("");
   const [resourceURL, setURL] = useState("");
+  const [ressourceMarkdown, setRessourceMarkdown] = useState("");
+  const [ressourceAttachement, setRessourceAttachement] = useState("link");
 
-  const [resourceNameError, setResourceNameError] = useState("");
-  const [URLError, setURLError] = useState("");
-  const [resourceTypeError, setResourceTypeError] = useState("");
+  let resourceNameError: string = "", URLError: string = "", markdownError: string = "", resourceTypeError : string = "";
 
   const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);
   };
+  const switchAttachementType = () => {
+    if (ressourceAttachement == "link")setRessourceAttachement("markdown");
+    if (ressourceAttachement == "markdown")setRessourceAttachement("link");
+  }
 
   const submit = async () => {
     if (resourceName === "") {
-      setResourceNameError("Resource Name cannot be empty");
+      resourceNameError = "Resource Name cannot be empty";
     }
-    if (resourceURL === "") {
-      setURLError("URL cannot be empty");
+    if (ressourceAttachement == "link" && resourceURL === "") {
+      URLError = "URL cannot be empty";
+    }
+    if (ressourceAttachement == "markdown" && ressourceMarkdown === ""){
+      markdownError = "Markdown ressource cannot be empty";
     }
     if (resourceType === "") {
-      setResourceTypeError("URL cannot be empty");
+      resourceTypeError = "URL cannot be empty";
     }
-    if (URLError + resourceNameError + resourceTypeError === "") {
+    console.log(URLError + resourceNameError + resourceTypeError + markdownError);
+    if (URLError + resourceNameError + resourceTypeError + markdownError === "") {
       // send the data
       const resource: Resource = {
         id: "",
         title: resourceName,
-        link: resourceURL,
+        link: resourceURL || ressourceMarkdown,
         type: stringToResourceType(resourceType),
         score: 0,
         hash: "",
@@ -110,7 +120,18 @@ function CreateResource() {
             Resources can either be links to another web page, or a markdown
             document you write yourself.
           </Typography>
-          <InputLabel id="resource-type">Resource Type</InputLabel>
+
+          <ToggleButtonGroup
+            color="primary"
+            value={ressourceAttachement}
+            exclusive
+            onChange={switchAttachementType}
+          >
+            <ToggleButton value="link">Link</ToggleButton>
+            <ToggleButton value="markdown">Markdown</ToggleButton>
+          </ToggleButtonGroup>
+          
+          <InputLabel sx={{ margin: "16px 0px" }} id="resource-type">Resource Type</InputLabel>
           <HappySelect
             fullWidth
             value={resourceType}
@@ -125,19 +146,38 @@ function CreateResource() {
             {menuItem(ResourceType.Video)}
           </HappySelect>
         </Box>
-        <Box sx={{ marginBottom: "27px" }}>
-          <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
-            Resource URL
-          </Typography>
-          <HappyTextField
-            fullWidth
-            label="URL"
-            onChange={(e: any) => setURL(e.target.value)}
-            error={URLError !== ""}
-            helperText={URLError}
-          />
-        </Box>
-
+        {ressourceAttachement=="link"&&
+          <Box sx={{ marginBottom: "27px" }}>
+            <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
+              Resource URL
+            </Typography>
+            <HappyTextField
+              fullWidth
+              label="URL"
+              onChange={(e: any) => setURL(e.target.value)}
+              error={URLError !== ""}
+              helperText={URLError}
+            />
+          </Box>
+        }
+        {ressourceAttachement=="markdown"&&
+          <Box sx={{ marginBottom: "27px" }}>
+              <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
+                Resource
+              </Typography>
+              <Typography sx={{ margin: "16px 0px" }}>
+                Pleaser enter your ressource, you can use the Markdown Syntax
+              </Typography>
+              <HappyTextField
+                fullWidth
+                multiline
+                rows={10}
+                onChange={(e: any) => setRessourceMarkdown(e.target.value)}
+                error={markdownError !== ""}
+                helperText={markdownError}
+              />
+            </Box>
+        }
         <Grid
           container
           direction="row"
