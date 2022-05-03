@@ -2,7 +2,6 @@ import Moralis from "moralis";
 import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
 import ResourceType from "../model/resourceType";
-import { useMoralisCloudFunction } from "react-moralis";
 import moralisKeys from "../moralis-keys.json";
 
 export class Service {

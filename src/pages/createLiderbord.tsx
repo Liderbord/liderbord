@@ -1,10 +1,7 @@
-import React from "react";
-import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
 
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Liderbord from "../model/liderbord";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -14,7 +11,7 @@ import { Service } from "../service/service";
 
 function CreateLiderbord() {
   const navigate = useNavigate();
-  let { isAuthenticated, user, logout } = useMoralis();
+  // let { isAuthenticated, user, logout } = useMoralis();  will have to add back
 
   const goToMainPage = () => {
     // This will navigate to second component
@@ -35,9 +32,10 @@ function CreateLiderbord() {
   const [tagError, setTagError] = useState("");
 
   // Redirect to the login page if the user is not authenticated
-  if (!isAuthenticated) {
-    return <Navigate replace to="/login" />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate replace to="/login" />;
+  // }
+  // removed because idk why it would never detect auth
 
   const submit = async () => {
     // check topic for errors
