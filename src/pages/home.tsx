@@ -20,11 +20,7 @@ function HomePage() {
 
   const goToSearchLiderbord = () => {
     navigate("/search");
-  };
-
-  if (!isAuthenticated) {
-    return <Navigate replace to="/login" />;
-  }
+  }; 
 
   const inputHandler = async () => {
     console.log(liderbordName);
