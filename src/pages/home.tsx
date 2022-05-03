@@ -30,6 +30,8 @@ function HomePage() {
 
   const inputHandler = async () => {
     console.log(liderbordName);
+    const liderbords = await Service.searchLiderbordByName(liderbordName);
+    console.log(liderbords);
   };
 
   return (

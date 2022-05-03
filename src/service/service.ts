@@ -38,16 +38,14 @@ export class Service {
     return liderbord;
   }
 
-  static searchLiderbordByName(name: string): Liderbord | undefined {
-    Service.searchLiderbordByNamePrivate(name ?? "").then((value) => {
-      console.log(value);
-      return value;
-    });
-    return;
-  }
 
-  private static async searchLiderbordByNamePrivate(name: string) : Promise<Liderbord>{
-    const liderbords: Liderbord = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction);
+  static async searchLiderbordByName(name: string) : Promise<Liderbord>{
+    Moralis.start({
+      serverUrl: moralisKeys.serverUrl,
+      appId: moralisKeys.appId,
+    });
+    const params = {name: name};
+    const liderbords: Liderbord = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction, params);
     return liderbords;
   }
 
