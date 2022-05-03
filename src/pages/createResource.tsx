@@ -49,20 +49,21 @@ function CreateResource() {
     if (resourceType === "") {
       setResourceTypeError("URL cannot be empty");
     }
-
-    // send the data
-    const resource: Resource = {
-      id: "",
-      title: resourceName,
-      link: resourceURL,
-      type: stringToResourceType(resourceType),
-      score: 0,
-      hash: "",
-      upVotes: 0,
-      downVotes: 0,
-    };
-    await Service.addResource(resource, liderbordID as string);
-    returnToLiderbord();
+    if (URLError + resourceNameError + resourceTypeError === "") {
+      // send the data
+      const resource: Resource = {
+        id: "",
+        title: resourceName,
+        link: resourceURL,
+        type: stringToResourceType(resourceType),
+        score: 0,
+        hash: "",
+        upVotes: 0,
+        downVotes: 0,
+      };
+      await Service.addResource(resource, liderbordID as string);
+      returnToLiderbord();
+    }
   };
   const menuItem = (resourceType: ResourceType) => {
     return (

@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
-import Resource from "../model/resource";
-import ResourceType from "../model/resourceType";
-import UserVote from "../model/userVote";
 import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 
@@ -28,7 +25,6 @@ export default function LiderbordPage() {
     if (!liderbord) {
       Service.getLiderbord(id ?? "")
         .then((lb) => {
-          lb.resources = [res1, res2, res3, res4];
           setLiderbord(lb);
           console.log(lb);
         })
@@ -37,55 +33,6 @@ export default function LiderbordPage() {
         });
     }
   });
-  // fake data
-  const res1: Resource = {
-    id: "1212",
-    title: "Apprenez à programmer en C++",
-    link: "https://www.google.com/search?gs_ssp=eJzj4tTP1TcwMU02T1JgNGB0YPBiS8_PT89JBQBASQXT&q=google&rlz=1C1VDKB_frFR934FR934&oq=google&aqs=chrome.1.69i60j46i131i199i433i465i512j0i131i433i512l2j69i60l3j69i65.1909j0j7&sourceid=chrome&ie=UTF-8",
-    score: 0,
-    type: ResourceType.Document,
-    hash: "hashahshash",
-    upVotes: 317,
-    downVotes: 22,
-    userVote: UserVote.Happy,
-  };
-  const res2: Resource = {
-    id: "1212",
-    title: "Apprenez à programmer en C++",
-    link: "https://www.google.com/search?gs_ssp=eJzj4tTP1TcwMU02T1JgNGB0YPBiS8_PT89JBQBASQXT&q=google&rlz=1C1VDKB_frFR934FR934&oq=google&aqs=chrome.1.69i60j46i131i199i433i465i512j0i131i433i512l2j69i60l3j69i65.1909j0j7&sourceid=chrome&ie=UTF-8",
-    score: 0,
-    type: ResourceType.Image,
-    hash: "hashahshash",
-    upVotes: 24,
-    downVotes: 5,
-    userVote: UserVote.Sad,
-  };
-  const res3: Resource = {
-    id: "1212",
-    title: "Apprenez à programmer en C++",
-    link: "https://www.google.com/search?gs_ssp=eJzj4tTP1TcwMU02T1JgNGB0YPBiS8_PT89JBQBASQXT&q=google&rlz=1C1VDKB_frFR934FR934&oq=google&aqs=chrome.1.69i60j46i131i199i433i465i512j0i131i433i512l2j69i60l3j69i65.1909j0j7&sourceid=chrome&ie=UTF-8",
-    score: 0,
-    type: ResourceType.Video,
-    hash: "hashahshash",
-    upVotes: 20,
-    downVotes: 12,
-  };
-  const res4: Resource = {
-    id: "1212",
-    title: "Apprenez à programmer en C++",
-    link: "https://www.google.com/search?gs_ssp=eJzj4tTP1TcwMU02T1JgNGB0YPBiS8_PT89JBQBASQXT&q=google&rlz=1C1VDKB_frFR934FR934&oq=google&aqs=chrome.1.69i60j46i131i199i433i465i512j0i131i433i512l2j69i60l3j69i65.1909j0j7&sourceid=chrome&ie=UTF-8",
-    score: 0,
-    hash: "hashahshash",
-    upVotes: 20,
-    downVotes: 12,
-  };
-  /**const defaultBord: Liderbord = {
-    id: dbBord?.id ?? "",
-    topic: dbBord?.topic ?? "Topic",
-    description: dbBord?.description ?? "Description of the Liderbord",
-    tags: dbBord?.tags ?? ["tag1", "tag2", "tag3"],
-    resources: [res1, res2, res3, res4],
-  };*/
 
   return (
     <Container>
