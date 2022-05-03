@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { useNavigate, useParams } from "react-router-dom";
 import HappyTextField from "../components/HappyTextField";
 import HappyButton from "../components/HappyButton";
+import NavigationBar from "../components/NavigationBar";
 import {
   Container,
   CssBaseline,
@@ -83,6 +84,7 @@ function CreateResource() {
   };
   return (
     <Container>
+      <NavigationBar/>
       <CssBaseline />
       <Box component="form" autoComplete="off">
         <Typography variant="h1" component="h1" sx={{ margin: "16px 0px" }}>

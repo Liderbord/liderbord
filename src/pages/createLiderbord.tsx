@@ -1,7 +1,7 @@
 import React from "react";
 import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-
+import NavigationBar from "../components/NavigationBar";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
 import Liderbord from "../model/liderbord";
@@ -82,6 +82,7 @@ function CreateLiderbord() {
 
   return (
     <Container>
+    <NavigationBar/>
       <CssBaseline />
       <Box component="form" autoComplete="off">
         <Typography variant="h1" component="h1" sx={{ margin: "16px 0px" }}>
