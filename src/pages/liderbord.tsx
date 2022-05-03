@@ -1,5 +1,6 @@
 import { Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import NavigationBar from "../components/NavigationBar";
 import HappyButton from "../components/HappyButton";
 import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
@@ -36,6 +37,7 @@ export default function LiderbordPage() {
 
   return (
     <Container>
+      <NavigationBar/>
       <CssBaseline />
 
       <Grid
@@ -43,7 +45,7 @@ export default function LiderbordPage() {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ margin: "7px 0px" }}
+        sx={{ margin: "7px 0px" , marginTop: 15}}
       >
         <Grid item>
           <Typography variant="h1" component="h1">
