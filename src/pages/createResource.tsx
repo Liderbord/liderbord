@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { useNavigate, useParams } from "react-router-dom";
 import HappyTextField from "../components/HappyTextField";
@@ -35,7 +35,10 @@ function CreateResource() {
   const [ressourceMarkdown, setRessourceMarkdown] = useState("");
   const [ressourceAttachement, setRessourceAttachement] = useState("link");
 
-  let resourceNameError: string = "", URLError: string = "", markdownError: string = "", resourceTypeError : string = "";
+  const [resourceNameError, setResourceNameError] = useState("");
+  const [URLError, setURLError] = useState("");
+  const [markdownError, setMarkdownError] = useState("");
+  const [resourceTypeError, setResourceTypeError] = useState("");
 
   const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);
@@ -45,20 +48,30 @@ function CreateResource() {
     if (ressourceAttachement == "markdown")setRessourceAttachement("link");
   }
 
-  const submit = async () => {
+  useEffect(() => {
     if (resourceName === "") {
-      resourceNameError = "Resource Name cannot be empty";
+      setResourceNameError("Resource Name cannot be empty");
+    } else {
+      setResourceNameError("");
     }
     if (ressourceAttachement == "link" && resourceURL === "") {
-      URLError = "URL cannot be empty";
+      setURLError("URL cannot be empty");
+    } else {
+      setURLError("");
     }
     if (ressourceAttachement == "markdown" && ressourceMarkdown === ""){
-      markdownError = "Markdown ressource cannot be empty";
+      setMarkdownError("Markdown ressource cannot be empty");
+    } else {
+      setMarkdownError("");
     }
     if (resourceType === "") {
-      resourceTypeError = "URL cannot be empty";
+      setResourceTypeError("URL cannot be empty");
+    } else {
+      setResourceTypeError("");
     }
-    console.log(URLError + resourceNameError + resourceTypeError + markdownError);
+  });
+
+  const submit = async () => {
     if (URLError + resourceNameError + resourceTypeError + markdownError === "") {
       // send the data
       const resource: Resource = {
@@ -74,7 +87,8 @@ function CreateResource() {
       await Service.addResource(resource, liderbordID as string);
       returnToLiderbord();
     }
-  };
+  }
+
   const menuItem = (resourceType: ResourceType) => {
     return (
       <MenuItem value={resourceType}>
