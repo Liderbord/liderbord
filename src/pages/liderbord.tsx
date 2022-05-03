@@ -94,7 +94,7 @@ export default function LiderbordPage() {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ margin: "7px 0px" }}
+        sx={{ margin: "7px 0px" , marginTop: 15}}
       >
         <Grid item>
           <Typography variant="h1" component="h1">
