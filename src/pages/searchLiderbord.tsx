@@ -15,20 +15,20 @@ export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
 
   // temporary data for view
-  const [results, setResults] = useState("");
+  const [results, setResults] = useState<Liderbord[]>();
   const {name} = useParams();
 
 
-  const liderbords = Service.searchLiderbordByName(name ?? "");
-  console.log(liderbords);
-
   useEffect(()=>{  
-    if(!results){
-      Service.searchLiderbordByName(name ?? "").then((resultats) => {setResults(resultats); console.log(results)}).catch(err => {console.log(err)});
-      
-    }
- },[]
+    const loadLiderbords = async () => {
+      await Service.searchLiderbordByName(name ?? "").then((response) => setResults(response));
+    };
+    loadLiderbords(); 
+    
+ },[name]
   );
+  console.log(results);
+
 
 
   const liderbord1: Liderbord = {
@@ -62,6 +62,20 @@ export default function SearchLiderbord(props: any) {
     nbResources: 25,
     resources: [],
   };
+
+  const liderbords : Liderbord[] = [];
+
+  results?.map((obj, index) => {
+    let term = obj;
+    const data: Liderbord = {
+        id: "113",
+        topic: term.topic,
+        description: term.description, 
+        tags: term.tags, 
+        resources: [],
+    };
+    liderbords.push(data);
+})
 
   const liderbordsT = [liderbord1, liderbord2, liderbord3];
 
@@ -106,7 +120,7 @@ export default function SearchLiderbord(props: any) {
       </Grid>
 
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">
-        {liderbordsT.map((liderbord, index) => (
+        {liderbords.map((liderbord, index) => (
           <LiderbordCard key={index} liderbord={liderbord} />
         ))}
       </Stack>
