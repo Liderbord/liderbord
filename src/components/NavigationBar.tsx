@@ -1,58 +1,49 @@
 import {AppBar, Container, Button, Avatar, Typography, Toolbar, Tooltip, IconButton, Menu, Box, MenuItem} from '@mui/material';
+import { logDOM } from '@testing-library/react';
 import { useState } from 'react';
+import liderbordLogo from "../res/tinyLogo.png";
+import { useMoralis } from "react-moralis";
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function NavigationBar() {
+    let { isAuthenticated, logout, user } = useMoralis();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-      };
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return(
-        <AppBar>
+        <AppBar position="absolute" style={{ background: 'transparent', boxShadow: 'none'}}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                    >
-                    LOGO
-                    </Typography>
+                <Toolbar >
+                    
+                    
+                    <Box sx={{ flexGrow: 1, mt: 3, display: { xs: 'none', md: 'flex' } }}>
+                        <div className="container">
+                            <img height={30} width={200} src={liderbordLogo} alt="liderbord Logo" />
+                        </div>
+                    </Box>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    {isAuthenticated && (
+                        <div>
                         <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        color="inherit"
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
                         >
-                        </IconButton>
-                    </Box>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-                    >
-                        LOGO
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    </Box>
-
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton sx={{ p: 0 }}>
                             <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
+                        </IconButton>
                         <Menu
-                            sx={{ mt: '45px' }}
                             id="menu-appbar"
+                            anchorEl={anchorEl}
                             anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'right',
@@ -62,15 +53,15 @@ export default function NavigationBar() {
                             vertical: 'top',
                             horizontal: 'right',
                             }}
-                            open={Boolean(anchorElUser)}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem onClick={logout}>Log out</MenuItem>
                         </Menu>
-                    </Box>
+                        </div>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

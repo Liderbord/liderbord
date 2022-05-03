@@ -10,7 +10,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
   const [liderbordName, setLiderbordName] = useState("");
-  let { isAuthenticated } = useMoralis();
+  let { isAuthenticated, logout, user } = useMoralis();
   const navigate = useNavigate();
 
   const goToCreateLiderbord = () => {
@@ -33,6 +33,7 @@ function HomePage() {
 
   return (
     <Container>
+      <NavigationBar/>
       <div
         className="App"
         style={{
