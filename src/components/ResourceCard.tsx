@@ -8,6 +8,7 @@ import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
 import { Service } from "../service/service";
+import { useNavigate } from "react-router-dom";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -50,10 +51,18 @@ const BoldLink = styled(Link)`
 export default function ResourceCard({
   rank,
   resource,
+  liderbordID,
 }: {
   rank: number;
   resource: Resource;
+  liderbordID: string;
 }) {
+  const navigate = useNavigate();
+  const returnToLiderbord = () => {
+    // This will navigate to second component
+    navigate("/l/" + liderbordID);
+  };
+
   function updateUserVote(newVote: UserVote) {
     Service.vote(newVote, resource.id);
   }
@@ -76,24 +85,6 @@ export default function ResourceCard({
         <Stack direction="row" spacing={2} sx={{ marginRight: "24px" }}>
           <Box>
             <VoteButton
-              size="small"
-              disableRipple={true}
-              onClick={() => {
-                updateUserVote(UserVote.Sad);
-              }}
-            >
-              <SadIcon width={iconSize} height={iconSize} />
-            </VoteButton>
-            {resource?.userVote === UserVote.Sad ? (
-              <Typography variant="body2" align="center">
-                {resource.downVotes}
-              </Typography>
-            ) : (
-              <Typography align="center">{resource.downVotes}</Typography>
-            )}
-          </Box>
-          <Box>
-            <VoteButton
               disableRipple={true}
               size="small"
               onClick={() => {
@@ -108,6 +99,24 @@ export default function ResourceCard({
               </Typography>
             ) : (
               <Typography align="center">{resource.upVotes}</Typography>
+            )}
+          </Box>
+          <Box>
+            <VoteButton
+              size="small"
+              disableRipple={true}
+              onClick={() => {
+                updateUserVote(UserVote.Sad);
+              }}
+            >
+              <SadIcon width={iconSize} height={iconSize} />
+            </VoteButton>
+            {resource?.userVote === UserVote.Sad ? (
+              <Typography variant="body2" align="center">
+                {resource.downVotes}
+              </Typography>
+            ) : (
+              <Typography align="center">{resource.downVotes}</Typography>
             )}
           </Box>
         </Stack>
