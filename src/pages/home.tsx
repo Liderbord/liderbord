@@ -1,4 +1,5 @@
 import React from "react";
+import Moralis from "moralis";
 import { useMoralis } from "react-moralis";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -18,20 +19,11 @@ function HomePage() {
     navigate("/create-liderbord");
   };
 
-  const goToSearchLiderbord = async () => {
-    //navigate("/search");
-    const liderbords = await Service.searchLiderbordByName("liderbord");
-    console.log(liderbords);
-  };
 
-  if (!isAuthenticated) {
-    return <Navigate replace to="/login" />;
-  }
-
-  const inputHandler = async () => {
-    console.log(liderbordName);
+  async function inputHandler(this: any){
     const liderbords = await Service.searchLiderbordByName(liderbordName);
     console.log(liderbords);
+
   };
 
   return (

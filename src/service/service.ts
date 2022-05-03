@@ -39,13 +39,14 @@ export class Service {
   }
 
 
-  static async searchLiderbordByName(name: string) : Promise<Liderbord>{
+  static async searchLiderbordByName(name: string) : Promise<any>{
     Moralis.start({
       serverUrl: moralisKeys.serverUrl,
       appId: moralisKeys.appId,
     });
+    
     const params = {name: name};
-    const liderbords: Liderbord = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction, params);
+    const liderbords: any = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction, params);
     return liderbords;
   }
 
