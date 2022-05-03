@@ -1,4 +1,16 @@
-import { Box, Grid, IconButton, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import Resource from "../model/resource";
@@ -9,6 +21,9 @@ import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
 import { Service } from "../service/service";
 import { useNavigate } from "react-router-dom";
+import HappyButton from "./HappyButton";
+import { useState } from "react";
+import HappyTextField from "./HappyTextField";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -63,12 +78,50 @@ export default function ResourceCard({
     navigate("/l/" + liderbordID);
   };
 
-  function updateUserVote(newVote: UserVote) {
-    Service.vote(newVote, resource.id);
+  // dialog variables
+  const [open, setOpen] = useState(false);
+  const [userVote, setUserVote] = useState(UserVote.Happy);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  async function updateUserVote(newVote: UserVote) {
+    handleClose();
+    await Service.vote(newVote, resource.id);
   }
+
   const iconSize = 34;
   return (
     <CardContainer sx={{ minHeight: "96px" }}>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm you like this resource?"}
+        </DialogTitle>
+        <DialogContent>
+          <HappyTextField label="Commments"></HappyTextField>
+        </DialogContent>
+        <DialogActions>
+          <HappyButton onClick={handleClose}>Cancel</HappyButton>
+          <HappyButton
+            onClick={() => {
+              updateUserVote(userVote);
+            }}
+            autoFocus
+          >
+            Agree (1 HC)
+          </HappyButton>
+        </DialogActions>
+      </Dialog>
       <Grid
         container
         direction="row"
@@ -88,7 +141,8 @@ export default function ResourceCard({
               disableRipple={true}
               size="small"
               onClick={() => {
-                updateUserVote(UserVote.Happy);
+                setUserVote(UserVote.Happy);
+                handleClickOpen();
               }}
             >
               <HappyIcon width={iconSize} height={iconSize} />
@@ -106,7 +160,8 @@ export default function ResourceCard({
               size="small"
               disableRipple={true}
               onClick={() => {
-                updateUserVote(UserVote.Sad);
+                setUserVote(UserVote.Sad);
+                handleClickOpen();
               }}
             >
               <SadIcon width={iconSize} height={iconSize} />
