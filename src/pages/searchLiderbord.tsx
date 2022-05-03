@@ -42,27 +42,6 @@ export default function SearchLiderbord(props: any) {
     resources: [],
   };
 
-  const liderbord2: Liderbord = {
-    id: "112",
-    topic: "BEGINNER C++",
-    description:
-      "Best introduction to C++, for people that have never programmed",
-    tags: ["programming", "beginner", "C++"],
-    nbVotes: 400,
-    nbResources: 25,
-    resources: [],
-  };
-
-  const liderbord3: Liderbord = {
-    id: "113",
-    topic: "TESTING IN C++",
-    description: "Best testing frameworks on C++, best way to test your code",
-    tags: ["programming", "advanced", "C++", "testing"],
-    nbVotes: 300,
-    nbResources: 25,
-    resources: [],
-  };
-
   const liderbords : Liderbord[] = [];
 
   results?.map((obj, index) => {
@@ -73,11 +52,10 @@ export default function SearchLiderbord(props: any) {
         description: term.description, 
         tags: term.tags, 
         resources: [],
+        nbResources: term.nbResources,
     };
     liderbords.push(data);
 })
-
-  const liderbordsT = [liderbord1, liderbord2, liderbord3];
 
   const filters = ["C++", "Beginner", "Advanced"];
 
