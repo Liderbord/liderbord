@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import HappyButton from "./HappyButton";
 import { useState } from "react";
 import HappyTextField from "./HappyTextField";
+import VoteDialog from "./VoteDialog";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -93,26 +94,33 @@ export default function ResourceCard({
   async function updateUserVote(newVote: UserVote) {
     handleClose();
     await Service.vote(newVote, resource.id);
+    returnToLiderbord();
   }
 
   const iconSize = 34;
   return (
     <CardContainer sx={{ minHeight: "96px" }}>
-      <Dialog
+      <VoteDialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm you like this resource?"}
-        </DialogTitle>
-        <DialogContent>
-          <HappyTextField label="Commments"></HappyTextField>
+        <DialogContent sx={{ padding: "32px" }}>
+          <Typography variant="h2" sx={{ marginBottom: "16px" }}>
+            {"Confirm you " +
+              (userVote === UserVote.Sad ? "dis" : "") +
+              "like this resource?"}
+          </Typography>
+          <Typography variant="h3">Add a comment</Typography>
+          <HappyTextField fullWidth multiline rows={2} label="Commments" />
         </DialogContent>
         <DialogActions>
-          <HappyButton onClick={handleClose}>Cancel</HappyButton>
+          <HappyButton color="info" onClick={handleClose}>
+            Cancel
+          </HappyButton>
           <HappyButton
+            color="primary"
             onClick={() => {
               updateUserVote(userVote);
             }}
@@ -121,7 +129,7 @@ export default function ResourceCard({
             Agree (1 HC)
           </HappyButton>
         </DialogActions>
-      </Dialog>
+      </VoteDialog>
       <Grid
         container
         direction="row"
