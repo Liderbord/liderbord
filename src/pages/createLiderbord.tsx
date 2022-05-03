@@ -83,7 +83,7 @@ function CreateLiderbord() {
     <NavigationBar/>
       <CssBaseline />
       <Box component="form" autoComplete="off">
-        <Typography variant="h1" component="h1" sx={{ margin: "16px 0px" }}>
+        <Typography variant="h1" component="h1" sx={{ margin: "16px 0px", marginTop: 15 }}>
           New Liderbord
         </Typography>
         <Box sx={{ marginBottom: "27px" }}>
