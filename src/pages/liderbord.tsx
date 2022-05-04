@@ -76,18 +76,15 @@ export default function LiderbordPage() {
       <Typography sx={{ margin: "7px 0px" }}>
         {liderbord?.description}
       </Typography>
-      <Stack spacing={5} direction="row">
-        <Stack spacing={2} sx={{ marginTop: "28px" }}>
-          {liderbord?.resources?.map((resource, index) => (
-            <ResourceCard
-              key={"ressource_" + index}
-              rank={index + 1}
-              resource={resource}
-              liderbordID={id as string}
-            />
-          ))}
-        </Stack>
-        <Typography sx={{ margin: "7px 0px" }}>COUCOU</Typography>
+      <Stack spacing={2} sx={{ marginTop: "28px" }}>
+        {liderbord?.resources?.map((resource, index) => (
+          <ResourceCard
+            key={"ressource_" + index}
+            rank={index + 1}
+            resource={resource}
+            liderbordID={id as string}
+          />
+        ))}
       </Stack>
     </Container>
   );
