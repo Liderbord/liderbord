@@ -94,7 +94,7 @@ export default function ResourceCard({
   async function updateUserVote(newVote: UserVote) {
     handleClose();
     await Service.vote(newVote, resource.id);
-    returnToLiderbord();
+    window.location.reload();
   }
 
   const iconSize = 34;
