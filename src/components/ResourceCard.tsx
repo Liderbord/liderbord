@@ -66,11 +66,13 @@ export default function ResourceCard({
   resource,
   liderbordID,
   commentUpdate,
+  highlighted,
 }: {
   rank: number;
   resource: Resource;
   liderbordID: string;
   commentUpdate: Function;
+  highlighted?: boolean;
 }) {
   /*const navigate = useNavigate();
   const returnToLiderbord = () => {
@@ -96,7 +98,18 @@ export default function ResourceCard({
 
   const iconSize = 34;
   return (
-    <CardContainer sx={{ minHeight: "96px" }}>
+    <CardContainer
+      sx={
+        highlighted
+          ? {
+              border: 4,
+              alignItems: "center",
+              borderColor: "#384A6E",
+              minHeight: "96px",
+            }
+          : { minHeight: "96px" }
+      }
+    >
       <VoteDialog
         open={open}
         onClose={handleClose}

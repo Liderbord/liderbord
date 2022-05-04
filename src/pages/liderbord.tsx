@@ -104,6 +104,7 @@ export default function LiderbordPage() {
                 resource={resource}
                 liderbordID={id as string}
                 commentUpdate={updateCommentSection}
+                highlighted={resource.id === commentResource?.id}
               />
             ))}
           </Stack>
@@ -111,10 +112,10 @@ export default function LiderbordPage() {
 
         {commentResource !== undefined ? (
           <Grid item xs={4}>
-            <Typography sx={{ pd: 10 }} variant="h2">
-              Comments
-            </Typography>
             <Stack spacing={2}>
+              <Typography sx={{ pd: 10 }} variant="h2">
+                Comments
+              </Typography>
               {commentResource?.comments.length > 0 ? (
                 commentResource.comments.map((comment, index) => {
                   return (
