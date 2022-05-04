@@ -1,10 +1,7 @@
-import React from "react";
-import { useMoralis } from "react-moralis";
 import Box from "@mui/material/Box";
-
+import NavigationBar from "../components/NavigationBar";
 import { useNavigate, Navigate } from "react-router-dom";
-import { useState } from "react";
-import Liderbord from "../model/liderbord";
+import { useState, useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -14,7 +11,7 @@ import { Service } from "../service/service";
 
 function CreateLiderbord() {
   const navigate = useNavigate();
-  let { isAuthenticated, user, logout } = useMoralis();
+  // let { isAuthenticated, user, logout } = useMoralis();  will have to add back
 
   const goToMainPage = () => {
     // This will navigate to second component
@@ -27,48 +24,61 @@ function CreateLiderbord() {
 
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
-  const [tags, setTag] = useState("");
+  const [tagsArray, setTagsArray] = useState<string[]>([]);
 
   // Error flags
   const [topicError, setTopicError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
   const [tagError, setTagError] = useState("");
 
-  // Redirect to the login page if the user is not authenticated
-  if (!isAuthenticated) {
-    return <Navigate replace to="/login" />;
+
+  const updateTags = (tags: string) => {
+    // parse and check tags for errors
+    let tagsArr: string[] = tags.split("#");
+    tagsArr.forEach((element, index) => {
+      tagsArr[index] = element.trim();
+    });
+    // remove the first argument which is always an empty string
+    tagsArr.shift();
+    setTagsArray(tagsArr);
   }
 
-  const submit = async () => {
-    // check topic for errors
+  const updateErrors = (): boolean => {
+    let error = false;
     if (topic === "") {
       setTopicError("Topic cannot be empty");
+      error = true;
     }
     if (topic.length > 50) {
       setTopicError("Topic must be below 50 characters");
+      error = true;
     }
-
+    if (topic !== "" && topic.length <= 50){
+      setTopicError("");
+    }
     // check description for errors
     if (description.length < 10) {
       setDescriptionError("Description must be at least 10 characters");
+      error = true;
+    } else {
+      setDescriptionError("");
     }
-
-    // parse and check tags for errors
-    let tagsArray: string[] = tags.split("#");
-    tagsArray.forEach((element, index) => {
-      tagsArray[index] = element.trim();
-    });
-    // remove the first argument which is always an empty string
-    tagsArray.shift();
     if (tagsArray.includes("")) {
       setTagError("Tags cannot have an empty value");
+      error = true;
     }
     if (tagsArray.length < 3) {
       setTagError("You must include at least 3 tags");
+      error = true;
     }
-
+    if (!tagsArray.includes("") && tagsArray.length >= 3) {
+      setTagError("");
+    }
+    return error;
+  };
+ 
+  const submit = async () => {    
     const params = { topic: topic, desc: description, tags: tagsArray };
-    console.log(params);
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
       const id: string = await Service.createLiderbord(
@@ -82,9 +92,10 @@ function CreateLiderbord() {
 
   return (
     <Container>
+    <NavigationBar/>
       <CssBaseline />
       <Box component="form" autoComplete="off">
-        <Typography variant="h1" component="h1" sx={{ margin: "16px 0px" }}>
+        <Typography variant="h1" component="h1" sx={{ margin: "16px 0px", marginTop: 15 }}>
           New Liderbord
         </Typography>
         <Box sx={{ marginBottom: "27px" }}>
@@ -132,7 +143,7 @@ function CreateLiderbord() {
           <HappyTextField
             fullWidth
             label="Tags"
-            onChange={(e: any) => setTag(e.target.value)}
+            onChange={(e: any) => {updateTags(e.target.value)}}
             error={tagError !== ""}
             helperText={tagError}
           />
@@ -151,7 +162,12 @@ function CreateLiderbord() {
           >
             Cancel
           </HappyButton>
-          <HappyButton color="secondary" variant="contained" onClick={submit}>
+          <HappyButton color="secondary" variant="contained" onClick={() => {
+            const error = updateErrors();
+            if (!error) {
+              submit();
+            }
+          }}>
             Submit
           </HappyButton>
         </Grid>

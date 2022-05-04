@@ -1,8 +1,6 @@
 import Moralis from "moralis";
 import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
-import ResourceType from "../model/resourceType";
-import { useMoralisCloudFunction } from "react-moralis";
 import moralisKeys from "../moralis-keys.json";
 
 export class Service {
@@ -57,10 +55,7 @@ export class Service {
       title: resource.title,
       link: resource.link,
       markdown: "",
-      format:
-        resource.type ?? resource.link === ""
-          ? ResourceType.Document
-          : ResourceType.Link,
+      type: resource.type,
       liderbordID: liderbordID,
       userID: userID,
     };

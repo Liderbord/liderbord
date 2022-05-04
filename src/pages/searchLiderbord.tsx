@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
+import NavigationBar from "../components/NavigationBar";
 import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box, Link } from "@mui/material";
 import FilterItem from "../components/FilterItem";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { Service } from "../service/service";
 import { useParams } from "react-router-dom";
@@ -54,19 +55,10 @@ export default function SearchLiderbord(props: any) {
 
   return (
     <Container>
-      <div
-        className="App"
-        style={{
-          margin: "10px 0px",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "left",
-        }}
-      >
-        <img src={liderbordLogo} alt="Liderbord Logo" style={{width:"35%"}} />
-      </div>
+      <NavigationBar/>
+   
 
-      <HappyTextField fullWidth></HappyTextField>
+      <HappyTextField sx={{mt: 15}} fullWidth></HappyTextField>
 
       <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
         <Grid item xs={11}>
@@ -84,7 +76,7 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton color="secondary" variant="contained" sx={{}} onClick={goToCreateLiderbord}>
+          <HappyButton onClick={() => navigate("/create-liderbord")} color="secondary" variant="contained" sx={{}}>
             + Create a Liderbord
           </HappyButton>
         </Grid>

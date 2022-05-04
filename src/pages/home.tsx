@@ -1,17 +1,18 @@
 import React from "react";
 import Moralis from "moralis";
 import { useMoralis } from "react-moralis";
-import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import { useState } from "react";
 import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import HappyButton from "../components/HappyButton";
+import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { Service } from "../service/service";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
   const [liderbordName, setLiderbordName] = useState("");
-  let { isAuthenticated, logout } = useMoralis();
+  let { isAuthenticated, logout, user } = useMoralis();
   const navigate = useNavigate();
 
   const goToCreateLiderbord = () => {
@@ -19,16 +20,18 @@ function HomePage() {
     navigate("/create-liderbord");
   };
 
+  const goToSearchLiderbord = () => {
+    navigate("/search");
+  }; 
 
-  async function inputHandler(this: any){
-  
-    navigate("/search/"+liderbordName);
+  const inputHandler = async () => {
+    console.log(liderbordName);
+    goToSearchLiderbord();
   };
-
-
 
   return (
     <Container>
+      <NavigationBar/>
       <div
         className="App"
         style={{
@@ -43,18 +46,18 @@ function HomePage() {
 
       <HappyTextField
         fullWidth
-        label=""
+        label="Enter a topic"
         onChange={(e: any) => setLiderbordName(e.target.value)}
       />
 
       <Grid
         container
         justifyContent="center"
-        rowSpacing={9}
         columns={10}
+        spacing={4}
         sx={{ mt: "10px" }}
       >
-        <Grid item xs={3}>
+        <Grid item>
           <HappyButton
             color="secondary"
             variant="contained"
@@ -64,8 +67,12 @@ function HomePage() {
           </HappyButton>
         </Grid>
 
-        <Grid item xs={3}>
-          <HappyButton color="info" variant="contained" onClick={goToCreateLiderbord}>
+        <Grid item>
+          <HappyButton
+            color="info"
+            variant="contained"
+            onClick={goToCreateLiderbord}
+          >
             + Create a Liderbord
           </HappyButton>
         </Grid>
