@@ -79,9 +79,11 @@ export default function ResourceCard({
     navigate("/l/" + liderbordID);
   };
 
+
   // dialog variables
   const [open, setOpen] = useState(false);
   const [userVote, setUserVote] = useState(UserVote.Happy);
+  const [comment, setComment] = useState(undefined);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -93,7 +95,8 @@ export default function ResourceCard({
 
   async function updateUserVote(newVote: UserVote) {
     handleClose();
-    await Service.vote(newVote, resource.id);
+    await Service.vote(newVote, resource.id, comment);
+    setComment(undefined);
     window.location.reload();
   }
 
@@ -113,7 +116,13 @@ export default function ResourceCard({
               "like this resource?"}
           </Typography>
           <Typography variant="h3">Add a comment</Typography>
-          <HappyTextField fullWidth multiline rows={2} label="Commments" />
+          <HappyTextField
+            onChange={(e: any) => setComment(e.target.value)}
+            fullWidth
+            multiline
+            rows={2}
+            label="Commments"
+          />
         </DialogContent>
         <DialogActions>
           <HappyButton color="info" onClick={handleClose}>
