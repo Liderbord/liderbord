@@ -86,6 +86,7 @@ export default function LiderbordPage() {
                 key={"ressource_" + index}
                 rank={index + 1}
                 resource={resource}
+                liderbordID={id as string}
               />
             ))}
           </Stack>
