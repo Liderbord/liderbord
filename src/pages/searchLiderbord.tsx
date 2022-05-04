@@ -29,6 +29,11 @@ export default function SearchLiderbord(props: any) {
   );
   console.log(results);
 
+  const goToCreateLiderbord = () => {
+    // This will navigate to second component
+    navigate("/create-liderbord");
+  };
+
 
 
   const liderbord1: Liderbord = {
@@ -91,7 +96,7 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton color="secondary" variant="contained" sx={{}}>
+          <HappyButton color="secondary" variant="contained" sx={{}} onClick={goToCreateLiderbord}>
             + Create a Liderbord
           </HappyButton>
         </Grid>
