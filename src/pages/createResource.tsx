@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { useNavigate, useParams } from "react-router-dom";
 import HappyTextField from "../components/HappyTextField";
@@ -12,6 +12,8 @@ import {
   MenuItem,
   SelectChangeEvent,
   Stack,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import ResourceType, { stringToResourceType } from "../model/resourceType";
@@ -27,36 +29,69 @@ function CreateResource() {
     // This will navigate to second component
     navigate("/l/" + liderbordID);
   };
-
   const [resourceName, setResourceName] = useState("");
   const [resourceType, setResourceType] = useState("");
   const [resourceURL, setURL] = useState("");
+  const [ressourceMarkdown, setRessourceMarkdown] = useState("");
+  const [ressourceAttachement, setRessourceAttachement] = useState("link");
 
   const [resourceNameError, setResourceNameError] = useState("");
   const [URLError, setURLError] = useState("");
+  const [markdownError, setMarkdownError] = useState("");
   const [resourceTypeError, setResourceTypeError] = useState("");
 
   const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);
   };
+  const switchAttachementType = () => {
+    if (ressourceAttachement === "link") setRessourceAttachement("markdown");
+    if (ressourceAttachement === "markdown") setRessourceAttachement("link");
+  };
 
-  const submit = async () => {
+  const displayErrors = (): boolean => {
+    let error = false;
     if (resourceName === "") {
       setResourceNameError("Resource Name cannot be empty");
+      error = true;
+    } else {
+      setResourceNameError("");
     }
-    if (resourceURL === "") {
+    if (ressourceAttachement === "link" && resourceURL === "") {
       setURLError("URL cannot be empty");
+      error = true;
+    } else {
+      setURLError("");
     }
-    if (resourceType === "") {
+    if (ressourceAttachement === "markdown" && ressourceMarkdown === "") {
+      setMarkdownError("Markdown ressource cannot be empty");
+      error = true;
+    } else {
+      setMarkdownError("");
+    }
+    if (ressourceAttachement === "link" && resourceType === "") {
       setResourceTypeError("URL cannot be empty");
+      error = true;
+    } else {
+      setResourceTypeError("");
     }
-    if (URLError + resourceNameError + resourceTypeError === "") {
+    return error;
+  };
+
+  const submit = async () => {
+    if (
+      URLError + resourceNameError + resourceTypeError + markdownError ===
+      ""
+    ) {
+      const type: string =
+        ressourceAttachement === "markdown"
+          ? ResourceType.Document
+          : resourceType;
       // send the data
       const resource: Resource = {
         id: "",
         title: resourceName,
-        link: resourceURL,
-        type: stringToResourceType(resourceType),
+        link: resourceURL || ressourceMarkdown,
+        type: stringToResourceType(type),
         score: 0,
         hash: "",
         upVotes: 0,
@@ -66,6 +101,7 @@ function CreateResource() {
       returnToLiderbord();
     }
   };
+
   const menuItem = (resourceType: ResourceType) => {
     return (
       <MenuItem value={resourceType}>
@@ -112,34 +148,72 @@ function CreateResource() {
             Resources can either be links to another web page, or a markdown
             document you write yourself.
           </Typography>
-          <InputLabel id="resource-type">Resource Type</InputLabel>
-          <HappySelect
-            fullWidth
-            value={resourceType}
-            label="Choose a resource type"
-            onChange={onResourceTypeChange}
-            error={resourceTypeError !== ""}
-          >
-            {menuItem(ResourceType.Link)}
-            {menuItem(ResourceType.Audio)}
-            {menuItem(ResourceType.Document)}
-            {menuItem(ResourceType.Image)}
-            {menuItem(ResourceType.Video)}
-          </HappySelect>
-        </Box>
-        <Box sx={{ marginBottom: "27px" }}>
-          <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
-            Resource URL
-          </Typography>
-          <HappyTextField
-            fullWidth
-            label="URL"
-            onChange={(e: any) => setURL(e.target.value)}
-            error={URLError !== ""}
-            helperText={URLError}
-          />
-        </Box>
 
+          <ToggleButtonGroup
+            color="primary"
+            value={ressourceAttachement}
+            exclusive
+            onChange={switchAttachementType}
+          >
+            <ToggleButton value="link">Link</ToggleButton>
+            <ToggleButton value="markdown">Markdown</ToggleButton>
+          </ToggleButtonGroup>
+
+          <InputLabel sx={{ margin: "16px 0px" }} id="resource-type">
+            Resource Type
+          </InputLabel>
+        </Box>
+        {ressourceAttachement === "link" && (
+          <div>
+            <HappySelect
+              fullWidth
+              value={resourceType}
+              label="Choose a resource type"
+              onChange={onResourceTypeChange}
+              error={resourceTypeError !== ""}
+            >
+              {menuItem(ResourceType.Link)}
+              {menuItem(ResourceType.Audio)}
+              {menuItem(ResourceType.Document)}
+              {menuItem(ResourceType.Image)}
+              {menuItem(ResourceType.Video)}
+            </HappySelect>
+            <Box sx={{ marginBottom: "27px" }}>
+              <Typography
+                variant="h2"
+                component="h2"
+                sx={{ margin: "16px 0px" }}
+              >
+                Resource URL
+              </Typography>
+              <HappyTextField
+                fullWidth
+                label="URL"
+                onChange={(e: any) => setURL(e.target.value)}
+                error={URLError !== ""}
+                helperText={URLError}
+              />
+            </Box>
+          </div>
+        )}
+        {ressourceAttachement === "markdown" && (
+          <Box sx={{ marginBottom: "27px" }}>
+            <Typography variant="h2" component="h2" sx={{ margin: "16px 0px" }}>
+              Resource
+            </Typography>
+            <Typography sx={{ margin: "16px 0px" }}>
+              Pleaser enter your ressource, you can use the Markdown Syntax
+            </Typography>
+            <HappyTextField
+              fullWidth
+              multiline
+              rows={10}
+              onChange={(e: any) => setRessourceMarkdown(e.target.value)}
+              error={markdownError !== ""}
+              helperText={markdownError}
+            />
+          </Box>
+        )}
         <Grid
           container
           direction="row"
@@ -153,7 +227,16 @@ function CreateResource() {
           >
             Cancel
           </HappyButton>
-          <HappyButton color="secondary" variant="contained" onClick={submit}>
+          <HappyButton
+            color="secondary"
+            variant="contained"
+            onClick={() => {
+              const isError = displayErrors();
+              if (!isError) {
+                submit();
+              }
+            }}
+          >
             Submit
           </HappyButton>
         </Grid>
