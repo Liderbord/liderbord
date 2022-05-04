@@ -6,8 +6,6 @@ import HappyButton from "../components/HappyButton";
 import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { useNavigate } from "react-router-dom";
-import { Service } from "../service/service";
-import Moralis from "moralis";
 
 function HomePage() {
   const [liderbordName, setLiderbordName] = useState("");
@@ -27,7 +25,7 @@ function HomePage() {
     console.log(liderbordName);
     goToSearchLiderbord();
   };
-  console.log(Moralis.User.current());
+
   return (
     <Container>
       <NavigationBar />
