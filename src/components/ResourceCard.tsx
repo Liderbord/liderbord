@@ -17,12 +17,11 @@ import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
 import { ReactComponent as CommentsIcon } from "../res/icons/comments.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
-import { Service } from "../service/service";
-import { useNavigate } from "react-router-dom";
-import HappyButton from "./HappyButton";
-import { useState } from "react";
-import HappyTextField from "./HappyTextField";
 import VoteDialog from "./VoteDialog";
+import HappyTextField from "./HappyTextField";
+import HappyButton from "./HappyButton";
+import { Service } from "../service/service";
+import { useState } from "react";
 
 const VoteButton = styled(IconButton)`
   :hover {
