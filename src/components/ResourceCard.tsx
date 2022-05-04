@@ -5,10 +5,7 @@ import {
   Link,
   Stack,
   Typography,
-  Dialog,
-  DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -73,12 +70,11 @@ export default function ResourceCard({
   resource: Resource;
   liderbordID: string;
 }) {
-  const navigate = useNavigate();
+  /*const navigate = useNavigate();
   const returnToLiderbord = () => {
     // This will navigate to second component
     navigate("/l/" + liderbordID);
-  };
-
+  };*/
 
   // dialog variables
   const [open, setOpen] = useState(false);

@@ -9,17 +9,16 @@ import {
   Box,
   MenuItem,
 } from "@mui/material";
-import { logDOM } from "@testing-library/react";
 import { useState } from "react";
 import liderbordLogo from "../res/tinyLogo.png";
 import { useMoralis } from "react-moralis";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userIcon from "../res/icons/authent.png";
 import notAuthentIcon from "../res/icons/notAuthent.png";
 import happyCoin from "../res/icons/happycoin.png";
 
 export default function NavigationBar() {
-  let { isAuthenticated, logout, user } = useMoralis();
+  let { isAuthenticated, logout } = useMoralis();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
