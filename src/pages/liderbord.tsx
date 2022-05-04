@@ -92,9 +92,24 @@ export default function LiderbordPage() {
           </Stack>
         </Grid>
 
-        <Grid item xs={4}>
-          <CommentCard comment="prouuuuuuuuuuuuuuuut" vote={UserVote.Happy} />
-        </Grid>
+        {
+          <Grid item xs={4}>
+            <Typography sx={{ pd: 10 }} variant="h2">
+              Comments
+            </Typography>
+            <Stack spacing={2}>
+              {liderbord?.resources[0]?.comments.map((comment, index) => {
+                return (
+                  <CommentCard
+                    key={index}
+                    comment={comment.comment}
+                    vote={comment.vote}
+                  />
+                );
+              })}
+            </Stack>
+          </Grid>
+        }
       </Grid>
     </Container>
   );
