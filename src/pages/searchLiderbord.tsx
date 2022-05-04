@@ -5,12 +5,13 @@ import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box, Link } from "@mui/material";
-import FilterItem from "../components/FilterItem";
+
 import { useNavigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { Service } from "../service/service";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { emitKeypressEvents } from "readline";
 
 
 export default function SearchLiderbord(props: any) {
@@ -18,17 +19,32 @@ export default function SearchLiderbord(props: any) {
 
   const [results, setResults] = useState<Liderbord[]>();
   const {name} = useParams();
-
+  const [liderbordName, setLiderbordName] = useState("");
+  const [keyCode, setKeyCode] = useState("");
+  
+  const keyPress = async (e: any) =>{
+    if(e.keyCode == 13){
+      //await Service.searchLiderbordByName(liderbordName ?? "").then((response) => setResults(response));
+      setKeyCode("13");
+    }
+  }
 
   useEffect(()=>{  
     const loadLiderbords = async () => {
-      await Service.searchLiderbordByName(name ?? "").then((response) => setResults(response));
+      if (!liderbordName){
+        await Service.searchLiderbordByName(name ?? "").then((response) => setResults(response));
+      } else {
+        await Service.searchLiderbordByName(liderbordName ?? "").then((response) => setResults(response));
+        setLiderbordName("");
+        setKeyCode("");
+      }
+      
     };
     loadLiderbords(); 
     
- },[name]
+ },[name, keyCode]
   );
-  console.log(results);
+
 
 
   const liderbords : Liderbord[] = [];
@@ -53,22 +69,10 @@ export default function SearchLiderbord(props: any) {
       <NavigationBar/>
    
 
-      <HappyTextField sx={{mt: 15}} fullWidth></HappyTextField>
+      <HappyTextField sx={{mt: 15}} fullWidth onChange={(e: any) => setLiderbordName(e.target.value)} onKeyDown={keyPress} ></HappyTextField>
 
-      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
-        <Grid item xs={11}>
-          <Typography variant="h6">FILTERS</Typography>
+      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px", ml:"800px" }}>
 
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={5} columns={16}>
-              {filters.map((filter) => (
-                <Grid item xs={4}>
-                  <FilterItem>{filter}</FilterItem>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Grid>
 
         <Grid item xs={5}>
           <HappyButton onClick={() => navigate("/create-liderbord")} color="secondary" variant="contained" sx={{}}>
