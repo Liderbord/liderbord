@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { Service } from "../service/service";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 export default function SearchLiderbord(props: any) {
@@ -29,11 +29,6 @@ export default function SearchLiderbord(props: any) {
  },[name]
   );
   console.log(results);
-
-  const goToCreateLiderbord = () => {
-    // This will navigate to second component
-    navigate("/create-liderbord");
-  };
 
 
   const liderbords : Liderbord[] = [];

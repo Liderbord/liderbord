@@ -21,7 +21,7 @@ function HomePage() {
   };
 
   const goToSearchLiderbord = () => {
-    navigate("/search");
+    navigate("/search/"+liderbordName);
   }; 
 
   const inputHandler = async () => {
