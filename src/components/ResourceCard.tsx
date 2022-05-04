@@ -1,4 +1,13 @@
-import { Box, Grid, IconButton, Link, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Link,
+  Stack,
+  Typography,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import Resource from "../model/resource";
@@ -7,6 +16,12 @@ import { ReactComponent as HappyIcon } from "../res/icons/vote/upvote_icon.svg";
 import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
+import { Service } from "../service/service";
+import { useNavigate } from "react-router-dom";
+import HappyButton from "./HappyButton";
+import { useState } from "react";
+import HappyTextField from "./HappyTextField";
+import VoteDialog from "./VoteDialog";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -49,57 +64,77 @@ const BoldLink = styled(Link)`
 export default function ResourceCard({
   rank,
   resource,
+  liderbordID,
 }: {
   rank: number;
   resource: Resource;
+  liderbordID: string;
 }) {
-  function updateUserVote(newVote: UserVote) {
-    const userVote: UserVote | undefined =
-      resource?.userVote === newVote ? undefined : newVote;
+  /*const navigate = useNavigate();
+  const returnToLiderbord = () => {
+    // This will navigate to second component
+    navigate("/l/" + liderbordID);
+  };*/
 
-    // Upvotes logic
-    let newUpvote = resource.upVotes;
-    if (resource?.userVote === UserVote.Happy) {
-      // If the user already voted happy and they are voting again, we are removing
-      // their vote from the happy, so upvotes loses one.
-      newUpvote--;
-    } else if (newVote === UserVote.Happy) {
-      // Else if the current vote was either sad or undefined, and the user just clicked on happy
-      // then upvotes go up
-      newUpvote++;
-    }
-    // if the user did not vote happy and his current vote was not happy upvotes remain the same
+  // dialog variables
+  const [open, setOpen] = useState(false);
+  const [userVote, setUserVote] = useState(UserVote.Happy);
+  const [comment, setComment] = useState(undefined);
 
-    // Downvotes logic
-    let newDownvotes = resource.upVotes;
-    if (resource?.userVote === UserVote.Sad) {
-      // If the user already voted happy and they are voting again, we are removing
-      // their vote from the happy, so upvotes loses one.
-      newDownvotes--;
-    } else if (newVote === UserVote.Sad) {
-      // Else if the current vote was either sad or undefined, and the user just clicked on happy
-      // then upvotes go up
-      newDownvotes++;
-    }
-    // if the user did not vote happy and his current vote was not happy upvotes remain the same
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    // dopn't remove we might use later
-    const updatedResource: Resource = {
-      id: resource.id,
-      title: resource.title,
-      link: resource.link,
-      score: newUpvote - newDownvotes,
-      hash: resource.hash,
-      upVotes: newUpvote,
-      downVotes: newDownvotes,
-      userVote: userVote,
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    // send the new resource to the backend and reload the whole page i cannot be bothered to figure something else
+  async function updateUserVote(newVote: UserVote) {
+    handleClose();
+    await Service.vote(newVote, resource.id, comment);
+    setComment(undefined);
+    window.location.reload();
   }
+
   const iconSize = 34;
   return (
     <CardContainer sx={{ minHeight: "96px" }}>
+      <VoteDialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent sx={{ padding: "32px" }}>
+          <Typography variant="h2" sx={{ marginBottom: "16px" }}>
+            {"Confirm you " +
+              (userVote === UserVote.Sad ? "dis" : "") +
+              "like this resource?"}
+          </Typography>
+          <Typography variant="h3">Add a comment</Typography>
+          <HappyTextField
+            onChange={(e: any) => setComment(e.target.value)}
+            fullWidth
+            multiline
+            rows={2}
+            label="Commments"
+          />
+        </DialogContent>
+        <DialogActions>
+          <HappyButton color="info" onClick={handleClose}>
+            Cancel
+          </HappyButton>
+          <HappyButton
+            color="primary"
+            onClick={() => {
+              updateUserVote(userVote);
+            }}
+            autoFocus
+          >
+            Agree (1 HC)
+          </HappyButton>
+        </DialogActions>
+      </VoteDialog>
       <Grid
         container
         direction="row"
@@ -116,28 +151,11 @@ export default function ResourceCard({
         <Stack direction="row" spacing={2} sx={{ marginRight: "24px" }}>
           <Box>
             <VoteButton
-              size="small"
-              disableRipple={true}
-              onClick={() => {
-                updateUserVote(UserVote.Sad);
-              }}
-            >
-              <SadIcon width={iconSize} height={iconSize} />
-            </VoteButton>
-            {resource?.userVote === UserVote.Sad ? (
-              <Typography variant="body2" align="center">
-                {resource.downVotes}
-              </Typography>
-            ) : (
-              <Typography align="center">{resource.downVotes}</Typography>
-            )}
-          </Box>
-          <Box>
-            <VoteButton
               disableRipple={true}
               size="small"
               onClick={() => {
-                updateUserVote(UserVote.Happy);
+                setUserVote(UserVote.Happy);
+                handleClickOpen();
               }}
             >
               <HappyIcon width={iconSize} height={iconSize} />
@@ -148,6 +166,25 @@ export default function ResourceCard({
               </Typography>
             ) : (
               <Typography align="center">{resource.upVotes}</Typography>
+            )}
+          </Box>
+          <Box>
+            <VoteButton
+              size="small"
+              disableRipple={true}
+              onClick={() => {
+                setUserVote(UserVote.Sad);
+                handleClickOpen();
+              }}
+            >
+              <SadIcon width={iconSize} height={iconSize} />
+            </VoteButton>
+            {resource?.userVote === UserVote.Sad ? (
+              <Typography variant="body2" align="center">
+                {resource.downVotes}
+              </Typography>
+            ) : (
+              <Typography align="center">{resource.downVotes}</Typography>
             )}
           </Box>
         </Stack>

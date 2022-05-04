@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import NavigationBar from "../components/NavigationBar";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
@@ -31,7 +31,6 @@ function CreateLiderbord() {
   const [descriptionError, setDescriptionError] = useState("");
   const [tagError, setTagError] = useState("");
 
-
   const updateTags = (tags: string) => {
     // parse and check tags for errors
     let tagsArr: string[] = tags.split("#");
@@ -41,7 +40,7 @@ function CreateLiderbord() {
     // remove the first argument which is always an empty string
     tagsArr.shift();
     setTagsArray(tagsArr);
-  }
+  };
 
   const updateErrors = (): boolean => {
     let error = false;
@@ -53,7 +52,7 @@ function CreateLiderbord() {
       setTopicError("Topic must be below 50 characters");
       error = true;
     }
-    if (topic !== "" && topic.length <= 50){
+    if (topic !== "" && topic.length <= 50) {
       setTopicError("");
     }
     // check description for errors
@@ -76,9 +75,8 @@ function CreateLiderbord() {
     }
     return error;
   };
- 
-  const submit = async () => {    
-    const params = { topic: topic, desc: description, tags: tagsArray };
+
+  const submit = async () => {
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
       const id: string = await Service.createLiderbord(
@@ -92,10 +90,14 @@ function CreateLiderbord() {
 
   return (
     <Container>
-    <NavigationBar/>
+      <NavigationBar />
       <CssBaseline />
       <Box component="form" autoComplete="off">
-        <Typography variant="h1" component="h1" sx={{ margin: "16px 0px", marginTop: 15 }}>
+        <Typography
+          variant="h1"
+          component="h1"
+          sx={{ margin: "16px 0px", marginTop: 15 }}
+        >
           New Liderbord
         </Typography>
         <Box sx={{ marginBottom: "27px" }}>
@@ -143,7 +145,9 @@ function CreateLiderbord() {
           <HappyTextField
             fullWidth
             label="Tags"
-            onChange={(e: any) => {updateTags(e.target.value)}}
+            onChange={(e: any) => {
+              updateTags(e.target.value);
+            }}
             error={tagError !== ""}
             helperText={tagError}
           />
@@ -162,12 +166,16 @@ function CreateLiderbord() {
           >
             Cancel
           </HappyButton>
-          <HappyButton color="secondary" variant="contained" onClick={() => {
-            const error = updateErrors();
-            if (!error) {
-              submit();
-            }
-          }}>
+          <HappyButton
+            color="secondary"
+            variant="contained"
+            onClick={() => {
+              const error = updateErrors();
+              if (!error) {
+                submit();
+              }
+            }}
+          >
             Submit
           </HappyButton>
         </Grid>

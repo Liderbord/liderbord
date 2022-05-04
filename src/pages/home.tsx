@@ -1,18 +1,15 @@
-import React from "react";
-import Moralis from "moralis";
 import { useMoralis } from "react-moralis";
 import HappyTextField from "../components/HappyTextField";
 import { useState } from "react";
-import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
-import { Service } from "../service/service";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [liderbordName, setLiderbordName] = useState("");
-  let { isAuthenticated, logout, user } = useMoralis();
+  useMoralis();
   const navigate = useNavigate();
 
   const goToCreateLiderbord = () => {
@@ -21,8 +18,8 @@ function HomePage() {
   };
 
   const goToSearchLiderbord = () => {
-    navigate("/search/"+liderbordName);
-  }; 
+    navigate("/search/" + liderbordName);
+  };
 
   const inputHandler = async () => {
     console.log(liderbordName);
@@ -31,7 +28,7 @@ function HomePage() {
 
   return (
     <Container>
-      <NavigationBar/>
+      <NavigationBar />
       <div
         className="App"
         style={{

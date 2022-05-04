@@ -37,7 +37,7 @@ export default function LiderbordPage() {
 
   return (
     <Container>
-      <NavigationBar/>
+      <NavigationBar />
       <CssBaseline />
 
       <Grid
@@ -45,7 +45,7 @@ export default function LiderbordPage() {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ margin: "7px 0px" , marginTop: 15}}
+        sx={{ margin: "7px 0px", marginTop: 15 }}
       >
         <Grid item>
           <Typography variant="h1" component="h1">
@@ -82,6 +82,7 @@ export default function LiderbordPage() {
             key={"ressource_" + index}
             rank={index + 1}
             resource={resource}
+            liderbordID={id as string}
           />
         ))}
       </Stack>

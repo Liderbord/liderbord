@@ -1,4 +1,3 @@
-import React from "react";
 import NavigationBar from "../components/NavigationBar";
 import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
@@ -7,11 +6,9 @@ import Liderbord from "../model/liderbord";
 import { Typography, Stack, Container, Grid, Box, Link } from "@mui/material";
 import FilterItem from "../components/FilterItem";
 import { useNavigate } from "react-router-dom";
-import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { Service } from "../service/service";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 
 export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
@@ -55,8 +52,7 @@ export default function SearchLiderbord(props: any) {
 
   return (
     <Container>
-      <NavigationBar/>
-   
+      <NavigationBar />
 
       <HappyTextField sx={{mt: 15}} fullWidth onChange={(e: any) => setLiderbordName(e.target.value)} onKeyDown={keyPress} ></HappyTextField>
       <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
@@ -75,7 +71,12 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton onClick={() => navigate("/create-liderbord")} color="secondary" variant="contained" sx={{}}>
+          <HappyButton
+            onClick={() => navigate("/create-liderbord")}
+            color="secondary"
+            variant="contained"
+            sx={{}}
+          >
             + Create a Liderbord
           </HappyButton>
         </Grid>
