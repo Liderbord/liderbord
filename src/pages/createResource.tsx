@@ -96,6 +96,7 @@ function CreateResource() {
         hash: "",
         upVotes: 0,
         downVotes: 0,
+        comments: [],
       };
       await Service.addResource(resource, liderbordID as string);
       returnToLiderbord();

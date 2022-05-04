@@ -85,8 +85,17 @@ export default function ResourceCard({
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  // dopn't remove we might use later
+  const updatedResource: Resource = {
+    id: resource.id,
+    title: resource.title,
+    link: resource.link,
+    score: newUpvote - newDownvotes,
+    hash: resource.hash,
+    upVotes: newUpvote,
+    downVotes: newDownvotes,
+    userVote: userVote,
+    comments: resource.comments,
   };
 
   async function updateUserVote(newVote: UserVote) {

@@ -78,8 +78,8 @@ export default function LiderbordPage() {
       <Typography sx={{ margin: "7px 0px" }}>
         {liderbord?.description}
       </Typography>
-      <Grid container spacing={6} sx={{ marginTop: "28px" }}>
-        <Grid item xs={4} md={8}>
+      <Grid container direction="row" spacing={4} sx={{ marginTop: "28px" }}>
+        <Grid item xs={8}>
           <Stack spacing={2}>
             {liderbord?.resources?.map((resource, index) => (
               <ResourceCard
@@ -90,7 +90,8 @@ export default function LiderbordPage() {
             ))}
           </Stack>
         </Grid>
-        <Grid item xs={3} md={4}>
+
+        <Grid item xs={4}>
           <CommentCard comment="prouuuuuuuuuuuuuuuut" vote={UserVote.Happy} />
         </Grid>
       </Grid>
