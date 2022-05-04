@@ -6,6 +6,8 @@ import ResourceCard from "../components/ResourceCard";
 import Liderbord from "../model/liderbord";
 import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
+import CommentCard from "../components/CommentCard";
+import UserVote from "../model/userVote";
 
 export default function LiderbordPage() {
   const { id } = useParams();
@@ -76,16 +78,22 @@ export default function LiderbordPage() {
       <Typography sx={{ margin: "7px 0px" }}>
         {liderbord?.description}
       </Typography>
-      <Stack spacing={2} sx={{ marginTop: "28px" }}>
-        {liderbord?.resources?.map((resource, index) => (
-          <ResourceCard
-            key={"ressource_" + index}
-            rank={index + 1}
-            resource={resource}
-            liderbordID={id as string}
-          />
-        ))}
-      </Stack>
+      <Grid container spacing={6} sx={{ marginTop: "28px" }}>
+        <Grid item xs={4} md={8}>
+          <Stack spacing={2}>
+            {liderbord?.resources?.map((resource, index) => (
+              <ResourceCard
+                key={"ressource_" + index}
+                rank={index + 1}
+                resource={resource}
+              />
+            ))}
+          </Stack>
+        </Grid>
+        <Grid item xs={3} md={4}>
+          <CommentCard comment="prouuuuuuuuuuuuuuuut" vote={UserVote.Happy} />
+        </Grid>
+      </Grid>
     </Container>
   );
 }
