@@ -14,6 +14,7 @@ import Resource from "../model/resource";
 import CardContainer from "./CardContainer";
 import { ReactComponent as HappyIcon } from "../res/icons/vote/upvote_icon.svg";
 import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
+import { ReactComponent as CommentsIcon } from "../res/icons/comments.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
 import { Service } from "../service/service";
@@ -195,6 +196,12 @@ export default function ResourceCard({
             ) : (
               <Typography align="center">{resource.downVotes}</Typography>
             )}
+          </Box>
+          <Box>
+            <VoteButton disableRipple={true} size="small" onClick={() => {}}>
+              <CommentsIcon width={iconSize} height={iconSize} />
+            </VoteButton>
+            <Typography align="center">{resource.comments.length}</Typography>
           </Box>
         </Stack>
       </Grid>
