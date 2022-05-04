@@ -3,7 +3,7 @@ import LiderbordCard from "../components/LiderbordCardComponent";
 import HappyButton from "../components/HappyButton";
 import HappyTextField from "../components/HappyTextField";
 import Liderbord from "../model/liderbord";
-import { Typography, Stack, Container, Grid, Box } from "@mui/material";
+import { Typography, Stack, Container, Grid, Box, Link } from "@mui/material";
 import FilterItem from "../components/FilterItem";
 import { useNavigate, Navigate } from "react-router-dom";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
@@ -11,8 +11,11 @@ import { Service } from "../service/service";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 
+
 export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
+
+  const [liderbordLink, setLiderbordLink] = useState("");
 
   // temporary data for view
   const [results, setResults] = useState<Liderbord[]>();
@@ -29,25 +32,12 @@ export default function SearchLiderbord(props: any) {
   );
   console.log(results);
 
-
-
-  const liderbord1: Liderbord = {
-    id: "111",
-    topic: "ADVANCED C++",
-    description:
-      "High level C++ courses, these courses should focus only on the more advanced concepts of teh c++ langauge. Basic c++ introductions are not welcome",
-    tags: ["programming", "advanced", "C++"],
-    nbVotes: 2,
-    nbResources: 3,
-    resources: [],
-  };
-
   const liderbords : Liderbord[] = [];
 
   results?.map((obj, index) => {
     let term = obj;
     const data: Liderbord = {
-        id: "113",
+        id: term.id,
         topic: term.topic,
         description: term.description, 
         tags: term.tags, 
@@ -99,7 +89,16 @@ export default function SearchLiderbord(props: any) {
 
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">
         {liderbords.map((liderbord, index) => (
+          <Link
+          underline="none"
+          onClick={() => {
+            navigate("/l/"+liderbord.id);
+          }}>
           <LiderbordCard key={index} liderbord={liderbord} />
+          </Link>
+            
+          
+          
         ))}
       </Stack>
     </Container>
