@@ -17,18 +17,23 @@ export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
 
   const [results, setResults] = useState<Liderbord[]>();
+  const [liderbordName, setLiderbordName] = useState("");
   const {name} = useParams();
 
+  const keyPress = async (e: any) =>{
+    if(e.keyCode === 13){
+      navigate("/search/"+liderbordName);
+    }
+  }
 
   useEffect(()=>{  
     const loadLiderbords = async () => {
       await Service.searchLiderbordByName(name ?? "").then((response) => setResults(response));
     };
     loadLiderbords(); 
-    
  },[name]
   );
-  console.log(results);
+  
 
 
   const liderbords : Liderbord[] = [];
@@ -53,8 +58,7 @@ export default function SearchLiderbord(props: any) {
       <NavigationBar/>
    
 
-      <HappyTextField sx={{mt: 15}} fullWidth></HappyTextField>
-
+      <HappyTextField sx={{mt: 15}} fullWidth onChange={(e: any) => setLiderbordName(e.target.value)} onKeyDown={keyPress} ></HappyTextField>
       <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
         <Grid item xs={11}>
           <Typography variant="h6">FILTERS</Typography>
