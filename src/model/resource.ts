@@ -20,6 +20,8 @@ interface Resource {
   downVotes: number;
   // the vote the user put for that resource (if they voted)
   userVote?: UserVote;
+  // all liderbord comments from the user
+  comments?: string[];
 }
 
 export default Resource;
