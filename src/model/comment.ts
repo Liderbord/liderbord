@@ -1,8 +1,8 @@
 import UserVote from "./userVote";
 
-interface Comment {
+interface UserComment {
   vote: UserVote;
   comment: string;
 }
 
-export default Comment;
+export default UserComment;

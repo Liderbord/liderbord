@@ -1,4 +1,11 @@
-import { Container, CssBaseline, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  CssBaseline,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NavigationBar from "../components/NavigationBar";
 import HappyButton from "../components/HappyButton";
@@ -8,10 +15,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 import CommentCard from "../components/CommentCard";
 import UserVote from "../model/userVote";
+import UserComment from "../model/comment";
+import Resource from "../model/resource";
 
 export default function LiderbordPage() {
   const { id } = useParams();
   const [liderbord, setLiderbord] = useState<Liderbord>();
+  const [commentResource, setCommentResource] = useState<Resource>();
 
   const navigate = useNavigate();
   const goToCreateResource = () => {
@@ -36,7 +46,13 @@ export default function LiderbordPage() {
         });
     }
   });
-
+  const updateCommentSection = (resource: Resource): void => {
+    if (resource.id === commentResource?.id) {
+      setCommentResource(undefined);
+      return;
+    }
+    setCommentResource(resource);
+  };
   return (
     <Container>
       <NavigationBar />
@@ -79,7 +95,7 @@ export default function LiderbordPage() {
         {liderbord?.description}
       </Typography>
       <Grid container direction="row" spacing={4} sx={{ marginTop: "28px" }}>
-        <Grid item xs={8}>
+        <Grid item xs={commentResource ? 8 : 12}>
           <Stack spacing={2}>
             {liderbord?.resources?.map((resource, index) => (
               <ResourceCard
@@ -87,29 +103,36 @@ export default function LiderbordPage() {
                 rank={index + 1}
                 resource={resource}
                 liderbordID={id as string}
+                commentUpdate={updateCommentSection}
               />
             ))}
           </Stack>
         </Grid>
 
-        {
+        {commentResource !== undefined ? (
           <Grid item xs={4}>
             <Typography sx={{ pd: 10 }} variant="h2">
               Comments
             </Typography>
             <Stack spacing={2}>
-              {liderbord?.resources[0]?.comments.map((comment, index) => {
-                return (
-                  <CommentCard
-                    key={index}
-                    comment={comment.comment}
-                    vote={comment.vote}
-                  />
-                );
-              })}
+              {commentResource?.comments.length > 0 ? (
+                commentResource.comments.map((comment, index) => {
+                  return (
+                    <CommentCard
+                      key={index}
+                      comment={comment.comment}
+                      vote={comment.vote}
+                    />
+                  );
+                })
+              ) : (
+                <Typography>No comments for this resource {":("}</Typography>
+              )}
             </Stack>
           </Grid>
-        }
+        ) : (
+          <Box></Box>
+        )}
       </Grid>
     </Container>
   );

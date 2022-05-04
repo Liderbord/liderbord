@@ -65,10 +65,12 @@ export default function ResourceCard({
   rank,
   resource,
   liderbordID,
+  commentUpdate,
 }: {
   rank: number;
   resource: Resource;
   liderbordID: string;
+  commentUpdate: Function;
 }) {
   /*const navigate = useNavigate();
   const returnToLiderbord = () => {
@@ -117,11 +119,8 @@ export default function ResourceCard({
           />
         </DialogContent>
         <DialogActions>
-          <HappyButton color="info" onClick={handleClose}>
-            Cancel
-          </HappyButton>
+          <HappyButton onClick={handleClose}>Cancel</HappyButton>
           <HappyButton
-            color="primary"
             onClick={() => {
               updateUserVote(userVote);
             }}
@@ -184,7 +183,13 @@ export default function ResourceCard({
             )}
           </Box>
           <Box>
-            <VoteButton disableRipple={true} size="small" onClick={() => {}}>
+            <VoteButton
+              disableRipple={true}
+              size="small"
+              onClick={() => {
+                commentUpdate(resource);
+              }}
+            >
               <CommentsIcon width={iconSize} height={iconSize} />
             </VoteButton>
             <Typography align="center">{resource.comments.length}</Typography>
