@@ -15,9 +15,6 @@ import { useState } from "react";
 export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
 
-  const [liderbordLink, setLiderbordLink] = useState("");
-
-  // temporary data for view
   const [results, setResults] = useState<Liderbord[]>();
   const {name} = useParams();
 
@@ -31,6 +28,12 @@ export default function SearchLiderbord(props: any) {
  },[name]
   );
   console.log(results);
+
+  const goToCreateLiderbord = () => {
+    // This will navigate to second component
+    navigate("/create-liderbord");
+  };
+
 
   const liderbords : Liderbord[] = [];
 
@@ -81,7 +84,7 @@ export default function SearchLiderbord(props: any) {
         </Grid>
 
         <Grid item xs={5}>
-          <HappyButton color="secondary" variant="contained" sx={{}}>
+          <HappyButton color="secondary" variant="contained" sx={{}} onClick={goToCreateLiderbord}>
             + Create a Liderbord
           </HappyButton>
         </Grid>
@@ -97,7 +100,6 @@ export default function SearchLiderbord(props: any) {
           <LiderbordCard key={index} liderbord={liderbord} />
           </Link>
             
-          
           
         ))}
       </Stack>
