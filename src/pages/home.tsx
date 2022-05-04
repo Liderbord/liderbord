@@ -25,6 +25,8 @@ function HomePage() {
     navigate("/search/"+liderbordName);
   };
 
+
+
   return (
     <Container>
       <div
@@ -63,7 +65,7 @@ function HomePage() {
         </Grid>
 
         <Grid item xs={3}>
-          <HappyButton color="info" variant="contained">
+          <HappyButton color="info" variant="contained" onClick={goToCreateLiderbord}>
             + Create a Liderbord
           </HappyButton>
         </Grid>
