@@ -7,6 +7,8 @@ export class Service {
   private static createLiderbordFunction: string = "createLiderbord";
   private static createResourceFunction: string = "createResource";
   private static getLiderbordByIdFunction: string = "getLiderbordById";
+  private static searchLiderbordByNameFunction : string = "searchLiderbord";
+  
 
   static async createLiderbord(
     title: string,
@@ -32,6 +34,18 @@ export class Service {
       params
     );
     return liderbord;
+  }
+
+
+  static async searchLiderbordByName(name: string) : Promise<any>{
+    Moralis.start({
+      serverUrl: moralisKeys.serverUrl,
+      appId: moralisKeys.appId,
+    });
+    
+    const params = {name: name};
+    const liderbords: any = await Moralis.Cloud.run(Service.searchLiderbordByNameFunction, params);
+    return liderbords;
   }
 
   static async addResource(resource: Resource, liderbordID: string) {

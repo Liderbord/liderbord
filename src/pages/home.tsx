@@ -1,4 +1,5 @@
 import React from "react";
+import Moralis from "moralis";
 import { useMoralis } from "react-moralis";
 import HappyTextField from "../components/HappyTextField";
 import { useState } from "react";
@@ -6,6 +7,7 @@ import { Typography, Stack, Container, Grid, Box } from "@mui/material";
 import HappyButton from "../components/HappyButton";
 import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
+import { Service } from "../service/service";
 import { useNavigate, Navigate } from "react-router-dom";
 
 function HomePage() {
@@ -19,7 +21,7 @@ function HomePage() {
   };
 
   const goToSearchLiderbord = () => {
-    navigate("/search");
+    navigate("/search/"+liderbordName);
   }; 
 
   const inputHandler = async () => {

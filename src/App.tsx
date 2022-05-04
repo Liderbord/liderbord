@@ -17,7 +17,7 @@ function App() {
           <Route path="/l/:id" element={<LiderbordPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create-liderbord" element={<CreateLiderbord />} />
-          <Route path="/search" element={<SearchLiderbord />} />
+          <Route path="/search/:name" element={<SearchLiderbord />} />
           <Route
             path="/create-resource/:liderbordID"
             element={<CreateResource />}
