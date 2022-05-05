@@ -18,9 +18,11 @@ jobs:
       - name: Check npm version
         run: npm --version
       - name: Install Packages
-        run: npm install --legacy-peer-deps
+        run: npm install --force
       - name: Build page
         run: npm run build
+        env:
+          CI: false
       - name: Deploy
         run: |
           git config --global user.name $user_name
@@ -28,6 +30,7 @@ jobs:
           git remote set-url origin https://${github_token}@github.com/${repository}
           npm run deploy
         env:
+          CI: false
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
@@ -41,4 +44,3 @@ jobs:
           REACT_APP_BICONOMY_API_KEY_BSC_TESTNET: ${{secrets.REACT_APP_BICONOMY_API_KEY_BSC_TESTNET}}
           REACT_APP_BICONOMY_API_KEY_MUMBAI: ${{secrets.REACT_APP_BICONOMY_API_KEY_MUMBAI}}
           REACT_APP_BICONOMY_API_KEY_FUJI: ${{secrets.REACT_APP_BICONOMY_API_KEY_FUJI}}
-          CI: false
