@@ -84,7 +84,12 @@ function CreateLiderbord() {
         description,
         tagsArray
       );
-      goCreatedLiderbordPage(id);
+      console.log(id);
+      if (id){
+        goCreatedLiderbordPage(id);
+      } else {
+        alert("Liderbord déjà présent, veuillez changer de nom de liderbord !");
+      }
     }
   };
 
