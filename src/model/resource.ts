@@ -1,4 +1,4 @@
-import Comment from "./comment";
+import UserComment from "./userComment";
 import ResourceType from "./resourceType";
 import UserVote from "./userVote";
 
@@ -22,7 +22,7 @@ interface Resource {
   // the vote the user put for that resource (if they voted)
   userVote?: UserVote;
   // voter comments on the resource
-  comments: Comment[];
+  comments: UserComment[];
 }
 
 export default Resource;

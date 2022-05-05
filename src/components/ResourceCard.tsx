@@ -88,6 +88,9 @@ export default function ResourceCard({
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   async function updateUserVote(newVote: UserVote) {
     handleClose();

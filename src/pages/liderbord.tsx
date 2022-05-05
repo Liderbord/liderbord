@@ -14,8 +14,6 @@ import Liderbord from "../model/liderbord";
 import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 import CommentCard from "../components/CommentCard";
-import UserVote from "../model/userVote";
-import UserComment from "../model/comment";
 import Resource from "../model/resource";
 
 export default function LiderbordPage() {
