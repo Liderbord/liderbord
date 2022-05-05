@@ -16,33 +16,32 @@ const separatorPoint = (
 
 function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
   return (
-    
-      <CardContainer>
-        <CardContent>
-          <Typography sx={{ mb: 1 }} variant="h2" component="div">
-            {liderbord.topic?.toUpperCase()}
-          </Typography>
-          <div
-            style={{
-              height: '6px',
-              background: '#384A6E',
-              borderRadius: '6px',
-              width: '50%',
-              marginBottom: '5px',
-            }}
-          ></div>
-          <Typography sx={{ display: "inline" }}>
-            {liderbord.tags.map((item, i) => (
-              <b key={i}> #{item} </b>
-            ))}
-            {separatorPoint} {liderbord.nbVotes + " Votes"} {separatorPoint} {liderbord.nbResources + " Resources"}
-          </Typography>
-          <Typography sx={{ mt: 1.5 }} variant="body1">
-            {liderbord.description}
-          </Typography>
-        </CardContent>
-      </CardContainer>
-    
+    <CardContainer sx={{ width: 1000 }}>
+      <CardContent>
+        <Typography sx={{ mb: 1 }} variant="h2" component="div">
+          {liderbord.topic?.toUpperCase()}
+        </Typography>
+        <div
+          style={{
+            height: "6px",
+            background: "#384A6E",
+            borderRadius: "6px",
+            width: "50%",
+            marginBottom: "5px",
+          }}
+        ></div>
+        <Typography sx={{ display: "inline" }}>
+          {liderbord.tags.map((item, i) => (
+            <b key={i}> #{item} </b>
+          ))}
+          {separatorPoint} {liderbord.nbVotes + " Votes"} {separatorPoint}{" "}
+          {liderbord.nbResources + " Resources"}
+        </Typography>
+        <Typography sx={{ mt: 1.5 }} variant="body1">
+          {liderbord.description}
+        </Typography>
+      </CardContent>
+    </CardContainer>
   );
 }
 
