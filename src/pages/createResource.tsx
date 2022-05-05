@@ -43,7 +43,7 @@ function CreateResource() {
   const [resourceTypeError, setResourceTypeError] = useState("");
 
   const { onAddResource, isMetatransactionProcessing, isBiconomyInitialized } =
-    useLiderbordContract({ liderbordName: "liderbords" });
+    useLiderbordContract({ liderbordName: null, userAddress: null });
 
   const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);

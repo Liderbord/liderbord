@@ -21,15 +21,16 @@ import notAuthentIcon from "../res/icons/notAuthent.png";
 import useLiderbordContract from "hooks/useLiderbordContract";
 
 export default function NavigationBar() {
-  let { isAuthenticated, logout, user, authenticate } = useMoralis();
+  let { isAuthenticated, logout, user, authenticate, account } = useMoralis();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [loginUser, setloginUser] = useState(user);
+  const navigate = useNavigate();
   const {
     onClaimHappycoins,
     happycoins,
     isMetatransactionProcessing,
     isBiconomyInitialized,
-  } = useLiderbordContract({ liderbordName: null });
+  } = useLiderbordContract({ liderbordName: null, userAddress: account });
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -116,6 +117,7 @@ export default function NavigationBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
+                <MenuItem>{happycoins} HC</MenuItem>
                 <MenuItem
                   disabled={
                     !isBiconomyInitialized || isMetatransactionProcessing

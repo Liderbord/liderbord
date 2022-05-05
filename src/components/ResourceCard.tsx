@@ -81,9 +81,7 @@ export default function ResourceCard({
   const [userVote, setUserVote] = useState(UserVote.Happy);
   const [comment, setComment] = useState(undefined);
   const { onVoteResource, isMetatransactionProcessing, isBiconomyInitialized } =
-    useLiderbordContract({
-      liderbordName: liderbordID,
-    });
+    useLiderbordContract({ liderbordName: null, userAddress: null });
 
   const handleClickOpen = () => {
     setOpen(true);

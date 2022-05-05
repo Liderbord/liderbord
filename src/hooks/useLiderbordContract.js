@@ -1,12 +1,12 @@
 import { notification } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useParams } from "react";
 import liderbordsContract from "contracts/Liderbords.json";
 import { useMoralis, useChain } from "react-moralis";
 import { useAPIContract } from "hooks/useAPIContract";
 import useBiconomyContext from "hooks/useBiconomyContext";
 import useMetaTransaction from "hooks/useMetaTransaction";
 
-const useLiderbordContract = ({ liderbordName }) => {
+const useLiderbordContract = ({ liderbordName, userAddress }) => {
   const { isInitialized, isWeb3Enabled, account } = useMoralis();
   const { chainId } = useChain();
   const { isBiconomyInitialized } = useBiconomyContext();
@@ -111,14 +111,14 @@ const useLiderbordContract = ({ liderbordName }) => {
       },
     }
   ) => {
-    console.log("getUser");
+    console.log("getUser", userAddress);
     runGetUser({
       params: {
         chain: chainId,
         function_name: "getUser",
         abi,
         address: contractAddress,
-        params: { _user: account },
+        params: { _user: userAddress },
       },
       onSuccess,
       onError,
@@ -139,9 +139,8 @@ const useLiderbordContract = ({ liderbordName }) => {
   ) => {
     onSubmitMetaTransaction({
       instruction: contract.methods.addResource(link, liderbordNames),
-      onConfirmation: async () => {
+      onConfirmation: () => {
         onSuccess();
-        await onGetLiderbord();
         notification.success({
           message: "Resource added successfully",
           description: "Thank you for your contribution.",
@@ -184,14 +183,14 @@ const useLiderbordContract = ({ liderbordName }) => {
   const onVoteResource = async (link, liderbordName, vote, onSuccess) => {
     onSubmitMetaTransaction({
       instruction: contract.methods.vote(link, liderbordName, vote),
-      onConfirmation: async () => {
+      onConfirmation: () => {
         onSuccess();
-        await onGetLiderbord();
         notification.success({
           message: "Voted successfully",
           description: "Thank you for your contribution.",
           placement: "bottomLeft",
         });
+        window.location.reload();
       },
       onError: (e) => {
         console.log("error on metatransaction", e);
@@ -205,24 +204,11 @@ const useLiderbordContract = ({ liderbordName }) => {
   };
 
   useEffect(() => {
-    /**
-     * Running when one of the following conditions fulfilled:
-     * - Moralis SDK is Initialized
-     * - Web3 has been enabled
-     * - Connected Chain Changed
-     */
     if (isInitialized && isWeb3Enabled) {
-      if (userData == null && !isLoadingUser) onGetUser();
       if (liderbordName) onGetLiderbord();
+      if (userAddress) onGetUser();
     }
-  }, [
-    isInitialized,
-    isWeb3Enabled,
-    contractAddress,
-    abi,
-    chainId,
-    liderbordName,
-  ]);
+  }, [isInitialized, isWeb3Enabled]);
 
   useEffect(() => {
     if (liderbordData != null) {

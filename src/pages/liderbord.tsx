@@ -23,16 +23,8 @@ export default function LiderbordPage() {
   const [commentResource, setCommentResource] = useState<Resource>();
 
   const navigate = useNavigate();
-  const {
-    onAddResource,
-    onClaimHappycoins,
-    onVoteResource,
-    onGetLiderbord,
-    isMetatransactionProcessing,
-    isBiconomyInitialized,
-    isLoading,
-    liderbordElements,
-  } = useLiderbordContract({ liderbordName: id });
+  const { isBiconomyInitialized, isLoading, liderbordElements } =
+    useLiderbordContract({ liderbordName: id, userAddress: null });
   const goToCreateResource = () => {
     if (id !== undefined) {
       navigate("/create-resource/" + id);
