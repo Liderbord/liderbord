@@ -12,6 +12,13 @@ function HomePage() {
   useMoralis();
   const navigate = useNavigate();
 
+  const keyPress = async (e: any) =>{
+    if(e.keyCode === 13){
+      inputHandler();
+    }
+  }
+
+
   const goToCreateLiderbord = () => {
     // This will navigate to second component
     navigate("/create-liderbord");
@@ -45,6 +52,7 @@ function HomePage() {
         fullWidth
         label="Enter a topic"
         onChange={(e: any) => setLiderbordName(e.target.value)}
+        onKeyDown={keyPress}
       />
 
       <Grid
