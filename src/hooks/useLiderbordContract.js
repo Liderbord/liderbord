@@ -14,11 +14,22 @@ const useLiderbordContract = ({ liderbordName }) => {
   const contractAddress = process.env.REACT_APP_LIDERBORD_ADDRESS;
   const { contract } = useBiconomyContext();
   const [liderbordElements, setLiderbordElements] = useState({});
+  const [happycoins, setHappycoins] = useState("");
+  const [lastTimeClaimed, setLastTimeClaimed] = useState("");
 
   /**
    * @description For getting storage data from smart contracts (params defined below);
    */
-  const { runContractFunction, contractResponse, isLoading } = useAPIContract();
+  const {
+    runContractFunction: runGetLiderbord,
+    contractResponse: liderbordData,
+    isLoading,
+  } = useAPIContract();
+  const {
+    runContractFunction: runGetUser,
+    contractResponse: userData,
+    isLoading: isLoadingUser,
+  } = useAPIContract();
 
   /**
    * @description For executing meta transaction
@@ -60,13 +71,52 @@ const useLiderbordContract = ({ liderbordName }) => {
     }
   ) => {
     console.log("getLiderbord", liderbordName);
-    runContractFunction({
+    runGetLiderbord({
       params: {
         chain: chainId,
         function_name: "getLiderbord",
         abi,
         address: contractAddress,
         params: { _liderbordName: liderbordName },
+      },
+      onSuccess,
+      onError,
+      onComplete,
+    });
+  };
+
+  /**
+   * @description Execute `getLiderbord` call from smart contract
+   *
+   * @param {Function} onSuccess - success callback function
+   * @param {Function} onError - error callback function
+   * @param {Function} onComplete -complete callback function
+   */
+  const onGetUser = (
+    { onSuccess, onError, onComplete } = {
+      onSuccess: () => {
+        console.log("success");
+      },
+      onError: (e) => {
+        console.log("error on get user", e);
+        notification.error({
+          message: "Can't load the user",
+          description: `The user can't be loaded. Please try again later.`,
+        });
+      },
+      onComplete: (e) => {
+        console.log("complete");
+      },
+    }
+  ) => {
+    console.log("getUser");
+    runGetUser({
+      params: {
+        chain: chainId,
+        function_name: "getUser",
+        abi,
+        address: contractAddress,
+        params: { _user: account },
       },
       onSuccess,
       onError,
@@ -142,8 +192,9 @@ const useLiderbordContract = ({ liderbordName }) => {
      * - Web3 has been enabled
      * - Connected Chain Changed
      */
-    if (isInitialized && isWeb3Enabled && liderbordName) {
-      onGetLiderbord();
+    if (isInitialized && isWeb3Enabled) {
+      if (userData == null && !isLoadingUser) onGetUser();
+      if (liderbordName) onGetLiderbord();
     }
   }, [
     isInitialized,
@@ -155,17 +206,26 @@ const useLiderbordContract = ({ liderbordName }) => {
   ]);
 
   useEffect(() => {
-    if (contractResponse != null) {
+    if (liderbordData != null) {
       const newLiderbordElements = {};
-      for (let i = 0; i < contractResponse[0].length; i++) {
-        newLiderbordElements[contractResponse[0][i]] = {
-          downVotes: contractResponse[1][i],
-          upVotes: contractResponse[1][i],
+      for (let i = 0; i < liderbordData[0].length; i++) {
+        newLiderbordElements[liderbordData[0][i]] = {
+          scores: liderbordData[1][i],
+          downVotes: liderbordData[2][i],
+          upVotes: liderbordData[3][i],
         };
       }
       setLiderbordElements(newLiderbordElements);
     }
-  }, [contractResponse]);
+  }, [liderbordData]);
+
+  useEffect(() => {
+    if (userData != null) {
+      console.log("userData", userData);
+      setHappycoins(userData[0]);
+      setLastTimeClaimed(userData[1]);
+    }
+  }, [userData]);
 
   return {
     onAddResource,
@@ -174,10 +234,10 @@ const useLiderbordContract = ({ liderbordName }) => {
     onGetLiderbord,
     contractName,
     contractAddress,
-    contractResponse,
     isMetatransactionProcessing,
     isBiconomyInitialized,
     isLoading,
+    isLoadingUser,
     liderbordElements,
     chainId,
   };
