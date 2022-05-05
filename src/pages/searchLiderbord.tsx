@@ -44,6 +44,7 @@ export default function SearchLiderbord(props: any) {
         tags: term.tags, 
         resources: [],
         nbResources: term.nbResources,
+        nbVotes: term.nbVotes,
     };
     liderbords.push(data);
 })
