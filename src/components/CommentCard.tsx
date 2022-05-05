@@ -15,8 +15,12 @@ export default function CommentCard({
   return (
     <CardContainer>
       <Stack direction="row" spacing={2}>
-        {vote === UserVote.Happy ? <HappyIcon /> : <SadIcon />}
-        <Typography>{comment}</Typography>
+        {vote === UserVote.Happy ? (
+          <HappyIcon width={30} height={30} />
+        ) : (
+          <SadIcon width={30} height={30} />
+        )}
+        <Typography width={220}>{comment}</Typography>
       </Stack>
     </CardContainer>
   );
