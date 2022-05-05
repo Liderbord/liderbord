@@ -1,2 +1,0 @@
-(this.webpackJsonpliderbord=this.webpackJsonpliderbord||[]).push([[13],{1528:function(n,i){},1538:function(n,i){},1565:function(n,i){},1567:function(n,i){}}]);
-//# sourceMappingURL=13.f57ed6b9.chunk.js.map
