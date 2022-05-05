@@ -48,27 +48,12 @@ export default function SearchLiderbord(props: any) {
     liderbords.push(data);
 })
 
-  const filters = ["C++", "Beginner", "Advanced"];
-
   return (
     <Container>
       <NavigationBar />
 
       <HappyTextField sx={{mt: 15}} fullWidth onChange={(e: any) => setLiderbordName(e.target.value)} onKeyDown={keyPress} ></HappyTextField>
-      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
-        <Grid item xs={11}>
-          <Typography variant="h6">FILTERS</Typography>
-
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={5} columns={16}>
-              {filters.map((filter) => (
-                <Grid item xs={4}>
-                  <FilterItem>{filter}</FilterItem>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Grid>
+      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px", ml:"800px" }}>
 
         <Grid item xs={5}>
           <HappyButton
