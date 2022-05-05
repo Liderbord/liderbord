@@ -15,6 +15,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Check npm version
+        run: npm --version
       - name: Install Packages
         run: npm install --legacy-peer-deps
       - name: Build page
@@ -39,3 +41,4 @@ jobs:
           REACT_APP_BICONOMY_API_KEY_BSC_TESTNET: ${{secrets.REACT_APP_BICONOMY_API_KEY_BSC_TESTNET}}
           REACT_APP_BICONOMY_API_KEY_MUMBAI: ${{secrets.REACT_APP_BICONOMY_API_KEY_MUMBAI}}
           REACT_APP_BICONOMY_API_KEY_FUJI: ${{secrets.REACT_APP_BICONOMY_API_KEY_FUJI}}
+          CI: false
