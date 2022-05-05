@@ -66,7 +66,12 @@ export default function LiderbordPage() {
         setLiderbord(newLiderbord);
       }
     }
-  }, [id, liderbordElements, isLoading, isBiconomyInitialized]);
+  }, [
+    id,
+    JSON.stringify(Object.keys(liderbordElements)),
+    isLoading,
+    isBiconomyInitialized,
+  ]);
 
   const updateCommentSection = (resource: Resource): void => {
     if (resource.id === commentResource?.id) {

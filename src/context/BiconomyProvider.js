@@ -68,6 +68,7 @@ const BiconomyContextProvider = (props) => {
             message: "Biconomy Initialization Fail",
             description:
               "Biconomy has failed to initialized. Please try again later.",
+            placement: "bottomLeft",
           });
         });
     };

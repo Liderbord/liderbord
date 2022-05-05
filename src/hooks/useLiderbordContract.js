@@ -63,6 +63,7 @@ const useLiderbordContract = ({ liderbordName }) => {
         notification.error({
           message: "Can't load the liderbord",
           description: `The liderbord can't be loaded. Please try again later.`,
+          placement: "bottomLeft",
         });
       },
       onComplete: (e) => {
@@ -102,6 +103,7 @@ const useLiderbordContract = ({ liderbordName }) => {
         notification.error({
           message: "Can't load the user",
           description: `The user can't be loaded. Please try again later.`,
+          placement: "bottomLeft",
         });
       },
       onComplete: (e) => {
@@ -137,15 +139,21 @@ const useLiderbordContract = ({ liderbordName }) => {
   ) => {
     onSubmitMetaTransaction({
       instruction: contract.methods.addResource(link, liderbordNames),
-      onConfirmation: () => {
+      onConfirmation: async () => {
         onSuccess();
-        onGetLiderbord();
+        await onGetLiderbord();
+        notification.success({
+          message: "Resource added successfully",
+          description: "Thank you for your contribution.",
+          placement: "bottomLeft",
+        });
       },
       onError: (e) => {
         console.log("error on metatransaction", e);
         notification.error({
           message: "Couldn't add the resource",
           description: `The transaction has failed. Please try again later.`,
+          placement: "bottomLeft",
         });
       },
     });
@@ -156,13 +164,18 @@ const useLiderbordContract = ({ liderbordName }) => {
       instruction: contract.methods.claimHappycoins(),
       onConfirmation: () => {
         onSuccess();
-        onGetLiderbord();
+        notification.success({
+          message: "Claimed 10 happycoins successfully",
+          description: "Used them with wisdom.",
+          placement: "bottomLeft",
+        });
       },
       onError: (e) => {
         console.log("error on metatransaction", e);
         notification.error({
           message: "Couldn't claim happycoins",
           description: "The transaction has failed. Please try again later.",
+          placement: "bottomLeft",
         });
       },
     });
@@ -171,15 +184,21 @@ const useLiderbordContract = ({ liderbordName }) => {
   const onVoteResource = async (link, liderbordName, vote, onSuccess) => {
     onSubmitMetaTransaction({
       instruction: contract.methods.vote(link, liderbordName, vote),
-      onConfirmation: () => {
+      onConfirmation: async () => {
         onSuccess();
-        onGetLiderbord();
+        await onGetLiderbord();
+        notification.success({
+          message: "Voted successfully",
+          description: "Thank you for your contribution.",
+          placement: "bottomLeft",
+        });
       },
       onError: (e) => {
         console.log("error on metatransaction", e);
         notification.error({
-          message: "Couldn't claim happycoins",
+          message: "Couldn't vote",
           description: "The transaction has failed. Please try again later.",
+          placement: "bottomLeft",
         });
       },
     });
@@ -240,6 +259,8 @@ const useLiderbordContract = ({ liderbordName }) => {
     isLoadingUser,
     liderbordElements,
     chainId,
+    happycoins,
+    lastTimeClaimed,
   };
 };
 

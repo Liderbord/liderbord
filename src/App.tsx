@@ -5,21 +5,24 @@ import SearchLiderbord from "./pages/searchLiderbord";
 import { Container } from "@mui/material";
 import LiderbordPage from "./pages/liderbord";
 import CreateResource from "./pages/createResource";
+import "antd/dist/antd.css";
 
 function App() {
   return (
     <Container>
       <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/l/:id" element={<LiderbordPage />} />
-          <Route path="/create-liderbord" element={<CreateLiderbord />} />
-          <Route path="/search/:name" element={<SearchLiderbord />} />
-          <Route
-            path="/create-resource/:liderbordID"
-            element={<CreateResource />}
-          />
-        </Routes>
+        <div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/l/:id" element={<LiderbordPage />} />
+            <Route path="/create-liderbord" element={<CreateLiderbord />} />
+            <Route path="/search/:name" element={<SearchLiderbord />} />
+            <Route
+              path="/create-resource/:liderbordID"
+              element={<CreateResource />}
+            />
+          </Routes>
+        </div>
       </Router>
     </Container>
   );

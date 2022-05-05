@@ -26,6 +26,7 @@ export default function NavigationBar() {
   const [loginUser, setloginUser] = useState(user);
   const {
     onClaimHappycoins,
+    happycoins,
     isMetatransactionProcessing,
     isBiconomyInitialized,
   } = useLiderbordContract({ liderbordName: null });
@@ -65,7 +66,9 @@ export default function NavigationBar() {
   };
 
   const onRequestHappycoins = () => {
-    onClaimHappycoins();
+    onClaimHappycoins(() => {
+      console.log("claim happycoins", happycoins);
+    });
     handleClose();
   };
 

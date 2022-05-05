@@ -108,10 +108,6 @@ function CreateResource() {
         };
         await Service.addResource(resource, liderbordID as string);
         returnToLiderbord();
-        notification.success({
-          message: "Resource added successfully",
-          description: "The resource was added to the current liderbord",
-        });
       });
     }
   };
