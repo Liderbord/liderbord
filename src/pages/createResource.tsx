@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { notification } from "antd";
 import Box from "@mui/material/Box";
 import { useNavigate, useParams } from "react-router-dom";
 import HappyTextField from "../components/HappyTextField";
@@ -21,6 +22,7 @@ import HappySelect from "../components/HappySelect";
 import ResourceTypeIcon from "../components/icons/ResourceTypeIcon";
 import Resource from "../model/resource";
 import { Service } from "../service/service";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 function CreateResource() {
   const navigate = useNavigate();
@@ -39,6 +41,9 @@ function CreateResource() {
   const [URLError, setURLError] = useState("");
   const [markdownError, setMarkdownError] = useState("");
   const [resourceTypeError, setResourceTypeError] = useState("");
+
+  const { onAddResource, isMetatransactionProcessing, isBiconomyInitialized } =
+    useLiderbordContract({ liderbordName: "liderbords" });
 
   const onResourceTypeChange = (event: SelectChangeEvent<unknown>) => {
     setResourceType(event.target.value as string);
@@ -82,24 +87,32 @@ function CreateResource() {
       URLError + resourceNameError + resourceTypeError + markdownError ===
       ""
     ) {
-      const type: string =
-        ressourceAttachement === "markdown"
-          ? ResourceType.Document
-          : resourceType;
-      // send the data
-      const resource: Resource = {
-        id: "",
-        title: resourceName,
-        link: resourceURL || ressourceMarkdown,
-        type: stringToResourceType(type),
-        score: 0,
-        hash: "",
-        upVotes: 0,
-        downVotes: 0,
-        comments: [],
-      };
-      await Service.addResource(resource, liderbordID as string);
-      returnToLiderbord();
+      console.log("Submitting...", resourceURL, liderbordID as string);
+      await onAddResource(resourceURL, [liderbordID as string], async () => {
+        console.log("Resource added");
+        const type: string =
+          ressourceAttachement === "markdown"
+            ? ResourceType.Document
+            : resourceType;
+        // send the data
+        const resource: Resource = {
+          id: "",
+          title: resourceName,
+          link: resourceURL || ressourceMarkdown,
+          type: stringToResourceType(type),
+          score: 0,
+          hash: "",
+          upVotes: 0,
+          downVotes: 0,
+          comments: [],
+        };
+        await Service.addResource(resource, liderbordID as string);
+        returnToLiderbord();
+        notification.success({
+          message: "Resource added successfully",
+          description: "The resource was added to the current liderbord",
+        });
+      });
     }
   };
 
@@ -135,7 +148,7 @@ function CreateResource() {
             Resource Name
           </Typography>
           <Typography sx={{ margin: "16px 0px" }}>
-            Give a name to your ressource
+            Give a name to your resource
           </Typography>
           <HappyTextField
             fullWidth
@@ -235,11 +248,10 @@ function CreateResource() {
           <HappyButton
             color="secondary"
             variant="contained"
+            disabled={!isBiconomyInitialized || isMetatransactionProcessing}
             onClick={() => {
               const isError = displayErrors();
-              if (!isError) {
-                submit();
-              }
+              if (!isError) submit();
             }}
           >
             Submit

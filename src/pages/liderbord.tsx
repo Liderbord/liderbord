@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 import CommentCard from "../components/CommentCard";
 import Resource from "../model/resource";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 export default function LiderbordPage() {
   const { id } = useParams();
@@ -22,6 +23,16 @@ export default function LiderbordPage() {
   const [commentResource, setCommentResource] = useState<Resource>();
 
   const navigate = useNavigate();
+  const {
+    onAddResource,
+    onClaimHappycoins,
+    onVoteResource,
+    onGetLiderbord,
+    isMetatransactionProcessing,
+    isBiconomyInitialized,
+    isLoading,
+    liderbordElements,
+  } = useLiderbordContract({ liderbordName: "liderbords" });
   const goToCreateResource = () => {
     if (id !== undefined) {
       navigate("/create-resource/" + id);
@@ -43,7 +54,7 @@ export default function LiderbordPage() {
           console.error(err);
         });
     }
-  });
+  }, [id]);
   const updateCommentSection = (resource: Resource): void => {
     if (resource.id === commentResource?.id) {
       setCommentResource(undefined);
@@ -55,7 +66,6 @@ export default function LiderbordPage() {
     <Container>
       <NavigationBar />
       <CssBaseline />
-
       <Grid
         container
         direction="row"

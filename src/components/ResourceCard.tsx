@@ -22,6 +22,7 @@ import HappyTextField from "./HappyTextField";
 import HappyButton from "./HappyButton";
 import { Service } from "../service/service";
 import { useState } from "react";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -84,6 +85,10 @@ export default function ResourceCard({
   const [open, setOpen] = useState(false);
   const [userVote, setUserVote] = useState(UserVote.Happy);
   const [comment, setComment] = useState(undefined);
+  const { onVoteResource, isMetatransactionProcessing, isBiconomyInitialized } =
+    useLiderbordContract({
+      liderbordName: liderbordID,
+    });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -94,9 +99,21 @@ export default function ResourceCard({
 
   async function updateUserVote(newVote: UserVote) {
     handleClose();
-    await Service.vote(newVote, resource.id, comment);
-    setComment(undefined);
-    window.location.reload();
+    console.log(
+      "vote",
+      resource.link,
+      liderbordID,
+      newVote === UserVote.Happy ? "1" : "-1"
+    );
+    await onVoteResource(
+      resource.link,
+      liderbordID,
+      newVote === UserVote.Happy ? "1" : "-1",
+      async () => {
+        await Service.vote(newVote, resource.id, comment);
+        setComment(undefined);
+      }
+    );
   }
 
   const iconSize = 34;
@@ -163,6 +180,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               disableRipple={true}
+              disabled={!isBiconomyInitialized || isMetatransactionProcessing}
               size="small"
               onClick={() => {
                 setUserVote(UserVote.Happy);
@@ -182,6 +200,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               size="small"
+              disabled={!isBiconomyInitialized || isMetatransactionProcessing}
               disableRipple={true}
               onClick={() => {
                 setUserVote(UserVote.Sad);

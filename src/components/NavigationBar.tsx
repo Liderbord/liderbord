@@ -1,30 +1,30 @@
 import {
   AppBar,
   Container,
+  Button,
+  Avatar,
   Typography,
   Toolbar,
-  Stack,
+  Tooltip,
   IconButton,
   Menu,
   Box,
   MenuItem,
 } from "@mui/material";
-import { useState } from "react";
+import { logDOM } from "@testing-library/react";
+import { useState, useEffect } from "react";
 import liderbordLogo from "../res/tinyLogo.png";
 import { useMoralis } from "react-moralis";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import userIcon from "../res/icons/authent.png";
 import notAuthentIcon from "../res/icons/notAuthent.png";
-import happyCoin from "../res/icons/happycoin.png";
 
 export default function NavigationBar() {
-  let { isAuthenticated, logout } = useMoralis();
+  let { isAuthenticated, logout, user, authenticate, Moralis } = useMoralis();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const [loginUser, setloginUser] = useState(user);
 
-  function redirectLogin() {
-    navigate("/login");
-  }
   const goToMainPage = () => {
     navigate("/");
   };
@@ -37,6 +37,28 @@ export default function NavigationBar() {
     setAnchorEl(null);
   };
 
+  const login = async () => {
+    if (!isAuthenticated) {
+      console.log("clientID", process.env.REACT_APP_MORALIS_CLIENT_ID);
+      const tempUser = await authenticate(
+        {
+          signingMessage: "Liderbord",
+          chainId: 0x13881,
+        } /*{
+        provider: "web3Auth",
+        chainId: process.env.REACT_APP_LIDERBORD_CHAIN_ID
+          ? parseInt(process.env.REACT_APP_LIDERBORD_CHAIN_ID)
+          : 0x13881,
+        clientId: process.env.REACT_APP_MORALIS_CLIENT_ID ?? "",
+        theme: "light",
+        appLogo:
+          "https://raw.githubusercontent.com/Liderbord/liderbord/master/public/logo512.png",
+      }*/
+      );
+      setloginUser(tempUser ?? null);
+    }
+  };
+
   return (
     <AppBar
       position="absolute"
@@ -45,73 +67,16 @@ export default function NavigationBar() {
       <Container maxWidth="xl">
         <Toolbar>
           <Box sx={{ flexGrow: 1, mt: 3, display: { xs: "none", md: "flex" } }}>
-            <IconButton onClick={goToMainPage}>
+            <div className="container">
               <img
                 height={30}
                 width={200}
                 src={liderbordLogo}
                 alt="liderbord Logo"
               />
-            </IconButton>
+            </div>
           </Box>
-
           {isAuthenticated && (
-            <Stack sx={{ mt: 2 }} direction="row" spacing={4}>
-              <Stack sx={{ mt: 2 }} direction="row" spacing={2}>
-                <Typography variant="h3" color="black">
-                  12
-                </Typography>
-                <Box>
-                  <img
-                    height={30}
-                    width={30}
-                    src={happyCoin}
-                    alt="Happy Coin"
-                  />
-                </Box>
-              </Stack>
-              <div>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <img width={40} height={40} src={userIcon} alt="user" />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      logout();
-                      handleClose();
-                      goToMainPage();
-                    }}
-                  >
-                    Log out
-                  </MenuItem>
-                </Menu>
-              </div>
-            </Stack>
-          )}
-          {!isAuthenticated && (
             <div>
               <IconButton
                 size="large"
@@ -121,12 +86,7 @@ export default function NavigationBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <img
-                  width={40}
-                  height={40}
-                  src={notAuthentIcon}
-                  alt="Not Authent"
-                />
+                <img width={40} height={40} src={userIcon} alt="user" />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -143,8 +103,36 @@ export default function NavigationBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={redirectLogin}>Log in</MenuItem>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                    handleClose();
+                  }}
+                >
+                  Log out
+                </MenuItem>
               </Menu>
+            </div>
+          )}
+          {!isAuthenticated && (
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={login}
+                color="inherit"
+              >
+                <img
+                  width={40}
+                  height={40}
+                  src={notAuthentIcon}
+                  alt="Not Authent"
+                />
+              </IconButton>
             </div>
           )}
         </Toolbar>
