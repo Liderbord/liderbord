@@ -2,7 +2,6 @@ import Moralis from "moralis";
 import Liderbord from "../model/liderbord";
 import Resource from "../model/resource";
 import UserVote from "../model/userVote";
-import moralisKeys from "../moralis-keys.json";
 
 export class Service {
   private static createLiderbordFunction: string = "createLiderbord";
@@ -17,8 +16,12 @@ export class Service {
     tags: string[]
   ): Promise<string> {
     Moralis.start({
-      serverUrl: moralisKeys.serverUrl,
-      appId: moralisKeys.appId,
+      serverUrl:
+        process.env.REACT_APP_MORALIS_SERVER_URL ??
+        "REACT_APP_MORALIS_SERVER_URL",
+      appId:
+        process.env.REACT_APP_MORALIS_APPLICATION_ID ??
+        "REACT_APP_MORALIS_APPLICATION_ID",
     });
     const params = { title: title, desc: description, tags: tags };
     return await Moralis.Cloud.run(Service.createLiderbordFunction, params);
@@ -27,8 +30,12 @@ export class Service {
     const currentUser = Moralis.User.current();
     const userID = currentUser?.id;
     Moralis.start({
-      serverUrl: moralisKeys.serverUrl,
-      appId: moralisKeys.appId,
+      serverUrl:
+        process.env.REACT_APP_MORALIS_SERVER_URL ??
+        "REACT_APP_MORALIS_SERVER_URL",
+      appId:
+        process.env.REACT_APP_MORALIS_APPLICATION_ID ??
+        "REACT_APP_MORALIS_APPLICATION_ID",
     });
     const params = {
       resourceID: resourceID,
@@ -42,8 +49,12 @@ export class Service {
 
   static async getLiderbord(id: string): Promise<Liderbord> {
     Moralis.start({
-      serverUrl: moralisKeys.serverUrl,
-      appId: moralisKeys.appId,
+      serverUrl:
+        process.env.REACT_APP_MORALIS_SERVER_URL ??
+        "REACT_APP_MORALIS_SERVER_URL",
+      appId:
+        process.env.REACT_APP_MORALIS_APPLICATION_ID ??
+        "REACT_APP_MORALIS_APPLICATION_ID",
     });
     const params = { id: id };
     const liderbord: Liderbord = await Moralis.Cloud.run(
@@ -55,8 +66,12 @@ export class Service {
 
   static async searchLiderbordByName(name: string): Promise<any> {
     Moralis.start({
-      serverUrl: moralisKeys.serverUrl,
-      appId: moralisKeys.appId,
+      serverUrl:
+        process.env.REACT_APP_MORALIS_SERVER_URL ??
+        "REACT_APP_MORALIS_SERVER_URL",
+      appId:
+        process.env.REACT_APP_MORALIS_APPLICATION_ID ??
+        "REACT_APP_MORALIS_APPLICATION_ID",
     });
 
     const params = { name: name };

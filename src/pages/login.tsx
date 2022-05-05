@@ -3,7 +3,6 @@ import "../styles/login.css";
 import { useMoralis } from "react-moralis";
 import { useNavigate, Navigate } from "react-router-dom";
 import HappyButton from "../components/HappyButton";
-import moralisKeys from "../moralis-keys.json";
 import { Container } from "@mui/material";
 
 function Login() {
@@ -17,7 +16,9 @@ function Login() {
     if (!isAuthenticated) {
       const tempUser = await authenticate({
         provider: "web3Auth",
-        clientId: moralisKeys.appId,
+        clientId:
+          process.env.REACT_APP_MORALIS_CLIENT_ID ??
+          "REACT_APP_MORALIS_CLIENT_ID",
         theme: "light",
         appLogo:
           "https://raw.githubusercontent.com/Liderbord/liderbord/master/public/logo512.png",
