@@ -14,55 +14,46 @@ export default function SearchLiderbord(props: any) {
   const navigate = useNavigate();
 
   const [results, setResults] = useState<Liderbord[]>();
-  const { name } = useParams();
+  const [liderbordName, setLiderbordName] = useState("");
+  const {name} = useParams();
 
-  useEffect(() => {
+  const keyPress = async (e: any) =>{
+    if(e.keyCode === 13){
+      navigate("/search/"+liderbordName);
+    }
+  }
+
+  useEffect(()=>{  
     const loadLiderbords = async () => {
-      await Service.searchLiderbordByName(name ?? "").then((response) =>
-        setResults(response)
-      );
+      await Service.searchLiderbordByName(name ?? "").then((response) => setResults(response));
     };
-    loadLiderbords();
-  }, [name]);
-  console.log(results);
+    loadLiderbords(); 
+ },[name]
+  );
+  
 
-  const liderbords: Liderbord[] = [];
+
+  const liderbords : Liderbord[] = [];
 
   results?.map((obj, index) => {
     let term = obj;
     const data: Liderbord = {
-      id: term.id,
-      topic: term.topic,
-      description: term.description,
-      tags: term.tags,
-      resources: [],
-      nbResources: term.nbResources,
+        id: term.id,
+        topic: term.topic,
+        description: term.description, 
+        tags: term.tags, 
+        resources: [],
+        nbResources: term.nbResources,
     };
-    return liderbords.push(data);
-  });
-
-  const filters = ["C++", "Beginner", "Advanced"];
+    liderbords.push(data);
+})
 
   return (
     <Container>
       <NavigationBar />
 
-      <HappyTextField sx={{ mt: 15 }} fullWidth></HappyTextField>
-
-      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px" }}>
-        <Grid item xs={11}>
-          <Typography variant="h6">FILTERS</Typography>
-
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={5} columns={16}>
-              {filters.map((filter) => (
-                <Grid item xs={4}>
-                  <FilterItem>{filter}</FilterItem>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Grid>
+      <HappyTextField sx={{mt: 15}} fullWidth onChange={(e: any) => setLiderbordName(e.target.value)} onKeyDown={keyPress} ></HappyTextField>
+      <Grid container spacing={7} columns={16} sx={{ mt: "0.5px", ml:"800px" }}>
 
         <Grid item xs={5}>
           <HappyButton
@@ -79,13 +70,14 @@ export default function SearchLiderbord(props: any) {
       <Stack spacing={2} sx={{ marginTop: "20px" }} alignItems="center">
         {liderbords.map((liderbord, index) => (
           <Link
-            underline="none"
-            onClick={() => {
-              navigate("/l/" + liderbord.id);
-            }}
-          >
-            <LiderbordCard key={index} liderbord={liderbord} />
+          underline="none"
+          onClick={() => {
+            navigate("/l/"+liderbord.id);
+          }}>
+          <LiderbordCard key={index} liderbord={liderbord} />
           </Link>
+            
+          
         ))}
       </Stack>
     </Container>

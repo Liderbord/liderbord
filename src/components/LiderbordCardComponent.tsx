@@ -20,7 +20,7 @@ function LiderbordCard({ liderbord }: { liderbord: Liderbord }) {
       <CardContainer>
         <CardContent>
           <Typography sx={{ mb: 1 }} variant="h2" component="div">
-            {liderbord.topic.toUpperCase()}
+            {liderbord.topic?.toUpperCase()}
           </Typography>
           <div
             style={{
