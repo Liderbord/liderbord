@@ -35,7 +35,7 @@ function CreateLiderbord() {
     // parse and check tags for errors
     let tagsArr: string[] = tags.split("#");
     tagsArr.forEach((element, index) => {
-      tagsArr[index] = element.trim();
+      tagsArr[index] = element.trim().toLowerCase();
     });
     // remove the first argument which is always an empty string
     tagsArr.shift();
@@ -80,7 +80,7 @@ function CreateLiderbord() {
     // if there are no errors proceed with the submission of the liderbord
     if (topicError + descriptionError + tagError === "") {
       const id: string = await Service.createLiderbord(
-        topic,
+        topic.toLowerCase(),
         description,
         tagsArray
       );
