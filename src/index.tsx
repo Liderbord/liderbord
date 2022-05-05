@@ -7,9 +7,11 @@ import { MoralisProvider } from "react-moralis";
 import { theme } from "./styles/theme";
 import { ThemeProvider } from "@emotion/react";
 import BiconomyContextProvider from "context/BiconomyProvider";
+import * as dotenv from "dotenv";
 
 const APP_ID = process.env.REACT_APP_MORALIS_APPLICATION_ID;
 const SERVER_URL = process.env.REACT_APP_MORALIS_SERVER_URL;
+dotenv.config();
 
 const Application = () => {
   return APP_ID && SERVER_URL ? (

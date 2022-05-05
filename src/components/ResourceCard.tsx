@@ -68,20 +68,15 @@ export default function ResourceCard({
   liderbordID,
   commentUpdate,
   highlighted,
+  loading,
 }: {
   rank: number;
   resource: Resource;
   liderbordID: string;
   commentUpdate: Function;
   highlighted?: boolean;
+  loading: boolean;
 }) {
-  /*const navigate = useNavigate();
-  const returnToLiderbord = () => {
-    // This will navigate to second component
-    navigate("/l/" + liderbordID);
-  };*/
-
-  // dialog variables
   const [open, setOpen] = useState(false);
   const [userVote, setUserVote] = useState(UserVote.Happy);
   const [comment, setComment] = useState(undefined);
@@ -93,6 +88,7 @@ export default function ResourceCard({
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };

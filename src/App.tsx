@@ -2,12 +2,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home";
 import CreateLiderbord from "./pages/createLiderbord";
 import SearchLiderbord from "./pages/searchLiderbord";
-import { Container } from "@mui/material";
+import { Container, CircularProgress } from "@mui/material";
 import LiderbordPage from "./pages/liderbord";
 import CreateResource from "./pages/createResource";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 function App() {
   // Moralis.start(Option= {serverUrl=moralisKeys.serverUrl, appId:moralisKeys.appId})
+  const { isBiconomyInitialized } = useLiderbordContract({
+    liderbordName: null,
+  });
+  console.log(process.env);
   return (
     <Container>
       <Router>

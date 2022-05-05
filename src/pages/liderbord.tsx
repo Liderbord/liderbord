@@ -42,32 +42,32 @@ export default function LiderbordPage() {
     // This will navigate to the correct liderbord page
   };
   useEffect(() => {
-    // You need to restrict it at some point
-    // This is just dummy code and should be replaced by actual
-    console.log("LiderbordPage: useEffect");
-    if (!liderbord && isBiconomyInitialized && !isLoading && id) {
+    if (!liderbord && id) {
       console.log("getiing", id);
       Service.getLiderbord(id ?? "")
-        .then((lb) => {
-          for (let i = 0; i < lb.resources.length; i++) {
-            // @ts-ignore
-            const resource = liderbordElements[lb.resources[i].id];
-            if (resource) {
-              console.log("Found resource: " + resource);
-              lb.resources[i].upVotes = resource.upVotes;
-              lb.resources[i].downVotes = resource.downVotes;
-              lb.resources[i].score = resource.downVotes;
-            }
-          }
-          console.log("lb", lb, "liderbordElements", liderbordElements);
-          setLiderbord(lb);
-          console.log(lb);
+        .then((liderbordData) => {
+          setLiderbord(liderbordData);
         })
         .catch((err) => {
           console.error(err);
         });
     }
+    if (liderbord && isBiconomyInitialized && !isLoading) {
+      for (let i = 0; i < liderbord.resources.length; i++) {
+        const newLiderbord = liderbord;
+        // @ts-ignore
+        const resource = liderbordElements[newLiderbord.resources[i].id];
+        if (resource) {
+          console.log("Found resource: " + resource);
+          newLiderbord.resources[i].upVotes = resource.upVotes;
+          newLiderbord.resources[i].downVotes = resource.downVotes;
+          newLiderbord.resources[i].score = resource.downVotes;
+        }
+        setLiderbord(newLiderbord);
+      }
+    }
   }, [id, liderbordElements, isLoading, isBiconomyInitialized]);
+
   const updateCommentSection = (resource: Resource): void => {
     if (resource.id === commentResource?.id) {
       setCommentResource(undefined);
@@ -75,6 +75,7 @@ export default function LiderbordPage() {
     }
     setCommentResource(resource);
   };
+
   return (
     <Container>
       <NavigationBar />
@@ -126,6 +127,7 @@ export default function LiderbordPage() {
                 liderbordID={id as string}
                 commentUpdate={updateCommentSection}
                 highlighted={resource.id === commentResource?.id}
+                loading={!isBiconomyInitialized || isLoading}
               />
             ))}
           </Stack>
