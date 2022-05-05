@@ -14,14 +14,14 @@ import Resource from "../model/resource";
 import CardContainer from "./CardContainer";
 import { ReactComponent as HappyIcon } from "../res/icons/vote/upvote_icon.svg";
 import { ReactComponent as SadIcon } from "../res/icons/vote/downvote_icon.svg";
+import { ReactComponent as CommentsIcon } from "../res/icons/comments.svg";
 import ResourceTypeIcon from "./icons/ResourceTypeIcon";
 import UserVote from "../model/userVote";
-import { Service } from "../service/service";
-import { useNavigate } from "react-router-dom";
-import HappyButton from "./HappyButton";
-import { useState } from "react";
-import HappyTextField from "./HappyTextField";
 import VoteDialog from "./VoteDialog";
+import HappyTextField from "./HappyTextField";
+import HappyButton from "./HappyButton";
+import { Service } from "../service/service";
+import { useState } from "react";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -65,10 +65,14 @@ export default function ResourceCard({
   rank,
   resource,
   liderbordID,
+  commentUpdate,
+  highlighted,
 }: {
   rank: number;
   resource: Resource;
   liderbordID: string;
+  commentUpdate: Function;
+  highlighted?: boolean;
 }) {
   /*const navigate = useNavigate();
   const returnToLiderbord = () => {
@@ -84,7 +88,6 @@ export default function ResourceCard({
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -98,7 +101,18 @@ export default function ResourceCard({
 
   const iconSize = 34;
   return (
-    <CardContainer sx={{ minHeight: "96px" }}>
+    <CardContainer
+      sx={
+        highlighted
+          ? {
+              border: 4,
+              alignItems: "center",
+              borderColor: "#384A6E",
+              minHeight: "96px",
+            }
+          : { minHeight: "96px" }
+      }
+    >
       <VoteDialog
         open={open}
         onClose={handleClose}
@@ -121,11 +135,8 @@ export default function ResourceCard({
           />
         </DialogContent>
         <DialogActions>
-          <HappyButton color="info" onClick={handleClose}>
-            Cancel
-          </HappyButton>
+          <HappyButton onClick={handleClose}>Cancel</HappyButton>
           <HappyButton
-            color="primary"
             onClick={() => {
               updateUserVote(userVote);
             }}
@@ -186,6 +197,18 @@ export default function ResourceCard({
             ) : (
               <Typography align="center">{resource.downVotes}</Typography>
             )}
+          </Box>
+          <Box>
+            <VoteButton
+              disableRipple={true}
+              size="small"
+              onClick={() => {
+                commentUpdate(resource);
+              }}
+            >
+              <CommentsIcon width={iconSize} height={iconSize} />
+            </VoteButton>
+            <Typography align="center">{resource.comments.length}</Typography>
           </Box>
         </Stack>
       </Grid>
