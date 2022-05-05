@@ -13,7 +13,7 @@ const useLiderbordContract = ({ liderbordName }) => {
   const { contractName, abi } = liderbordsContract;
   const contractAddress = process.env.REACT_APP_LIDERBORD_ADDRESS;
   const { contract } = useBiconomyContext();
-  const [liderbordElements, setLiderbordElements] = useState([]);
+  const [liderbordElements, setLiderbordElements] = useState({});
 
   /**
    * @description For getting storage data from smart contracts (params defined below);
@@ -59,7 +59,7 @@ const useLiderbordContract = ({ liderbordName }) => {
       },
     }
   ) => {
-    console.log("getLiderbord");
+    console.log("getLiderbord", liderbordName);
     runContractFunction({
       params: {
         chain: chainId,
@@ -136,14 +136,13 @@ const useLiderbordContract = ({ liderbordName }) => {
   };
 
   useEffect(() => {
-    console.log("isInitialized", isInitialized, "isWeb3Enabled", isWeb3Enabled);
     /**
      * Running when one of the following conditions fulfilled:
      * - Moralis SDK is Initialized
      * - Web3 has been enabled
      * - Connected Chain Changed
      */
-    if (isInitialized && isWeb3Enabled) {
+    if (isInitialized && isWeb3Enabled && liderbordName) {
       onGetLiderbord();
     }
   }, [
@@ -156,16 +155,15 @@ const useLiderbordContract = ({ liderbordName }) => {
   ]);
 
   useEffect(() => {
-    console.log("contractResponse", contractResponse);
     if (contractResponse != null) {
-      const newLiderbord = [];
+      const newLiderbordElements = {};
       for (let i = 0; i < contractResponse[0].length; i++) {
-        newLiderbord.push({
-          link: contractResponse[0][i],
-          score: contractResponse[1][i],
-        });
+        newLiderbordElements[contractResponse[0][i]] = {
+          downVotes: contractResponse[1][i],
+          upVotes: contractResponse[1][i],
+        };
       }
-      setLiderbordElements(newLiderbord);
+      setLiderbordElements(newLiderbordElements);
     }
   }, [contractResponse]);
 

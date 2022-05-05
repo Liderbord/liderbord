@@ -32,7 +32,7 @@ export default function LiderbordPage() {
     isBiconomyInitialized,
     isLoading,
     liderbordElements,
-  } = useLiderbordContract({ liderbordName: "liderbords" });
+  } = useLiderbordContract({ liderbordName: id });
   const goToCreateResource = () => {
     if (id !== undefined) {
       navigate("/create-resource/" + id);
@@ -44,9 +44,22 @@ export default function LiderbordPage() {
   useEffect(() => {
     // You need to restrict it at some point
     // This is just dummy code and should be replaced by actual
-    if (!liderbord) {
+    console.log("LiderbordPage: useEffect");
+    if (!liderbord && isBiconomyInitialized && !isLoading && id) {
+      console.log("getiing", id);
       Service.getLiderbord(id ?? "")
         .then((lb) => {
+          for (let i = 0; i < lb.resources.length; i++) {
+            // @ts-ignore
+            const resource = liderbordElements[lb.resources[i].id];
+            if (resource) {
+              console.log("Found resource: " + resource);
+              lb.resources[i].upVotes = resource.upVotes;
+              lb.resources[i].downVotes = resource.downVotes;
+              lb.resources[i].score = resource.downVotes;
+            }
+          }
+          console.log("lb", lb, "liderbordElements", liderbordElements);
           setLiderbord(lb);
           console.log(lb);
         })
@@ -54,7 +67,7 @@ export default function LiderbordPage() {
           console.error(err);
         });
     }
-  }, [id]);
+  }, [id, liderbordElements, isLoading, isBiconomyInitialized]);
   const updateCommentSection = (resource: Resource): void => {
     if (resource.id === commentResource?.id) {
       setCommentResource(undefined);

@@ -18,16 +18,17 @@ import { useMoralis } from "react-moralis";
 import { useNavigate, Navigate } from "react-router-dom";
 import userIcon from "../res/icons/authent.png";
 import notAuthentIcon from "../res/icons/notAuthent.png";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 export default function NavigationBar() {
-  let { isAuthenticated, logout, user, authenticate, Moralis } = useMoralis();
+  let { isAuthenticated, logout, user, authenticate } = useMoralis();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
   const [loginUser, setloginUser] = useState(user);
-
-  const goToMainPage = () => {
-    navigate("/");
-  };
+  const {
+    onClaimHappycoins,
+    isMetatransactionProcessing,
+    isBiconomyInitialized,
+  } = useLiderbordContract({ liderbordName: null });
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,7 +40,6 @@ export default function NavigationBar() {
 
   const login = async () => {
     if (!isAuthenticated) {
-      console.log("clientID", process.env.REACT_APP_MORALIS_CLIENT_ID);
       const tempUser = await authenticate(
         {
           signingMessage: "Liderbord",
@@ -57,6 +57,16 @@ export default function NavigationBar() {
       );
       setloginUser(tempUser ?? null);
     }
+  };
+
+  const onLogout = () => {
+    logout();
+    handleClose();
+  };
+
+  const onRequestHappycoins = () => {
+    onClaimHappycoins();
+    handleClose();
   };
 
   return (
@@ -103,16 +113,15 @@ export default function NavigationBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem
-                  onClick={() => {
-                    logout();
-                    handleClose();
-                  }}
+                  disabled={
+                    !isBiconomyInitialized || isMetatransactionProcessing
+                  }
+                  onClick={onRequestHappycoins}
                 >
-                  Log out
+                  Claim HC
                 </MenuItem>
+                <MenuItem onClick={onLogout}>Log out</MenuItem>
               </Menu>
             </div>
           )}

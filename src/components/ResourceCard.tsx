@@ -99,12 +99,6 @@ export default function ResourceCard({
 
   async function updateUserVote(newVote: UserVote) {
     handleClose();
-    console.log(
-      "vote",
-      resource.link,
-      liderbordID,
-      newVote === UserVote.Happy ? "1" : "-1"
-    );
     await onVoteResource(
       resource.link,
       liderbordID,

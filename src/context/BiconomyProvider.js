@@ -28,14 +28,12 @@ const BiconomyContextProvider = (props) => {
 
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) {
-      console.log("enable web3", process.env.REACT_APP_MORALIS_CLIENT_ID);
       enableWeb3();
     }
   }, [isAuthenticated, isWeb3Enabled]);
 
   useEffect(() => {
     const initializeBiconomy = async () => {
-      console.log("initializeBiconomy");
       setIsBiconomyInitializing(true);
       if (isBiconomyInitialized) {
         // Resetting when reinitializing
@@ -53,8 +51,6 @@ const BiconomyContextProvider = (props) => {
         debug: true,
       });
       setBiconomyProvider(biconomy);
-
-      console.log("web3", web3);
 
       // This web3 instance is used to read normally and write to contract via meta transactions.
       web3.setProvider(biconomy);
