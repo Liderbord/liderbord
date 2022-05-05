@@ -44,7 +44,10 @@ export default function SearchLiderbord(props: any) {
         tags: term.tags, 
         resources: [],
         nbResources: term.nbResources,
+<<<<<<< HEAD
         nbVotes: term.nbVotes,
+=======
+>>>>>>> 20023604f66e3094b5bdd96b35319c431ea7be6a
     };
     liderbords.push(data);
 })
