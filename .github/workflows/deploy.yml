@@ -25,7 +25,7 @@ jobs:
         run: |
           git config --global user.name $user_name
           git config --global user.email $user_email
-          git remote set-url origin https://${github_token}@github.com/${repository}
+          git remote add origin https://github.com/Liderbord/liderbord.git
           npm run deploy
         env:
           CI: false
