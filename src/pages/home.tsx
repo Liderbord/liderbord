@@ -29,7 +29,7 @@ function HomePage() {
   };
 
   const inputHandler = async () => {
-    console.log(liderbordName);
+    console.log("liderbordName", liderbordName);
     goToSearchLiderbord();
   };
 

@@ -22,6 +22,7 @@ import HappyTextField from "./HappyTextField";
 import HappyButton from "./HappyButton";
 import { Service } from "../service/service";
 import { useState } from "react";
+import useLiderbordContract from "hooks/useLiderbordContract";
 
 const VoteButton = styled(IconButton)`
   :hover {
@@ -67,20 +68,19 @@ export default function ResourceCard({
   liderbordID,
   commentUpdate,
   highlighted,
+  loading,
+  onVoteResource,
+  isVoteDisabled,
 }: {
   rank: number;
   resource: Resource;
   liderbordID: string;
   commentUpdate: Function;
   highlighted?: boolean;
+  loading: boolean;
+  onVoteResource: any;
+  isVoteDisabled: boolean;
 }) {
-  /*const navigate = useNavigate();
-  const returnToLiderbord = () => {
-    // This will navigate to second component
-    navigate("/l/" + liderbordID);
-  };*/
-
-  // dialog variables
   const [open, setOpen] = useState(false);
   const [userVote, setUserVote] = useState(UserVote.Happy);
   const [comment, setComment] = useState(undefined);
@@ -88,15 +88,22 @@ export default function ResourceCard({
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
 
   async function updateUserVote(newVote: UserVote) {
     handleClose();
-    await Service.vote(newVote, resource.id, comment);
-    setComment(undefined);
-    window.location.reload();
+    await onVoteResource(
+      resource.link,
+      liderbordID,
+      newVote === UserVote.Happy ? "1" : "-1",
+      async () => {
+        await Service.vote(newVote, resource.id, comment);
+        setComment(undefined);
+      }
+    );
   }
 
   const iconSize = 34;
@@ -163,6 +170,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               disableRipple={true}
+              disabled={isVoteDisabled}
               size="small"
               onClick={() => {
                 setUserVote(UserVote.Happy);
@@ -182,6 +190,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               size="small"
+              disabled={isVoteDisabled}
               disableRipple={true}
               onClick={() => {
                 setUserVote(UserVote.Sad);
