@@ -69,6 +69,8 @@ export default function ResourceCard({
   commentUpdate,
   highlighted,
   loading,
+  onVoteResource,
+  isVoteDisabled,
 }: {
   rank: number;
   resource: Resource;
@@ -76,12 +78,12 @@ export default function ResourceCard({
   commentUpdate: Function;
   highlighted?: boolean;
   loading: boolean;
+  onVoteResource: any;
+  isVoteDisabled: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [userVote, setUserVote] = useState(UserVote.Happy);
   const [comment, setComment] = useState(undefined);
-  const { onVoteResource, isMetatransactionProcessing, isBiconomyInitialized } =
-    useLiderbordContract({ liderbordName: null, userAddress: null });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -168,7 +170,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               disableRipple={true}
-              disabled={!isBiconomyInitialized || isMetatransactionProcessing}
+              disabled={isVoteDisabled}
               size="small"
               onClick={() => {
                 setUserVote(UserVote.Happy);
@@ -188,7 +190,7 @@ export default function ResourceCard({
           <Box>
             <VoteButton
               size="small"
-              disabled={!isBiconomyInitialized || isMetatransactionProcessing}
+              disabled={isVoteDisabled}
               disableRipple={true}
               onClick={() => {
                 setUserVote(UserVote.Sad);

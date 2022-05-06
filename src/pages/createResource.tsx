@@ -23,6 +23,7 @@ import ResourceTypeIcon from "../components/icons/ResourceTypeIcon";
 import Resource from "../model/resource";
 import { Service } from "../service/service";
 import useLiderbordContract from "hooks/useLiderbordContract";
+import LinearIndeterminate from "../components/LinearIndeterminate";
 
 function CreateResource() {
   const navigate = useNavigate();
@@ -129,6 +130,9 @@ function CreateResource() {
   };
   return (
     <Container>
+      {(!isBiconomyInitialized || isMetatransactionProcessing) && (
+        <LinearIndeterminate />
+      )}
       <NavigationBar />
       <CssBaseline />
       <Box component="form" autoComplete="off">

@@ -16,6 +16,7 @@ import { Service } from "../service/service";
 import CommentCard from "../components/CommentCard";
 import Resource from "../model/resource";
 import useLiderbordContract from "hooks/useLiderbordContract";
+import LinearIndeterminate from "../components/LinearIndeterminate";
 
 export default function LiderbordPage() {
   const { id } = useParams();
@@ -23,8 +24,13 @@ export default function LiderbordPage() {
   const [commentResource, setCommentResource] = useState<Resource>();
 
   const navigate = useNavigate();
-  const { isBiconomyInitialized, isLoading, liderbordElements } =
-    useLiderbordContract({ liderbordName: id, userAddress: null });
+  const {
+    onVoteResource,
+    isLoading,
+    liderbordElements,
+    isBiconomyInitialized,
+    isMetatransactionProcessing,
+  } = useLiderbordContract({ liderbordName: id, userAddress: null });
   const goToCreateResource = () => {
     if (id !== undefined) {
       navigate("/create-resource/" + id);
@@ -75,6 +81,9 @@ export default function LiderbordPage() {
 
   return (
     <Container>
+      {(!isBiconomyInitialized || isMetatransactionProcessing || isLoading) && (
+        <LinearIndeterminate />
+      )}
       <NavigationBar />
       <CssBaseline />
       <Grid
@@ -125,6 +134,10 @@ export default function LiderbordPage() {
                 commentUpdate={updateCommentSection}
                 highlighted={resource.id === commentResource?.id}
                 loading={!isBiconomyInitialized || isLoading}
+                onVoteResource={onVoteResource}
+                isVoteDisabled={
+                  !isBiconomyInitialized || isMetatransactionProcessing
+                }
               />
             ))}
           </Stack>
