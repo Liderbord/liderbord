@@ -28,7 +28,7 @@ const HappyButton = styled(Button)(
   padding: "12px 24px";
   :hover {
     animation: bounce 0.2s;
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   :active {
     transition: 0.1s;

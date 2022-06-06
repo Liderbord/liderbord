@@ -11,20 +11,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import liderbordLogo from "../res/tinyLogo.png";
-import { useMoralis } from "react-moralis";
 import { useNavigate } from "react-router-dom";
 import userIcon from "../res/icons/authent.png";
 import notAuthentIcon from "../res/icons/notAuthent.png";
 import happyCoin from "../res/icons/happycoin.png";
+import { authentication } from "../service/firebaseConfig";
+import { login } from "../service/login";
 
 export default function NavigationBar() {
-  let { isAuthenticated, logout } = useMoralis();
+  const isAuthenticated: boolean = authentication.currentUser !== null;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
-  function redirectLogin() {
-    navigate("/login");
-  }
   const goToMainPage = () => {
     navigate("/");
   };
@@ -100,7 +98,7 @@ export default function NavigationBar() {
                   <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem
                     onClick={() => {
-                      logout();
+                      authentication.signOut();
                       handleClose();
                       goToMainPage();
                     }}
@@ -143,7 +141,7 @@ export default function NavigationBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={redirectLogin}>Log in</MenuItem>
+                <MenuItem onClick={login}>Log in</MenuItem>
               </Menu>
             </div>
           )}

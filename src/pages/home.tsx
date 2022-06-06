@@ -1,4 +1,3 @@
-import { useMoralis } from "react-moralis";
 import HappyTextField from "../components/HappyTextField";
 import { useState } from "react";
 import { Container, Grid } from "@mui/material";
@@ -6,18 +5,17 @@ import HappyButton from "../components/HappyButton";
 import NavigationBar from "../components/NavigationBar";
 import liderbordLogo from "../res/icons/resourceTypes/liderbordLogo.svg";
 import { useNavigate } from "react-router-dom";
+import { authentication } from "../service/firebaseConfig";
 
 function HomePage() {
   const [liderbordName, setLiderbordName] = useState("");
-  useMoralis();
   const navigate = useNavigate();
-
-  const keyPress = async (e: any) =>{
-    if(e.keyCode === 13){
+  console.log(authentication.currentUser);
+  const keyPress = async (e: any) => {
+    if (e.keyCode === 13) {
       inputHandler();
     }
-  }
-
+  };
 
   const goToCreateLiderbord = () => {
     // This will navigate to second component
