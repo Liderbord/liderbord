@@ -15,6 +15,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Service } from "../service/service";
 import CommentCard from "../components/CommentCard";
 import Resource from "../model/resource";
+import useLiderbordContract from "hooks/useLiderbordContract";
+import LinearIndeterminate from "../components/LinearIndeterminate";
 
 export default function LiderbordPage() {
   const { id } = useParams();
@@ -22,6 +24,13 @@ export default function LiderbordPage() {
   const [commentResource, setCommentResource] = useState<Resource>();
 
   const navigate = useNavigate();
+  const {
+    onVoteResource,
+    isLoading,
+    liderbordElements,
+    isBiconomyInitialized,
+    isMetatransactionProcessing,
+  } = useLiderbordContract({ liderbordName: id, userAddress: null });
   const goToCreateResource = () => {
     if (id !== undefined) {
       navigate("/create-resource/" + id);
@@ -31,19 +40,37 @@ export default function LiderbordPage() {
     // This will navigate to the correct liderbord page
   };
   useEffect(() => {
-    // You need to restrict it at some point
-    // This is just dummy code and should be replaced by actual
-    if (!liderbord) {
+    if (!liderbord && id) {
+      console.log("getiing", id);
       Service.getLiderbord(id ?? "")
-        .then((lb) => {
-          setLiderbord(lb);
-          console.log(lb);
+        .then((liderbordData) => {
+          setLiderbord(liderbordData);
         })
         .catch((err) => {
           console.error(err);
         });
     }
-  });
+    if (liderbord && isBiconomyInitialized && !isLoading) {
+      for (let i = 0; i < liderbord.resources.length; i++) {
+        const newLiderbord = liderbord;
+        // @ts-ignore
+        const resource = liderbordElements[newLiderbord.resources[i].id];
+        if (resource) {
+          console.log("Found resource: " + resource);
+          newLiderbord.resources[i].upVotes = resource.upVotes;
+          newLiderbord.resources[i].downVotes = resource.downVotes;
+          newLiderbord.resources[i].score = resource.downVotes;
+        }
+        setLiderbord(newLiderbord);
+      }
+    }
+  }, [
+    id,
+    JSON.stringify(Object.keys(liderbordElements)),
+    isLoading,
+    isBiconomyInitialized,
+  ]);
+
   const updateCommentSection = (resource: Resource): void => {
     if (resource.id === commentResource?.id) {
       setCommentResource(undefined);
@@ -51,11 +78,14 @@ export default function LiderbordPage() {
     }
     setCommentResource(resource);
   };
+
   return (
     <Container>
+      {(!isBiconomyInitialized || isMetatransactionProcessing || isLoading) && (
+        <LinearIndeterminate />
+      )}
       <NavigationBar />
       <CssBaseline />
-
       <Grid
         container
         direction="row"
@@ -103,6 +133,11 @@ export default function LiderbordPage() {
                 liderbordID={id as string}
                 commentUpdate={updateCommentSection}
                 highlighted={resource.id === commentResource?.id}
+                loading={!isBiconomyInitialized || isLoading}
+                onVoteResource={onVoteResource}
+                isVoteDisabled={
+                  !isBiconomyInitialized || isMetatransactionProcessing
+                }
               />
             ))}
           </Stack>
